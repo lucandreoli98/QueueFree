@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">QueueFree</string>
-    <string name="google_map_api_key">AIzaSyA1kcvc4AWh7JxMKkzJ6byyq5CsuG69jgQ</string>
+    <string name="google_map_api_key">AIzaSyB27j5x0P2X-BUWP66q9ISeI8FC2GZa94I</string>
     <string name="loginText">LOGIN</string>
     <string name="login">Login</string>
     <string name="emailEditText">Email</string>
@@ -44,4 +44,5 @@
     <string name="spiaggiaHomeView">Spiaggia</string>
     <string name="bibliotecaHomeView">Biblioteca</string>
     <string name="museoHomeView">Museo</string>
+    <string name="editprofiletext">EditProfile</string>
 </resources>
