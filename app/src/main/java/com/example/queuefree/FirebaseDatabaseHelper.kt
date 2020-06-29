@@ -5,15 +5,15 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.google.firebase.database.ktx.getValue
 
-class FirebaseDatabaseHelper (path : String) {
+class FirebaseDatabaseHelper () {
 
     var database : FirebaseDatabase = FirebaseDatabase.getInstance()
     val id = FirebaseAuth.getInstance().currentUser!!.uid.trim { it <= ' ' }
-    var reference: DatabaseReference = database.getReference(path)
+    var reference: DatabaseReference = database.getReference("users")
     var user = User("","","","",0, 0, 0, "")
 
     interface DataStatus{
-        fun DataIsLoaded(user: User)
+        fun DataIsLoaded(user : User)
     }
 
     fun readUserFromDB(ds: DataStatus){
@@ -22,16 +22,16 @@ class FirebaseDatabaseHelper (path : String) {
                 if (p0.exists())
                     for (uDB in p0.children) { // per tutti gli utente dentro la tabella user
                         if(id == uDB.key){
-                            for(prova in uDB.children) {
-                                when(prova.key) {
-                                    "nome" -> user.nome = prova.value as String
-                                    "cognome" -> user.cognome = prova.value as String
-                                    "email" -> user.email = prova.value as String
-                                    "dd" -> user.dd = prova.value as Long
-                                    "mm" -> user.mm = prova.value as Long
-                                    "yy" -> user.yy = prova.value as Long
-                                    "sesso" -> user.sesso = prova.value as String
-                                    "password" -> user.password = prova.value as String
+                            for(field in uDB.children) {
+                                when(field.key) {
+                                    "nome" -> user.nome = field.value as String
+                                    "cognome" -> user.cognome = field.value as String
+                                    "email" -> user.email = field.value as String
+                                    "dd" -> user.dd = field.value as Long
+                                    "mm" -> user.mm = field.value as Long
+                                    "yy" -> user.yy = field.value as Long
+                                    "sesso" -> user.sesso = field.value as String
+                                    "password" -> user.password = field.value as String
                                 }
                             }
                             ds.DataIsLoaded(user)
