@@ -42,6 +42,8 @@ class HomePageFragment : Fragment(){// , NavigationView.OnNavigationItemSelected
         navView?.setNavigationItemSelectedListener(this)*/
 
         view.spiaggiaButton.setOnClickListener(){
+            startActivity(Intent(activity, PrenotazioneSpiagge::class.java))
+
 
         }
         view.biblioButton.setOnClickListener(){
