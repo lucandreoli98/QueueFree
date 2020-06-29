@@ -45,4 +45,7 @@
     <string name="bibliotecaHomeView">Biblioteca</string>
     <string name="museoHomeView">Museo</string>
     <string name="editprofiletext">EditProfile</string>
+    <string name="dataText">Data di nascita:</string>
+    <string name="emailText">"Email: "</string>
+    <string name="editProfileButton">Modifica</string>
 </resources>
