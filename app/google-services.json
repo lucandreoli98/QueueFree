@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "506735574426",
+    "firebase_url": "https://queuefree-8d49c.firebaseio.com",
+    "project_id": "queuefree-8d49c",
+    "storage_bucket": "queuefree-8d49c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:506735574426:android:a0f33297dbfcaa551a4e23",
+        "android_client_info": {
+          "package_name": "com.example.queuefree"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "506735574426-rq42bk8t1qk9p7pncmv2nhb143734eth.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC0Jn1O6cABpqLdDww8P0RFIhpb9zu3rxg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "506735574426-rq42bk8t1qk9p7pncmv2nhb143734eth.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

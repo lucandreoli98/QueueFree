@@ -1,0 +1,47 @@
+<resources>
+    <string name="app_name">QueueFree</string>
+    <string name="google_map_api_key">AIzaSyA1kcvc4AWh7JxMKkzJ6byyq5CsuG69jgQ</string>
+    <string name="loginText">LOGIN</string>
+    <string name="login">Login</string>
+    <string name="emailEditText">Email</string>
+    <string name="passwordEditText">Password</string>
+    <string name="confpasswordEditText">Conferma Password</string>
+    <string name="notRegistred">Non sei registrato?</string>
+    <string name="registred">REGISTRATI</string>
+    <string name="name">Nome</string>
+    <string name="surname">Cognome</string>
+    <string name="male">M</string>
+    <string name="female">F</string>
+    <string name="insertdate">Inserisci data di nascita</string>
+    <string name="nameEmpty">Inserisci nome</string>
+    <string name="surnameEmpty">Inserisci cognome</string>
+    <string name="emailEmpty">Inserisci email</string>
+    <string name="passEmpty">Inserisci password</string>
+    <string name="confpassEmpty">Conferma la password</string>
+    <string name="confpassDifferent">Non coincide!</string>
+    <string name="sessoEmpty">Inserisci il sesso</string>
+    <string name="dataEmpty">Errore! Inserisci data di nascita</string>
+    <string name="userRegistrated">Utente creato correttamente!</string>
+    <string name="immagine">Immagine</string>
+    <string name="facebook">Facebook</string>
+    <string name="google">Google</string>
+    <string name="hai_un_azienda">Hai un azienda?</string>
+    <string name="registralazienda">REGISTRALA</string>
+    <string name="nome_dell_azienda">Nome dell\'azienda</string>
+    <string name="dove_si_trova">Dove si trova?</string>
+    <string-array name="category_array">
+        <item>Seleziona una categoria</item>
+        <item>Spiaggia</item>
+        <item>Museo</item>
+        <item>Biblioteca</item>
+    </string-array>
+    <string name="f_nameEmpty">Inserisci il nome</string>
+    <string name="placesnameEmpty">Inserisci la posizione</string>
+    <string name="categoryEmpty">Inserisci la categoria</string>
+    <string name="profiloMenu">Profilo</string>
+    <string name="impostazioniMenu">Impostazioni</string>
+    <string name="logoutMenu">Logout</string>
+    <string name="spiaggiaHomeView">Spiaggia</string>
+    <string name="bibliotecaHomeView">Biblioteca</string>
+    <string name="museoHomeView">Museo</string>
+</resources>
