@@ -1,33 +1,50 @@
 package com.example.queuefree
 
 
+
+
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import com.google.android.gms.maps.CameraUpdateFactory
+import androidx.fragment.app.FragmentActivity
+import com.google.android.gms.common.api.Status
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.CameraPosition
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.libraries.places.api.model.Place
+import com.google.android.libraries.places.widget.AutocompleteSupportFragment
+import com.google.android.libraries.places.widget.listener.PlaceSelectionListener
+import java.util.*
 
 
-class PrenotazioneSpiagge : AppCompatActivity(), OnMapReadyCallback {
+class PrenotazioneSpiagge : FragmentActivity(), OnMapReadyCallback,PlaceSelectionListener {
+
+
     private var mMap: GoogleMap? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_maps)
+        setContentView(R.layout.maps_activity)
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment?
         mapFragment!!.getMapAsync(this)
+
+        val autocompleteFragment =
+            supportFragmentManager.findFragmentById(R.id.autocomplete_fragment) as AutocompleteSupportFragment?
+
+
+        autocompleteFragment!!.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME))
+
+        autocompleteFragment!!.setOnPlaceSelectedListener(this)
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
-        val firenze = LatLng(43.776366, 11.247822)
-        mMap!!.addMarker(MarkerOptions().position(firenze).title("Siamo a Firenze!"))
-        val cameraPosition =
-            CameraPosition.Builder().target(firenze).zoom(15f).build()
-        mMap!!.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
+
+    }
+
+    override fun onPlaceSelected(p0: Place) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onError(p0: Status) {
+        TODO("Not yet implemented")
     }
 }
