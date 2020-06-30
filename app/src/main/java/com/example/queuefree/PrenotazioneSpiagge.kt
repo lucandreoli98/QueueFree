@@ -17,6 +17,8 @@ class PrenotazioneSpiagge : FragmentActivity(), OnMapReadyCallback {
 
 
     lateinit var map: GoogleMap
+
+
     lateinit var mapFragment: SupportMapFragment
     lateinit var searchView: SearchView
 
