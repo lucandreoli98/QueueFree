@@ -104,8 +104,8 @@
         android:textColor="@color/backgroundRed"
         android:textSize="20sp" />
 
-    <Button
-        android:id="@+id/facebookButton"
+    <com.facebook.login.widget.LoginButton
+        android:id="@+id/buttonFacebookLogin"
         android:layout_width="130dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/loginButtonlogin"
@@ -121,12 +121,12 @@
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/loginButtonlogin"
-        android:layout_alignBaseline="@+id/facebookButton"
+        android:layout_alignBaseline="@+id/buttonFacebookLogin"
         android:layout_alignParentEnd="true"
         android:layout_marginStart="40dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="60dp"
-        android:layout_toEndOf="@+id/facebookButton"
+        android:layout_toEndOf="@+id/buttonFacebookLogin"
         android:background="@drawable/btn_rounded"
         android:text="@string/google" />
 

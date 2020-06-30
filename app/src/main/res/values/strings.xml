@@ -44,10 +44,13 @@
     <string name="spiaggiaHomeView">Spiaggia</string>
     <string name="bibliotecaHomeView">Biblioteca</string>
     <string name="museoHomeView">Museo</string>
+    <string name="editprofiletext">EditProfile</string>
     <string name="dataText">Data di nascita:</string>
     <string name="emailText">"Email: "</string>
-    <string name="editProfileButton">Modifica Profilo</string>
+    <string name="editProfileButton">Modifica</string>
     <string name="saveProfile">Salva</string>
+    <string name="facebook_app_id">272097980568713</string> <string name="fb_login_protocol_scheme">fb272097980568713</string>
+
     <string name="modifica_password">Modifica Password</string>
     <string name="canc_modifica">Annulla Modifiche</string>
 </resources>
