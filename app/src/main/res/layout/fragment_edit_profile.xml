@@ -10,7 +10,7 @@
         android:elevation="20dp">
 
         <Button
-            android:id="@+id/imageProfile"
+            android:id="@+id/imageEditProfile"
             android:layout_width="1200dp"
             android:layout_height="120dp"
             android:layout_alignParentTop="true"
@@ -21,39 +21,11 @@
             android:layout_marginTop="30dp"
             android:background="@drawable/btn_profile" />
 
-        <TextView
-            android:id="@+id/nameSurnameText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/imageProfile"
-            android:layout_marginTop="10dp"
-            android:layout_centerVertical="true"
-            android:layout_centerInParent="true"
-            android:gravity="center"
-            android:text=""
-            android:textColor="@color/black"
-            android:textSize="30sp"
-            android:textStyle="bold" />
-
         <EditText
-            android:id="@+id/nameEditText"
+            android:id="@+id/nameSurnameEditText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/imageProfile"
-            android:layout_marginTop="10dp"
-            android:layout_centerVertical="true"
-            android:layout_centerInParent="true"
-            android:gravity="center"
-            android:text=""
-            android:textColor="@color/black"
-            android:textSize="30sp"
-            android:textStyle="bold" />
-
-        <EditText
-            android:id="@+id/surnameEditText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/imageProfile"
+            android:layout_below="@+id/imageEditProfile"
             android:layout_marginTop="10dp"
             android:layout_centerVertical="true"
             android:layout_centerInParent="true"
@@ -70,7 +42,7 @@
         android:layout_marginTop="250dp">
 
         <TextView
-            android:id="@+id/emailText"
+            android:id="@+id/emailEditText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
@@ -81,33 +53,22 @@
             android:textColor="@color/black"
             android:text="@string/emailText"/>
 
-        <TextView
-            android:id="@+id/emailTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toEndOf="@+id/emailText"
-            android:layout_alignBaseline="@+id/emailText"
-            android:layout_marginStart="10dp"
-            android:textColor="@color/black"
-            android:textSize="20sp"
-            android:text=""/>
-
         <EditText
-            android:id="@+id/emailEditText"
+            android:id="@+id/emailTextEditView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toEndOf="@+id/emailText"
-            android:layout_alignBaseline="@+id/emailText"
+            android:layout_toEndOf="@+id/emailEditText"
+            android:layout_alignBaseline="@+id/emailEditText"
             android:layout_marginStart="10dp"
             android:textColor="@color/black"
             android:textSize="20sp"
             android:text=""/>
 
         <TextView
-            android:id="@+id/dataText"
+            android:id="@+id/dataEditText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/emailText"
+            android:layout_below="@+id/emailEditText"
             android:layout_alignParentStart="true"
             android:layout_marginTop="30dp"
             android:layout_marginStart="10dp"
@@ -115,22 +76,22 @@
             android:textColor="@color/black"
             android:text="@string/dataText"/>
 
-        <TextView
-            android:id="@+id/dataTextView"
+        <EditText
+            android:id="@+id/dataEditTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toEndOf="@+id/dataText"
-            android:layout_alignBaseline="@+id/dataText"
+            android:layout_toEndOf="@+id/dataEditText"
+            android:layout_alignBaseline="@+id/dataEditText"
             android:layout_marginStart="10dp"
             android:textColor="@color/black"
             android:textSize="20sp"
             android:text=""/>
 
         <Button
-            android:id="@+id/editButton"
+            android:id="@+id/saveButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/dataText"
+            android:layout_below="@+id/dataEditText"
             android:layout_alignParentStart="true"
             android:layout_alignParentEnd="true"
             android:layout_marginTop="50dp"
@@ -139,7 +100,7 @@
             android:textColor="@color/red"
             android:textSize="20sp"
             android:textAllCaps="false"
-            android:text="@string/editProfileButton"/>
+            android:text="@string/saveProfile"/>
 
     </RelativeLayout>
 

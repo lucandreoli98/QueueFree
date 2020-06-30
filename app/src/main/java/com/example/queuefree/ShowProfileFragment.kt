@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.fragment_show_profile.*
+import kotlinx.android.synthetic.main.fragment_show_profile.view.*
 
 class ShowProfileFragment: Fragment() {
 
@@ -19,8 +20,23 @@ class ShowProfileFragment: Fragment() {
                 nameSurnameText.setText("${user.nome} ${user.cognome}")
                 emailTextView.setText(user.email)
                 dataTextView.setText("${user.dd}/${user.mm}/${user.yy}")
-            }
 
+                view.editButton.setOnClickListener {
+                    val args = Bundle()
+                    args.putString("nome", user.nome)
+                    args.putString("cognome", user.cognome)
+                    args.putString("email", user.email)
+                    args.putLong("dd", user.dd)
+                    args.putLong("mm", user.mm)
+                    args.putLong("yy", user.yy)
+                    args.putString("password",user.password)
+
+                    val editFragment = EditProfileFragment()
+                    editFragment.arguments = args
+                    fragmentManager!!.beginTransaction().replace(R.id.profileContainer, editFragment)
+                        .commit()
+                }
+            }
         })
 
         return view

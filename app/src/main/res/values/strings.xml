@@ -48,4 +48,5 @@
     <string name="dataText">Data di nascita:</string>
     <string name="emailText">"Email: "</string>
     <string name="editProfileButton">Modifica</string>
+    <string name="saveProfile">Salva</string>
 </resources>

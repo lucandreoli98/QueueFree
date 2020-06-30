@@ -1,6 +1,8 @@
 package com.example.queuefree
 
-class User (
+import android.os.Parcelable
+
+class User(
     var nome:     String = "",
     var cognome:  String = "",
     var email:    String = "",
