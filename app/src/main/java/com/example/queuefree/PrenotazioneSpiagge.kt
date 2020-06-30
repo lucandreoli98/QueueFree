@@ -24,9 +24,12 @@ class PrenotazioneSpiagge : FragmentActivity(), OnMapReadyCallback {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        searchView = findViewById(R.id.sv_location)
+        setContentView(R.layout.maps_activity)
         mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
+        searchView=findViewById(R.id.sv_location)
+
+
+
         searchView!!.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
                 val location = searchView!!.getQuery().toString()
