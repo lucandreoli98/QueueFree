@@ -116,7 +116,7 @@
         android:textColor="@color/white"
         android:text="@string/facebook" />
 
-    <Button
+    <com.google.android.gms.common.SignInButton
         android:id="@+id/googleButton"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
@@ -127,7 +127,6 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="60dp"
         android:layout_toEndOf="@+id/buttonFacebookLogin"
-        android:background="@drawable/btn_rounded"
         android:text="@string/google" />
 
 </RelativeLayout>
