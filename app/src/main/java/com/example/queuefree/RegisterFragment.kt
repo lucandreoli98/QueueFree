@@ -46,8 +46,6 @@ class RegisterFragment: Fragment(), OnDateSetListener {
             val email = emailRegisterEditText.text.toString().trim()
             val password = passRegisterEditText.text.toString().trim()
             val conf = confpassRegisterEditText.text.toString().trim()
-            val selectedRadioButtonID = register_gender_radio_group.checkedRadioButtonId
-            var textSesso = ""
             var ok=true          //ti evita di fare le operazioni in piu per ogni controllo basta che un campo non sia compilato
 
             // verifica se tutti i campi sono stati compilati, altrimenti segnala un errore
@@ -81,15 +79,6 @@ class RegisterFragment: Fragment(), OnDateSetListener {
                 confpassRegisterEditText.requestFocus()
                 ok=false
             }
-            // controllo di quale pulsante e' stato schiacciato (M o F)
-            if (ok && selectedRadioButtonID != -1) {
-                val radioButton = view.findViewById<View>(selectedRadioButtonID) as RadioButton
-                textSesso = radioButton.text.toString().trim()
-            }else {
-                register_gender_radio_group.requestFocus()
-                Toast.makeText(activity, resources.getString(R.string.sessoEmpty), Toast.LENGTH_SHORT).show()
-                ok=false
-            }
 
             if (ok && (day == 0L || month == 0L || year == 0L)) {
                 register_show_calendar.text = resources.getString(R.string.dataEmpty)
@@ -101,7 +90,7 @@ class RegisterFragment: Fragment(), OnDateSetListener {
                 fireBase!!.createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener { task ->
                         if (task.isSuccessful) {
-                            val u = User(nome, cognome, email, password, day, month, year, textSesso)
+                            val u = User(nome, cognome, email, day, month, year)
                             
                             Log.e("task successful", resources.getString(R.string.userRegistrated))
                             

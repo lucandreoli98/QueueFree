@@ -8,21 +8,19 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import com.facebook.AccessToken
-import com.facebook.CallbackManager
-import com.facebook.FacebookCallback
-import com.facebook.FacebookException
+import com.facebook.*
 import com.facebook.login.LoginResult
 import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.fragment_login.*
 import kotlinx.android.synthetic.main.fragment_login.view.*
+import org.json.JSONObject
 
 
 class LoginFragment : Fragment() {
 
     var fireBase: FirebaseAuth? = null
-    var flistner: FirebaseAuth.AuthStateListener? = null
     var callbackManager = CallbackManager.Factory.create();
     var TAG="FACEBOOK"
 
@@ -71,7 +69,9 @@ class LoginFragment : Fragment() {
                         .addOnCompleteListener { task ->
                             if (task.isSuccessful) {
                                 // autenticazione è avvenuta con successo e l'utente viene reindirizzato verso la homePage
-                                startActivity(Intent(activity, HomePageActivity::class.java))
+                                val i=Intent(activity, HomePageActivity::class.java)
+                                i.flags=Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
+                                startActivity(i)
                             } else {
                                 Toast.makeText(activity,"Email o password errate", Toast.LENGTH_LONG).show();
                                 Log.e("Login", "signInWithEmail:failure", task.exception)
@@ -85,19 +85,13 @@ class LoginFragment : Fragment() {
 
         view.buttonFacebookLogin.fragment = this
         // Initialize Facebook Login button
-        view.buttonFacebookLogin.setReadPermissions("email", "public_profile")
 
         view.buttonFacebookLogin.registerCallback(
             callbackManager,
             object : FacebookCallback<LoginResult> {
-
-
                 override fun onSuccess(loginResult: LoginResult) {
                     Log.d(TAG, "facebook:onSuccess:$loginResult")
-                    Toast.makeText(
-                        context!!, "Authentication success1.",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    //Toast.makeText( context!!, "Authentication success1.", Toast.LENGTH_SHORT ).show()
                     handleFacebookAccessToken(loginResult.accessToken)
                 }
 
@@ -133,8 +127,43 @@ class LoginFragment : Fragment() {
                 // Sign in success, update UI with the signed-in user's information
                 Log.d(TAG, "signInWithCredential:success")
                 val user = fireBase!!.currentUser
+
                 Toast.makeText(context!!, "Authentication success.", Toast.LENGTH_SHORT).show()
-                startActivity(Intent(activity, HomePageActivity::class.java))
+                val profile= Profile.getCurrentProfile()
+                if(profile!=null){
+                    val request = GraphRequest.newMeRequest(token) { obj: JSONObject, response: GraphResponse ->
+
+                        val day = obj.getString("birthday").substring(3,5).toLong()
+
+                        val month = obj.getString("birthday").substring(0,2).toLong()
+
+                        val year = obj.getString("birthday").substring(6,10).toLong()
+                        var textSesso=""
+
+                        Log.e("feisbuk",obj.toString())
+
+
+                        val u = User(obj.getString("first_name"), obj.getString("last_name"), obj.getString("email"), day, month, year)
+
+                        Log.e("task successful", resources.getString(R.string.userRegistrated))
+
+                        val id = FirebaseAuth.getInstance().currentUser!!.uid.trim { it <= ' ' }
+                        FirebaseDatabase.getInstance().getReference("/users/$id").setValue(u)
+                        FirebaseAuth.getInstance().currentUser!!.sendEmailVerification()
+
+
+                    }
+
+
+                    val parameters = Bundle()
+                    parameters.putString("fields", "first_name,last_name,gender,birthday,email,id,picture.type(large),link")
+                    request.parameters = parameters
+                    request.executeAsync()
+
+                    val i=Intent(activity, HomePageActivity::class.java)
+                    i.flags=Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    startActivity(i)
+                }
             }
             .addOnFailureListener{
                 // If sign in fails, display a message to the user.

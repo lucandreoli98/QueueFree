@@ -10,7 +10,7 @@ class FirebaseDatabaseHelper () {
     var database : FirebaseDatabase = FirebaseDatabase.getInstance()
     val id = FirebaseAuth.getInstance().currentUser!!.uid.trim { it <= ' ' }
     var reference: DatabaseReference = database.getReference("users")
-    var user = User("","","","",0, 0, 0, "")
+    var user = User("","","",0, 0, 0)
 
     interface DataStatus{
         fun DataIsLoaded(user : User)
@@ -30,8 +30,6 @@ class FirebaseDatabaseHelper () {
                                     "dd" -> user.dd = field.value as Long
                                     "mm" -> user.mm = field.value as Long
                                     "yy" -> user.yy = field.value as Long
-                                    "sesso" -> user.sesso = field.value as String
-                                    "password" -> user.password = field.value as String
                                 }
                             }
                             ds.DataIsLoaded(user)

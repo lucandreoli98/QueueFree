@@ -76,7 +76,7 @@ class ShowProfileFragment: Fragment() {
         val nome: String = nameEditText.text.toString().trim()
         val cognome = surnameEditText.text.toString().trim()
         val email = emailEditText.text.toString().trim()
-        val newUser = User(nome,cognome,email,user.password,user.dd,user.mm,user.yy,user.sesso)
+        val newUser = User(nome,cognome,email,user.dd,user.mm,user.yy)
 
         val usersDB = FirebaseDatabase.getInstance().getReference("users")
         val userAuth = FirebaseAuth.getInstance().currentUser
