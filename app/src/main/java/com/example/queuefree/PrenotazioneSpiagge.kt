@@ -31,6 +31,7 @@ class PrenotazioneSpiagge : FragmentActivity(), OnMapReadyCallback{
         val database:FirebaseDatabaseHelper= FirebaseDatabaseHelper()
 
 
+
         database.readFirmsandtakeAdress(object : FirebaseDatabaseHelper.DataStatusFirm {
             override fun DataisLoadedFirm(fr: Firm){
 
