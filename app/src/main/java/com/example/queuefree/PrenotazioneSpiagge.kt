@@ -1,9 +1,8 @@
 package com.example.queuefree
 
-import android.location.Address
 import android.location.Geocoder
 import android.os.Bundle
-import android.widget.SearchView
+import android.util.Log
 import androidx.fragment.app.FragmentActivity
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -11,54 +10,62 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
-import java.io.IOException
 
-class PrenotazioneSpiagge : FragmentActivity(), OnMapReadyCallback {
+class PrenotazioneSpiagge : FragmentActivity(), OnMapReadyCallback{
 
 
     lateinit var map: GoogleMap
-
-
     lateinit var mapFragment: SupportMapFragment
-    lateinit var searchView: SearchView
+    lateinit var firms:ArrayList<Firm>
+
 
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.maps_activity)
+        firms= ArrayList()
+        var geo = Geocoder(this)
         mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
-        searchView=findViewById(R.id.sv_location)
+
+        val database:FirebaseDatabaseHelper= FirebaseDatabaseHelper()
 
 
 
-        searchView!!.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String): Boolean {
-                val location = searchView!!.getQuery().toString()
-                var addressList: List<Address>? = null
-                if (location != null || location != " ") {
-                    val geocoder = Geocoder(this@PrenotazioneSpiagge)
-                    try {
-                        addressList = geocoder.getFromLocationName(location, 1)
-                    } catch (e: IOException) {
-                        e.printStackTrace()
-                    }
-                    val address = addressList!![0]
-                    val latlng = LatLng(address.latitude, address.longitude)
-                    map!!.addMarker(MarkerOptions().position(latlng).title(location))
-                    map!!.animateCamera(CameraUpdateFactory.newLatLngZoom(latlng, 10f))
-                }
-                return false
+        database.readFirmsandtakeAdress(object : FirebaseDatabaseHelper.DataStatusFirm {
+            override fun DataisLoadedFirm(fr: Firm){
+
+
+                geo.getFromLocationName(fr.location,1)
+                var latlng =LatLng( geo.getFromLocationName("${fr.location}",1).get(0).latitude,geo.getFromLocationName("${fr.location}",1).get(0).longitude)
+                map!!.addMarker( MarkerOptions().position(latlng).title("${fr.nome}"))
+                map!!.animateCamera(CameraUpdateFactory.newLatLngZoom(latlng, 10f))
+
+
             }
 
-            override fun onQueryTextChange(newText: String): Boolean {
-                return false
-            }
-        })
-        mapFragment!!.getMapAsync(this)
+        },intent.getStringExtra("tipo"))!!
+
+
+
+
+
+
+
+
+
+
+
+    mapFragment!!.getMapAsync(this)
+
+
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
+        map!!.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(42.76698, 12.493823), 6f))
+
+
     }
+
 }

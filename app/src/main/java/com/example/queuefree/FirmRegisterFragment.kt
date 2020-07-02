@@ -13,24 +13,25 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.google.android.gms.common.api.Status
+import com.google.android.gms.maps.model.LatLng
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.widget.Autocomplete
 import com.google.android.libraries.places.widget.AutocompleteActivity
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
-import kotlinx.android.synthetic.main.fragment_register_firm.*
-import kotlinx.android.synthetic.main.fragment_register_firm.view.*
-import kotlinx.android.synthetic.main.fragment_register_firm.view.placesSelect
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
-import java.util.*
+import kotlinx.android.synthetic.main.fragment_register_firm.*
+import kotlinx.android.synthetic.main.fragment_register_firm.view.*
 
 
 class FirmRegisterFragment : Fragment() {
 
     private var fireBase: FirebaseAuth? = null
     private var locationString: String = ""
-    private var locationID: String = ""
+    private  var latitude:String = ""
+    private  var longitude:String = ""
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_register_firm, container, false) // in kotlin tutte le id vengono racchiuse nella view
@@ -147,8 +148,8 @@ class FirmRegisterFragment : Fragment() {
                                 password,
                                 firm_n,
                                 categoriaString,
-                                locationString,
-                                locationID
+                                locationString
+
                             )
 
                             Log.e("task successful", resources.getString(R.string.userRegistrated))
@@ -183,7 +184,6 @@ class FirmRegisterFragment : Fragment() {
             val place: Place = Autocomplete.getPlaceFromIntent(data!!)
 
             placesSelect.text = place.address
-            locationID= place.id.toString()
             locationString= place.address.toString()
 
 
