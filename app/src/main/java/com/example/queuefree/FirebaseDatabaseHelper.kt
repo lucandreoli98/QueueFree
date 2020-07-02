@@ -47,7 +47,7 @@ class FirebaseDatabaseHelper () {
                                     "cognome" -> f.cognome = field.value as String
                                     "email" -> f.email = field.value as String
                                     "password" -> f.password = field.value as String
-                                    "nomeazienda" -> f.categoria = field.value as String
+                                    "nomeazienda" -> f.nomeazienza = field.value as String
                                     "categoria" -> f.categoria= field.value as String
                                     "location" -> f.location = field.value as String
                                 }
