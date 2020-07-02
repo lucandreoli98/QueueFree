@@ -58,4 +58,9 @@
     <string name="conferma_identità">Conferma la tua identità prima di proseguire</string>
     <string name="cancelPassButton">Cancel</string>
     <string name="okPassButton">Conferma</string>
+    <string name="update_della_password">Update della password</string>
+    <string name="conferma_identita_password">Per cambiare la password devi confermare la tua identità</string>
+    <string name="ask_old_password">Inserisci la vecchia password</string>
+    <string name="ask_new_password">Inserisci nuova password</string>
+    <string name="ask_again_pass">Inserisci nuovamente la password</string>
 </resources>
