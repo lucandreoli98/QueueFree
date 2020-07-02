@@ -63,4 +63,5 @@
     <string name="ask_old_password">Inserisci la vecchia password</string>
     <string name="ask_new_password">Inserisci nuova password</string>
     <string name="ask_again_pass">Inserisci nuovamente la password</string>
+    <string name="confirm">Conferma</string>
 </resources>

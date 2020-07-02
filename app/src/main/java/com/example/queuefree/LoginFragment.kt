@@ -17,7 +17,11 @@ import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.GoogleAuthProvider
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.main.fragment_login.*
 import kotlinx.android.synthetic.main.fragment_login.view.*
 import org.json.JSONObject
@@ -125,14 +129,16 @@ class LoginFragment : Fragment() {
 // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
         val gso =
             GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken("506735574426-rq42bk8t1qk9p7pncmv2nhb143734eth.apps.googleusercontent.com")
                 .requestEmail()
+                .requestId()
+                .requestProfile()
                 .build()
         // Build a GoogleSignInClient with the options specified by gso.
         val mGoogleSignInClient = GoogleSignIn.getClient(activity!!, gso)
 
         view.googleButton.setOnClickListener(){
             val signInIntent = mGoogleSignInClient.signInIntent
-            signInIntent.flags=Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
             startActivityForResult(signInIntent, RC_SIGN_IN)
         }
 
@@ -145,12 +151,14 @@ class LoginFragment : Fragment() {
         // Result returned from launching the Intent from GoogleSignInClient.getSignInIntent(...);
 
         // Result returned from launching the Intent from GoogleSignInClient.getSignInIntent(...);
-        if (requestCode === RC_SIGN_IN) {
+        if (requestCode == RC_SIGN_IN) {
             // The Task returned from this call is always completed, no need to attach
             // a listener.
+
             val task: Task<GoogleSignInAccount> =
                 GoogleSignIn.getSignedInAccountFromIntent(data)
-                handleSignInResult(task)
+
+            handleSignInResult(task)
         }else {
             // Pass the activity result back to the Facebook SDK
             callbackManager.onActivityResult(requestCode, resultCode, data)
@@ -165,9 +173,8 @@ class LoginFragment : Fragment() {
             .addOnSuccessListener{
                 // Sign in success, update UI with the signed-in user's information
                 Log.d(TAG, "signInWithCredential:success")
-                val user = fireBase!!.currentUser
 
-                Toast.makeText(context!!, "Authentication success.", Toast.LENGTH_SHORT).show()
+                //Toast.makeText(context!!, "Authentication success.", Toast.LENGTH_SHORT).show()
                 val profile= Profile.getCurrentProfile()
                 if(profile!=null){
                     val request = GraphRequest.newMeRequest(token) { obj: JSONObject, response: GraphResponse ->
@@ -177,7 +184,6 @@ class LoginFragment : Fragment() {
                         val month = obj.getString("birthday").substring(0,2).toLong()
 
                         val year = obj.getString("birthday").substring(6,10).toLong()
-                        var textSesso=""
 
                         Log.e("feisbuk",obj.toString())
 
@@ -213,18 +219,53 @@ class LoginFragment : Fragment() {
     private fun handleSignInResult(completedTask: Task<GoogleSignInAccount>) {
         try {
             val account =
-                completedTask.getResult(ApiException::class.java)
-                Toast.makeText(context!!, "Google Authentication success.", Toast.LENGTH_SHORT).show()
+                completedTask.getResult(ApiException::class.java)!!
 
-            // Signed in successfully, show authenticated UI.
+            //Toast.makeText(context!!, "Google Authentication success.", Toast.LENGTH_SHORT).show()
+            val credential = GoogleAuthProvider.getCredential(account.idToken,null)
+            fireBase!!.signInWithCredential(credential)
+                .addOnCompleteListener(activity!!) { task ->
+                    if (task.isSuccessful) {
+                        // Sign in success, update UI with the signed-in user's information
+                        Log.d(TAG, "signInWithCredential:success")
+                        // Signed in successfully, show authenticated UI.
 
-            val u = User(account.givenName!!, account.familyName!!, account.email!!, 0, 0, 0)
+                        val fb: FirebaseDatabaseHelper = FirebaseDatabaseHelper()
+                        fb.readUserFromDB(object : FirebaseDatabaseHelper.DataStatus {
+                            override fun DataIsLoaded(u: User) {
 
-            Log.e("task successful", resources.getString(R.string.userRegistrated))
+                                Log.e("task successful", resources.getString(R.string.userRegistrated))
 
-            val id = FirebaseAuth.getInstance().currentUser!!.uid.trim { it <= ' ' }
-            FirebaseDatabase.getInstance().getReference("/users/$id").setValue(u)
-            FirebaseAuth.getInstance().currentUser!!.sendEmailVerification()
+                                val id = FirebaseAuth.getInstance().currentUser!!.uid.trim { it <= ' ' }
+
+                                FirebaseDatabase.getInstance().getReference("/users").orderByChild("email").equalTo(account.email!!).addListenerForSingleValueEvent(object : ValueEventListener {
+                                    override fun onDataChange(snapshot: DataSnapshot) {
+                                        if(!snapshot.exists()){
+                                            Log.e("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA","ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZz")
+                                            val u = User(account.givenName!!, account.familyName!!, account.email!!, 0, 0, 0)
+                                            FirebaseDatabase.getInstance().getReference("/users/$id").setValue(u)
+                                            FirebaseAuth.getInstance().currentUser!!.sendEmailVerification()
+                                        }
+                                    }
+                                    override fun onCancelled(error: DatabaseError) {}
+                                })
+
+                            }
+                        })
+                        Log.e("ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ","ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZz")
+
+                        val i=Intent(activity, HomePageActivity::class.java)
+                        i.flags=Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
+                        startActivity(i)
+                    } else {
+                        // If sign in fails, display a message to the user.
+                        Log.w(TAG, "signInWithCredential:failure", task.exception)
+                        // ...
+                    }
+
+                    // ...
+                }
+
 
         } catch (e: ApiException) {
             // The ApiException status code indicates the detailed failure reason.

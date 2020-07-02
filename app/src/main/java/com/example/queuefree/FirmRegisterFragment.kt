@@ -192,7 +192,7 @@ class FirmRegisterFragment : Fragment() {
 
             Toast.makeText(activity!!,status.statusMessage,Toast.LENGTH_SHORT).show()
         }else if(resultCode == AutocompleteActivity.RESULT_CANCELED){
-            placesSelect.setText("")
+            placesSelect.text = ""
         }
 
     }

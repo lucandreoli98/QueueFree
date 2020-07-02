@@ -35,10 +35,10 @@ class ShowProfileFragment: Fragment() {
         val fb: FirebaseDatabaseHelper = FirebaseDatabaseHelper()
 
         Log.d("FACEBOOK: ", currentUser!!.providerId)
-        /*if(currentUser!!.providerId.equals("facebook.com")){
+        if(currentUser.providerId != "firebase"){
             passCancButton.visibility = View.INVISIBLE
-
-        }*/
+            editProfileButton.visibility=View.INVISIBLE
+        }
 
         fb!!.readUserFromDB(object : FirebaseDatabaseHelper.DataStatus {
             override fun DataIsLoaded(u: User) {
