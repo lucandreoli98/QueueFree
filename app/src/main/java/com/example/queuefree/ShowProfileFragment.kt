@@ -23,9 +23,9 @@ class ShowProfileFragment: Fragment() {
                 var user = u
 
                 // parte visibile inizialmente
-                nameSurnameText.setText("${user.nome} ${user.cognome}")
-                emailTextView.setText(user.email)
-                dataTextView.setText("${user.dd}/${user.mm}/${user.yy}")
+                nameSurnameText.text = "${user.nome} ${user.cognome}"
+                emailTextView.text = user.email
+                dataTextView.text = "${user.dd}/${user.mm}/${user.yy}"
                 // parte invisibile
                 nameEditText.setText(user.nome)
                 surnameEditText.setText(user.cognome)
