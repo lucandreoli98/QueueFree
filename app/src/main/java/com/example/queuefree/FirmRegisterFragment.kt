@@ -180,15 +180,15 @@ class FirmRegisterFragment : Fragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if(requestCode == 100 && resultCode == AutocompleteActivity.RESULT_OK){
-            var place: Place = Autocomplete.getPlaceFromIntent(data!!)
+            val place: Place = Autocomplete.getPlaceFromIntent(data!!)
 
-            placesSelect.setText(place.address)
+            placesSelect.text = place.address
             locationID= place.id.toString()
             locationString= place.address.toString()
 
 
         }else if(resultCode == AutocompleteActivity.RESULT_ERROR){
-            var status: Status = Autocomplete.getStatusFromIntent(data!!)
+            val status: Status = Autocomplete.getStatusFromIntent(data!!)
 
             Toast.makeText(activity!!,status.statusMessage,Toast.LENGTH_SHORT).show()
         }else if(resultCode == AutocompleteActivity.RESULT_CANCELED){
