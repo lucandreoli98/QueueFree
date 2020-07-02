@@ -33,11 +33,13 @@ class LoginFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_login, container, false)
         fireBase = FirebaseAuth.getInstance()
+        val gaccount = GoogleSignIn.getLastSignedInAccount(context!!)
 
         // Se si e' gia' loggati nell'applicazione si viene reindirizzati alla homePage
-        if (fireBase != null && fireBase!!.currentUser != null) {
-            startActivity(Intent(activity, HomePageActivity::class.java))
-        }
+        if ((fireBase != null && fireBase!!.currentUser != null) || gaccount!=null ) {
+            val i=Intent(activity, HomePageActivity::class.java)
+            i.flags=Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
+            startActivity(i)        }
 
         // Se viene cliccato il testo "REGISTRATI"
         view.signUpTextView.setOnClickListener {
@@ -50,8 +52,9 @@ class LoginFragment : Fragment() {
 
             if (fireBase!!.currentUser != null) {
 
-                startActivity(Intent(activity, HomePageActivity::class.java))
-
+                val i=Intent(activity, HomePageActivity::class.java)
+                i.flags=Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
+                startActivity(i)
             } else {
 
                 val email = emailLoginEditText.text.toString().trim()
@@ -129,6 +132,7 @@ class LoginFragment : Fragment() {
 
         view.googleButton.setOnClickListener(){
             val signInIntent = mGoogleSignInClient.signInIntent
+            signInIntent.flags=Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
             startActivityForResult(signInIntent, RC_SIGN_IN)
         }
 
@@ -186,9 +190,7 @@ class LoginFragment : Fragment() {
                         FirebaseDatabase.getInstance().getReference("/users/$id").setValue(u)
                         FirebaseAuth.getInstance().currentUser!!.sendEmailVerification()
 
-
                     }
-
 
                     val parameters = Bundle()
                     parameters.putString("fields", "first_name,last_name,gender,birthday,email,id,picture.type(large),link")
@@ -212,9 +214,17 @@ class LoginFragment : Fragment() {
         try {
             val account =
                 completedTask.getResult(ApiException::class.java)
-            Toast.makeText(context!!, "Google Authentication success.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context!!, "Google Authentication success.", Toast.LENGTH_SHORT).show()
 
             // Signed in successfully, show authenticated UI.
+
+            val u = User(account.givenName!!, account.familyName!!, account.email!!, 0, 0, 0)
+
+            Log.e("task successful", resources.getString(R.string.userRegistrated))
+
+            val id = FirebaseAuth.getInstance().currentUser!!.uid.trim { it <= ' ' }
+            FirebaseDatabase.getInstance().getReference("/users/$id").setValue(u)
+            FirebaseAuth.getInstance().currentUser!!.sendEmailVerification()
 
         } catch (e: ApiException) {
             // The ApiException status code indicates the detailed failure reason.
