@@ -1,25 +1,77 @@
 package com.example.queuefree
 
 import android.util.Log
-import com.google.android.gms.tasks.OnCompleteListener
-import com.google.firebase.auth.EmailAuthProvider
+import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
-import com.google.firebase.database.ktx.getValue
 
 class FirebaseDatabaseHelper () {
 
     var database : FirebaseDatabase = FirebaseDatabase.getInstance()
     val id = FirebaseAuth.getInstance().currentUser!!.uid.trim { it <= ' ' }
-    var reference: DatabaseReference = database.getReference("users")
+    var referenceuser: DatabaseReference = database.getReference("users")
+    var referencefirm: DatabaseReference = database.getReference("firms")
     var user = User("","","",0L, 0L, 0L)
+
+
 
     interface DataStatus{
         fun DataIsLoaded(user : User)
+
+    }
+    interface DataStatusFirm {
+
+        fun DataisLoadedFirm(firm:Firm)
+
     }
 
+
+    fun readFirmsandtakeAdress(ds: DataStatusFirm,cat: String) {
+
+
+        referencefirm.addValueEventListener(object : ValueEventListener {
+
+            override fun onCancelled(p0: DatabaseError) {
+                Log.e("OnCancelled", p0.toException().toString())
+            }
+            override fun onDataChange(p0: DataSnapshot) {
+                if(p0.exists())
+                    for(aziende in p0.children){
+                        var fid=aziende.key
+                        if(p0.child("firm/$fid/categoria").value?.equals(cat)!!) {
+                            var f=Firm("","","","","","","")
+                            for(field in aziende.children){
+
+                                when(field.key){
+                                    "nome" -> f.nome = field.value as String
+                                    "cognome" -> f.cognome = field.value as String
+                                    "email" -> f.email = field.value as String
+                                    "password" -> f.password = field.value as String
+                                    "nomeazienda" -> f.categoria = field.value as String
+                                    "categoria" -> f.categoria= field.value as String
+                                    "location" -> f.location = field.value as String
+                                }
+
+                            }
+                            ds.DataisLoadedFirm(f)
+
+
+                        }
+
+                    }
+
+
+            }
+
+        })
+
+
+    }
+
+
+
     fun readUserFromDB(ds: DataStatus){
-        reference.addValueEventListener(object : ValueEventListener {
+        referenceuser.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(p0: DataSnapshot) {
                 if (p0.exists())
                     for (uDB in p0.children) { // per tutti gli utente dentro la tabella user
