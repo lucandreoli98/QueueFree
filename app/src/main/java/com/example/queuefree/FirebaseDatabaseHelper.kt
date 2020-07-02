@@ -1,6 +1,8 @@
 package com.example.queuefree
 
 import android.util.Log
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.google.firebase.database.ktx.getValue
@@ -10,7 +12,7 @@ class FirebaseDatabaseHelper () {
     var database : FirebaseDatabase = FirebaseDatabase.getInstance()
     val id = FirebaseAuth.getInstance().currentUser!!.uid.trim { it <= ' ' }
     var reference: DatabaseReference = database.getReference("users")
-    var user = User("","","",0, 0, 0)
+    var user = User("","","",0L, 0L, 0L)
 
     interface DataStatus{
         fun DataIsLoaded(user : User)
@@ -42,5 +44,4 @@ class FirebaseDatabaseHelper () {
             }
         })
     }
-
 }
