@@ -13,8 +13,12 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.confirm_password.*
 import kotlinx.android.synthetic.main.confirm_password.view.*
+import kotlinx.android.synthetic.main.confirm_password.view.cancPasswordButton
+import kotlinx.android.synthetic.main.fragment_login.*
 import kotlinx.android.synthetic.main.fragment_show_profile.*
 import kotlinx.android.synthetic.main.fragment_show_profile.view.*
+import kotlinx.android.synthetic.main.update_password.*
+import kotlinx.android.synthetic.main.update_password.view.*
 
 class ShowProfileFragment: Fragment() {
 
@@ -23,9 +27,7 @@ class ShowProfileFragment: Fragment() {
     private val usersDB = FirebaseDatabase.getInstance().getReference("users")
     private val id = currentUser!!.uid.trim { it <= ' ' }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_show_profile, container, false)
@@ -56,7 +58,7 @@ class ShowProfileFragment: Fragment() {
                     if (nameSurnameText.visibility == View.VISIBLE) {
                         changeVisibility()
                     } else {
-                        saveProfile()
+                        updateProfile()
                     }
                 }
 
@@ -64,7 +66,7 @@ class ShowProfileFragment: Fragment() {
                 view.passCancButton.setOnClickListener {
                     // Se e' impostato su modifica password
                     if (passCancButton.text.equals(resources.getString(R.string.modifica_password))) {
-                        //editPassword(user)
+                        editPassword()
                     } else { // se e' impostato su annulla
                         updateLayout(user)
                     }
@@ -91,48 +93,61 @@ class ShowProfileFragment: Fragment() {
         passCancButton.text = resources.getString(R.string.canc_modifica)
     }
 
-    // salvataggio del profilo
-    fun saveProfile() {
-        val nome: String = nameEditText.text.toString().trim()
-        val cognome = surnameEditText.text.toString().trim()
+    fun updateProfile() {
+        // estrazionde dei dati dai editText
+        val name = nameEditText.text.toString().trim()
+        val surname = surnameEditText.text.toString().trim()
         val email = emailEditText.text.toString().trim()
-        val newUser = User(nome, cognome, email, user.dd, user.mm, user.yy)
+        var ok: Boolean = true
 
-        if(passwordControl(user.email)){
-            // reauthenticate the user for the update
-            currentUser.let { cUser ->
-                cUser?.updateEmail(email)?.addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        Toast.makeText(activity, "Update del profilo", Toast.LENGTH_LONG).show()
-                        usersDB.child(id).setValue(newUser)
-                        user = newUser
-                        updateLayout(newUser)
-                    } else {
-                        Toast.makeText(activity, "ERRORE NELL'UPDATE", Toast.LENGTH_LONG).show()
-                    }
-                }
-            }
+        // controllo se sono vuoti gli editText
+        if (ok && name.isEmpty()) {
+            nameEditText.error = resources.getString(R.string.passEmpty)
+            nameEditText.requestFocus()
+            ok = false
+        }
+        if (ok && surname.isEmpty()) {
+            surnameEditText.error = resources.getString(R.string.passEmpty)
+            surnameEditText.requestFocus()
+            ok = false
+        }
+        if (ok && email.isEmpty()) {
+            emailEditText.error = resources.getString(R.string.emailEmpty)
+            emailEditText.requestFocus()
+            ok = false
         }
 
-    }
+        // se non ci sono campi vuoti
+        if(ok){
+            val passDialogView =
+                LayoutInflater.from(context).inflate(R.layout.confirm_password, null)
+            val mBuilder = AlertDialog.Builder(context).setView(passDialogView)
+            val alertDialog = mBuilder.show()
 
-    fun passwordControl(email: String): Boolean {
-        val passDialogView = LayoutInflater.from(context).inflate(R.layout.confirm_password, null)
-        val mBuilder = AlertDialog.Builder(context).setView(passDialogView)
-        val alertDialog = mBuilder.show()
-        var isPass = false
-
-        while(!isPass) {
-                passDialogView.okPassButton.setOnClickListener {
+            passDialogView.okPassButton.setOnClickListener {
                 val password = passDialogView.confirmPasswordEditText.text.toString().trim()
 
                 currentUser.let { cUser ->
-                    val credential = EmailAuthProvider.getCredential(email, password)
+                    val credential = EmailAuthProvider.getCredential(user.email, password)
 
                     cUser!!.reauthenticate(credential).addOnCompleteListener { task ->
                         if (task.isSuccessful) {
                             alertDialog.dismiss()
-                            isPass = true
+                            val email = emailEditText.text.toString().trim()
+                            val newUser = User(name, surname, email, user.dd, user.mm, user.yy)
+
+                            cUser.updateEmail(email).addOnCompleteListener { task2 ->
+                                if (task2.isSuccessful) {
+                                    Toast.makeText(activity, "Update avvenuto con successo", Toast.LENGTH_LONG).show()
+                                    usersDB.child(id).setValue(newUser)
+                                    user = newUser
+                                    updateLayout(newUser)
+                                } else {
+                                    Toast.makeText(activity, "ERRORE NELL'UPDATE", Toast.LENGTH_LONG).show()
+                                }
+                            }
+
+
                         } else {
                             passDialogView.confirmPasswordEditText.error = "Error"
                         }
@@ -142,11 +157,9 @@ class ShowProfileFragment: Fragment() {
 
             passDialogView.cancPasswordButton.setOnClickListener {
                 alertDialog.dismiss()
-                isPass = true
             }
-        }
 
-        return isPass
+        }
     }
 
     fun updateLayout(user: User) {
@@ -173,5 +186,21 @@ class ShowProfileFragment: Fragment() {
         passCancButton.text = resources.getString(R.string.modifica_password)
     }
 
+    fun editPassword(){
+        val passDialogView = LayoutInflater.from(context).inflate(R.layout.confirm_password, null)
+        val mBuilder = AlertDialog.Builder(context).setView(passDialogView)
+        val alertDialog = mBuilder.show()
 
+        passDialogView.okNewPassButton.setOnClickListener {
+            var ok = true
+
+            if(newPassword.text != confirmNewPassword.text){
+                confirmNewPassword.error = resources.getString(R.string.confpassDifferent)
+                ok = false
+            }
+
+
+
+        }
+    }
 }
