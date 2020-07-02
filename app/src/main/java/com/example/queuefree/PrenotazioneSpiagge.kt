@@ -16,7 +16,6 @@ class PrenotazioneSpiagge : FragmentActivity(), OnMapReadyCallback{
 
     lateinit var map: GoogleMap
     lateinit var mapFragment: SupportMapFragment
-    lateinit var geo:Geocoder
     lateinit var firms:ArrayList<Firm>
 
 
@@ -26,8 +25,25 @@ class PrenotazioneSpiagge : FragmentActivity(), OnMapReadyCallback{
         super.onCreate(savedInstanceState)
         setContentView(R.layout.maps_activity)
         firms= ArrayList()
+        var geo = Geocoder(this)
         mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
 
+        val database:FirebaseDatabaseHelper= FirebaseDatabaseHelper()
+
+
+        database.readFirmsandtakeAdress(object : FirebaseDatabaseHelper.DataStatusFirm {
+            override fun DataisLoadedFirm(fr: Firm){
+
+
+                geo.getFromLocationName(fr.location,1)
+                var latlng =LatLng( geo.getFromLocationName("${fr.location}",1).get(0).latitude,geo.getFromLocationName("${fr.location}",1).get(0).longitude)
+                map!!.addMarker( MarkerOptions().position(latlng).title("${fr.nome}"))
+                map!!.animateCamera(CameraUpdateFactory.newLatLngZoom(latlng, 10f))
+
+
+            }
+
+        },intent.getStringExtra("tipo"))!!
 
 
 
@@ -36,31 +52,19 @@ class PrenotazioneSpiagge : FragmentActivity(), OnMapReadyCallback{
 
 
 
-        mapFragment!!.getMapAsync(this)
+
+
+
+    mapFragment!!.getMapAsync(this)
 
 
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
-        map!!.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(42.76698,12.493823), 6f))
+        map!!.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(42.76698, 12.493823), 6f))
 
 
-        val database:FirebaseDatabaseHelper= FirebaseDatabaseHelper()
-         database.readFirmsandtakeAdress(object : FirebaseDatabaseHelper.DataStatusFirm {
-            override fun DataisLoadedFirm(fr: Firm){
-
-
-                geo.getFromLocationName(fr.location,1)
-                var latlng =LatLng( geo.getFromLocationName(fr.location,1).get(0).latitude,geo.getFromLocationName(fr.location,1).get(0).longitude)
-                map!!.addMarker( MarkerOptions().position(latlng).title(fr.location))
-                map!!.animateCamera(CameraUpdateFactory.newLatLngZoom(latlng, 10f))
-
-
-            }
-
-        },"Spiaggia")!!
     }
-
 
 }

@@ -10,7 +10,7 @@ class FirebaseDatabaseHelper () {
     var database : FirebaseDatabase = FirebaseDatabase.getInstance()
     val id = FirebaseAuth.getInstance().currentUser!!.uid.trim { it <= ' ' }
     var referenceuser: DatabaseReference = database.getReference("users")
-    var referencefirm: DatabaseReference = database.getReference("firms")
+    var referencefirm: DatabaseReference = database.getReference("firm")
     var user = User("","","",0L, 0L, 0L)
 
 
@@ -38,7 +38,7 @@ class FirebaseDatabaseHelper () {
                 if(p0.exists())
                     for(aziende in p0.children){
                         var fid=aziende.key
-                        if(p0.child("firm/$fid/categoria").value?.equals(cat)!!) {
+                        if(p0.child("$fid/categoria").value?.equals(cat.trim())!!) {
                             var f=Firm("","","","","","","")
                             for(field in aziende.children){
 
