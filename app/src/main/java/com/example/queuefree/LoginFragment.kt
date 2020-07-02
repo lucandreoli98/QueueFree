@@ -230,27 +230,17 @@ class LoginFragment : Fragment() {
                         Log.d(TAG, "signInWithCredential:success")
                         // Signed in successfully, show authenticated UI.
 
-                        val fb: FirebaseDatabaseHelper = FirebaseDatabaseHelper()
-                        fb.readUserFromDB(object : FirebaseDatabaseHelper.DataStatus {
-                            override fun DataIsLoaded(u: User) {
-
-                                Log.e("task successful", resources.getString(R.string.userRegistrated))
-
-                                val id = FirebaseAuth.getInstance().currentUser!!.uid.trim { it <= ' ' }
-
-                                FirebaseDatabase.getInstance().getReference("/users").orderByChild("email").equalTo(account.email!!).addListenerForSingleValueEvent(object : ValueEventListener {
-                                    override fun onDataChange(snapshot: DataSnapshot) {
-                                        if(!snapshot.exists()){
-                                            Log.e("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA","ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZz")
-                                            val u = User(account.givenName!!, account.familyName!!, account.email!!, 0, 0, 0)
-                                            FirebaseDatabase.getInstance().getReference("/users/$id").setValue(u)
-                                            FirebaseAuth.getInstance().currentUser!!.sendEmailVerification()
-                                        }
-                                    }
-                                    override fun onCancelled(error: DatabaseError) {}
-                                })
-
+                        FirebaseDatabase.getInstance().getReference("/users").orderByChild("email").equalTo(account.email!!).addListenerForSingleValueEvent(object : ValueEventListener {
+                            override fun onDataChange(snapshot: DataSnapshot) {
+                                if(!snapshot.exists()){
+                                    Log.e("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA","ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZz")
+                                    val u = User(account.givenName!!, account.familyName!!, account.email!!, 0, 0, 0)
+                                    val id = FirebaseAuth.getInstance().currentUser!!.uid.trim { it <= ' ' }
+                                    FirebaseDatabase.getInstance().getReference("/users/$id").setValue(u)
+                                    FirebaseAuth.getInstance().currentUser!!.sendEmailVerification()
+                                }
                             }
+                            override fun onCancelled(error: DatabaseError) {}
                         })
                         Log.e("ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ","ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZz")
 
