@@ -188,7 +188,7 @@ class ShowProfileFragment: Fragment() {
 
 
                         } else {
-                            passDialogView.confirmPasswordEditText.error = "Error"
+                            passDialogView.confirmPasswordEditText.error = "Password non corretta"
                         }
                     }
                 }

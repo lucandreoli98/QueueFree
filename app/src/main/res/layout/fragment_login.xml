@@ -12,7 +12,7 @@
         android:layout_height="180dp"
         android:layout_alignParentTop="true"
         android:layout_marginTop="30dp"
-        app:srcCompat="@drawable/calendar"
+        app:srcCompat="@drawable/queue_free_logo"
         android:contentDescription="@string/immagine" />
 
     <TextView
