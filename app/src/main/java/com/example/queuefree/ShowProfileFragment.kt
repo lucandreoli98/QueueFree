@@ -1,7 +1,12 @@
 package com.example.queuefree
 
+import android.app.Activity.RESULT_OK
 import android.app.AlertDialog
+import android.content.Intent
+import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +16,8 @@ import androidx.fragment.app.Fragment
 import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.storage.FirebaseStorage
+import kotlinx.android.synthetic.main.ask_how_take_picture.view.*
 import kotlinx.android.synthetic.main.confirm_password.*
 import kotlinx.android.synthetic.main.confirm_password.view.*
 import kotlinx.android.synthetic.main.confirm_password.view.cancPasswordButton
@@ -19,6 +26,8 @@ import kotlinx.android.synthetic.main.fragment_show_profile.*
 import kotlinx.android.synthetic.main.fragment_show_profile.view.*
 import kotlinx.android.synthetic.main.update_password.*
 import kotlinx.android.synthetic.main.update_password.view.*
+import java.io.ByteArrayInputStream
+import java.io.ByteArrayOutputStream
 
 class ShowProfileFragment: Fragment() {
 
@@ -26,16 +35,20 @@ class ShowProfileFragment: Fragment() {
     private val currentUser = FirebaseAuth.getInstance().currentUser
     private val usersDB = FirebaseDatabase.getInstance().getReference("users")
     private val id = currentUser!!.uid.trim { it <= ' ' }
+    private var passDialogView:View? = null
+    private val fb: FirebaseDatabaseHelper = FirebaseDatabaseHelper()
+    private val RIC = 123
+    private lateinit var imageUri: Uri
+    private var vista:View? = null
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        val view = inflater.inflate(R.layout.fragment_show_profile, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        return inflater.inflate(R.layout.fragment_show_profile, container, false)
+    }
 
-        val fb: FirebaseDatabaseHelper = FirebaseDatabaseHelper()
-
-
-        fb!!.readUserFromDB(object : FirebaseDatabaseHelper.DataStatus {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        vista=view
+        fb.readUserFromDB(object : FirebaseDatabaseHelper.DataStatus {
             override fun DataIsLoaded(u: User) {
                 user = u
                 if(currentUser!!.getIdToken(false).result.signInProvider != "password"){
@@ -65,7 +78,7 @@ class ShowProfileFragment: Fragment() {
                 // modifica della password dell'utente
                 view.passCancButton.setOnClickListener {
                     // Se e' impostato su modifica password
-                    if (view.passCancButton.text.equals(resources.getString(R.string.modifica_password))) {
+                    if (view.passCancButton.text == resources.getString(R.string.modifica_password)) {
                         editPassword()
                     } else { // se e' impostato su annulla
                         updateLayout(user)
@@ -74,7 +87,19 @@ class ShowProfileFragment: Fragment() {
             }
         })
 
-        return view
+        view.imageProfile.setOnClickListener{
+            passDialogView = LayoutInflater.from(context).inflate(R.layout.ask_how_take_picture, null)
+            val mBuilder = AlertDialog.Builder(context).setView(passDialogView)
+            val alertDialog = mBuilder.show()
+            passDialogView!!.take.setOnClickListener{
+                Intent(MediaStore.ACTION_IMAGE_CAPTURE).also{ pictureIntent ->
+                    pictureIntent.resolveActivity(activity!!.packageManager!!).also {
+                        startActivityForResult(pictureIntent,RIC)
+                    }
+
+                }
+            }
+        }
     }
 
     // modifica del profilo
@@ -251,6 +276,36 @@ class ShowProfileFragment: Fragment() {
 
         newPassDialogView.cancelButton.setOnClickListener {
             alertDPasswordDialog.dismiss()
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if(requestCode == RIC && resultCode == RESULT_OK){
+            val imageBitmap = data!!.extras!!.get("data") as Bitmap
+            val baos=ByteArrayOutputStream()
+            val storageRef = FirebaseStorage.getInstance()
+                .reference
+                .child("pics/${FirebaseAuth.getInstance().currentUser!!.uid}")
+            imageBitmap.compress(Bitmap.CompressFormat.JPEG,100,baos)
+            val upload = storageRef.putBytes(baos.toByteArray())
+
+            vista!!.progress_bar.visibility=View.VISIBLE
+            upload.addOnCompleteListener{ uploadTask ->
+                if(uploadTask.isSuccessful){
+                    vista!!.progress_bar.visibility=View.INVISIBLE
+                    storageRef.downloadUrl.addOnCompleteListener { urlTask ->
+                        urlTask!!.result.let {
+                            imageUri = it
+                            vista!!.imageProfile.setImageBitmap(imageBitmap)
+                        }
+
+                    }
+                }else{
+                    Log.e("UPLOAD","ERROR: ${uploadTask.result.error?.message}")
+                }
+            }
         }
     }
 }

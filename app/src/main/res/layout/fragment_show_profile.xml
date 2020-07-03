@@ -9,9 +9,9 @@
         android:background="@color/backgroundRed"
         android:elevation="20dp">
 
-        <Button
+        <ImageView
             android:id="@+id/imageProfile"
-            android:layout_width="1200dp"
+            android:layout_width="match_parent"
             android:layout_height="120dp"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
@@ -19,8 +19,18 @@
             android:layout_marginStart="145dp"
             android:layout_marginEnd="145dp"
             android:layout_marginTop="30dp"
-            android:background="@drawable/btn_profile" />
+            android:background="@color/white"
 
+            />
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/progress_bar"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="65dp"
+            android:visibility="invisible"
+            />
         <TextView
             android:id="@+id/nameSurnameText"
             android:layout_width="wrap_content"

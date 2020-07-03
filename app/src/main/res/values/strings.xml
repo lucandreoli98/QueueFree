@@ -64,4 +64,6 @@
     <string name="ask_new_password">Inserisci nuova password</string>
     <string name="ask_again_pass">Inserisci nuovamente la password</string>
     <string name="confirm">Conferma</string>
+    <string name="gallery">GALLERIA</string>
+    <string name="takepic">SCATTA FOTO</string>
 </resources>
