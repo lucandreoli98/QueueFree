@@ -2,6 +2,7 @@ package com.example.queuefree
 
 import android.app.Activity.RESULT_OK
 import android.app.AlertDialog
+import android.app.DatePickerDialog
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -12,6 +13,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.DatePicker
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.google.firebase.auth.EmailAuthProvider
@@ -20,13 +22,16 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.ask_how_take_picture.view.*
 import kotlinx.android.synthetic.main.confirm_password.view.*
+import kotlinx.android.synthetic.main.fragment_register.*
+import kotlinx.android.synthetic.main.fragment_register.view.*
 import kotlinx.android.synthetic.main.fragment_show_profile.*
 import kotlinx.android.synthetic.main.fragment_show_profile.view.*
 import kotlinx.android.synthetic.main.update_password.view.*
 import java.io.ByteArrayOutputStream
+import java.util.*
 
 
-class ShowProfileFragment: Fragment() {
+class ShowProfileFragment: Fragment(), DatePickerDialog.OnDateSetListener {
 
     private lateinit var user: User
     private val currentUser = FirebaseAuth.getInstance().currentUser
@@ -36,6 +41,9 @@ class ShowProfileFragment: Fragment() {
     private val fb: FirebaseDatabaseHelper = FirebaseDatabaseHelper()
     private val RIC = 1234
     private val AGC = 5678
+    private var day = 0L
+    private var month = 0L
+    private var year = 0L
 
     private lateinit var imageUri: Uri
     private var vista:View? = null
@@ -84,7 +92,9 @@ class ShowProfileFragment: Fragment() {
                     }
                 }
 
-
+                view.dataEditTextView.setOnClickListener {
+                    showDatePickerDialog() // apre il pannello del calendario sulla data di oggi
+                }
 
             }
         })
@@ -93,7 +103,6 @@ class ShowProfileFragment: Fragment() {
             val bitmap=BitmapFactory.decodeByteArray(bytes,0,bytes.size)
             view.imageProfile.setImageBitmap(bitmap)
             view.progress_bar.visibility=View.INVISIBLE
-
         }
 
 
@@ -113,8 +122,8 @@ class ShowProfileFragment: Fragment() {
             }
             passDialogView!!.gallery.setOnClickListener {
                 alertDialog.dismiss()
-                startActivityForResult(Intent(Intent.ACTION_PICK,MediaStore.Images.Media.EXTERNAL_CONTENT_URI), AGC)
-
+                //startActivityForResult(Intent(Intent.ACTION_PICK,MediaStore.Images.Media.EXTERNAL_CONTENT_URI), AGC)
+                startActivityForResult(Intent(Intent.ACTION_GET_CONTENT).setType("image/*"), AGC)
             }
         }
     }
@@ -133,6 +142,8 @@ class ShowProfileFragment: Fragment() {
 
         editProfileButton.text = resources.getString(R.string.saveProfile)
         passCancButton.text = resources.getString(R.string.canc_modifica)
+        val date = user.dd.toString() + " / " + user.mm.toString() + " / " + user.yy.toString()
+        dataEditTextView.text = date
     }
 
     fun updateProfile() {
@@ -170,29 +181,46 @@ class ShowProfileFragment: Fragment() {
             passDialogView.okPassButton.setOnClickListener {
                 val password = passDialogView.confirmPasswordEditText.text.toString().trim()
 
-                currentUser.let { cUser ->
-                    val credential = EmailAuthProvider.getCredential(user.email, password)
+                if (password.isEmpty()) {
+                    passDialogView.confirmPasswordEditText.error = resources.getString(R.string.passEmpty)
+                    passDialogView.confirmPasswordEditText.requestFocus()
+                    ok = false
+                }
 
-                    cUser!!.reauthenticate(credential).addOnCompleteListener { task ->
-                        if (task.isSuccessful) {
-                            alertDialog.dismiss()
-                            val email = emailEditText.text.toString().trim()
-                            val newUser = User(name, surname, email, user.dd, user.mm, user.yy)
+                if(ok) {
+                    currentUser.let { cUser ->
+                        val credential = EmailAuthProvider.getCredential(user.email, password)
 
-                            cUser.updateEmail(email).addOnCompleteListener { task2 ->
-                                if (task2.isSuccessful) {
-                                    Toast.makeText(activity, "Update del profilo avvenuto con successo", Toast.LENGTH_LONG).show()
-                                    usersDB.child(id).setValue(newUser)
-                                    user = newUser
-                                    updateLayout(newUser)
-                                } else {
-                                    Toast.makeText(activity, "ERRORE NELL'UPDATE", Toast.LENGTH_LONG).show()
+                        cUser!!.reauthenticate(credential).addOnCompleteListener { task ->
+                            if (task.isSuccessful) {
+                                alertDialog.dismiss()
+                                val email = emailEditText.text.toString().trim()
+                                val newUser = User(name, surname, email, day, month, year)
+
+                                cUser.updateEmail(email).addOnCompleteListener { task2 ->
+                                    if (task2.isSuccessful) {
+                                        Toast.makeText(
+                                            activity,
+                                            "Update del profilo avvenuto con successo",
+                                            Toast.LENGTH_LONG
+                                        ).show()
+                                        usersDB.child(id).setValue(newUser)
+                                        user = newUser
+                                        updateLayout(newUser)
+                                    } else {
+                                        Toast.makeText(
+                                            activity,
+                                            "ERRORE NELL'UPDATE",
+                                            Toast.LENGTH_LONG
+                                        ).show()
+                                    }
                                 }
+
+
+                            } else {
+                                passDialogView.confirmPasswordEditText.error =
+                                    "Password non corretta"
                             }
-
-
-                        } else {
-                            passDialogView.confirmPasswordEditText.error = "Password non corretta"
                         }
                     }
                 }
@@ -288,6 +316,24 @@ class ShowProfileFragment: Fragment() {
         }
     }
 
+    private fun showDatePickerDialog() {
+        val datePickerDialog = DatePickerDialog(activity!!, this,
+            Calendar.getInstance()[Calendar.YEAR],
+            Calendar.getInstance()[Calendar.MONTH],
+            Calendar.getInstance()[Calendar.DAY_OF_MONTH]
+        )
+
+        datePickerDialog.show()
+    }
+
+    override fun onDateSet(view: DatePicker, year: Int, month: Int, dayOfMonth: Int) {
+        this.day = dayOfMonth.toLong()
+        this.month = (month + 1).toLong()
+        this.year = year.toLong()
+        val date = dayOfMonth.toString() + " / " + (month + 1) + " / " + year
+        dataEditTextView.text = date
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
@@ -318,9 +364,9 @@ class ShowProfileFragment: Fragment() {
         } else if (requestCode == AGC && resultCode == RESULT_OK && data != null && data.data != null) {
 
             val image = data.data
+            vista!!.progress_bar.visibility=View.VISIBLE
             vista!!.imageProfile.setImageURI(image)
-
-
+            vista!!.progress_bar.visibility=View.INVISIBLE
 
             FirebaseStorage.getInstance().reference.child("pics/$id").putFile(image!!)
                 .addOnFailureListener {

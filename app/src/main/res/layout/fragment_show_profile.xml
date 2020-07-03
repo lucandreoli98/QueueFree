@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -19,9 +19,7 @@
             android:layout_marginStart="145dp"
             android:layout_marginEnd="145dp"
             android:layout_marginTop="30dp"
-            android:background="@color/white"
-
-            />
+            android:src="@color/white" />
 
         <ProgressBar
             android:layout_width="wrap_content"
@@ -84,12 +82,22 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="250dp">
 
+        <ImageView
+            android:id="@+id/emailImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="32dp"
+            android:src="@drawable/ic_email"
+            android:contentDescription="@string/emailEditText" />
         <TextView
             android:id="@+id/emailText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_alignParentStart="true"
+            android:layout_toEndOf="@+id/emailImage"
             android:layout_marginTop="30dp"
             android:layout_marginStart="10dp"
             android:textSize="20sp"
@@ -102,7 +110,7 @@
             android:layout_height="wrap_content"
             android:layout_toEndOf="@+id/emailText"
             android:layout_alignBaseline="@+id/emailText"
-            android:layout_marginStart="10dp"
+            android:layout_marginStart="5dp"
             android:textColor="@color/black"
             android:textSize="20sp"
             android:text=""/>
@@ -117,15 +125,27 @@
             android:textColor="@color/black"
             android:textSize="20sp"
             android:text=""
+            android:hint="@string/emailEditText"
             android:inputType="textEmailAddress"
             android:visibility="invisible" />
+
+        <ImageView
+            android:id="@+id/birthImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/emailImage"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="33dp"
+            android:src="@drawable/ic_birth"
+            android:contentDescription="@string/emailEditText" />
 
         <TextView
             android:id="@+id/dataText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/emailText"
-            android:layout_alignParentStart="true"
+            android:layout_toEndOf="@+id/birthImage"
             android:layout_marginTop="30dp"
             android:layout_marginStart="10dp"
             android:textSize="20sp"
@@ -143,16 +163,17 @@
             android:textSize="20sp"
             android:text=""/>
 
-        <EditText
+        <Button
             android:id="@+id/dataEditTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toEndOf="@+id/dataText"
             android:layout_alignBaseline="@+id/dataText"
-            android:layout_marginStart="10dp"
+            android:layout_marginStart="20dp"
             android:textColor="@color/black"
-            android:textSize="20sp"
-            android:text=""
+            android:textSize="15sp"
+            android:textAllCaps="false"
+            android:text="@string/insertdate"
             android:visibility="invisible"/>
 
         <Button

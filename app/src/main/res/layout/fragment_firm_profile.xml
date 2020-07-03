@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:background="@color/backgroundRed"
+        android:elevation="20dp">
+
+        <TextView
+            android:id="@+id/firmText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginBottom="10dp"
+            android:layout_marginStart="10dp"
+            android:text=""
+            android:textColor="@color/white"
+            android:textSize="30sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/firmEditText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginBottom="5dp"
+            android:layout_marginStart="10dp"
+            android:text=""
+            android:inputType="textPersonName"
+            android:visibility="invisible"
+            android:textColor="@color/white"
+            android:textSize="30sp"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="75dp">
+
+        <ImageView
+            android:id="@+id/emailImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_email"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="17dp"
+            android:layout_marginStart="10dp" />
+
+        <TextView
+            android:id="@+id/emailText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@+id/emailImage"
+            android:layout_alignBaseline="@+id/emailImage"
+            android:layout_marginTop="15dp"
+            android:layout_marginStart="10dp"
+            android:textSize="20sp"
+            android:textColor="@color/black"
+            android:text="@string/emailText"/>
+
+        <TextView
+            android:id="@+id/emailTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/emailText"
+            android:layout_alignBaseline="@+id/emailText"
+            android:layout_marginStart="10dp"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:text=""/>
+
+        <EditText
+            android:id="@+id/emailEditText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/emailText"
+            android:layout_alignBaseline="@+id/emailText"
+            android:layout_marginStart="10dp"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:text=""
+            android:inputType="textEmailAddress"
+            android:visibility="invisible" />
+
+        <ImageView
+            android:id="@+id/clockView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_clock"
+            android:layout_below="@+id/emailImage"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="35dp"
+            android:layout_marginStart="10dp"
+            android:contentDescription="@string/clock" />
+
+        <TextView
+            android:id="@+id/openText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/emailText"
+            android:layout_toEndOf="@+id/clockView"
+            android:layout_alignBaseline="@+id/clockView"
+            android:layout_marginTop="30dp"
+            android:layout_marginStart="10dp"
+            android:textSize="20sp"
+            android:textColor="@color/black"
+            android:text="@string/openFirm"/>
+
+        <TextView
+            android:id="@+id/openNumberText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/emailText"
+            android:layout_toEndOf="@+id/openText"
+            android:layout_alignBaseline="@+id/clockView"
+            android:layout_marginTop="30dp"
+            android:layout_marginStart="10dp"
+            android:textSize="20sp"
+            android:textColor="@color/black"
+            android:text=""/>
+
+        <TextView
+            android:id="@+id/closeText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/openText"
+            android:layout_marginTop="10dp"
+            android:layout_alignStart="@+id/openText"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:text="@string/closeFirm"/>
+
+        <TextView
+            android:id="@+id/closeNumberText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/openText"
+            android:layout_toEndOf="@+id/closeText"
+            android:layout_alignBaseline="@+id/closeText"
+            android:layout_marginTop="30dp"
+            android:layout_marginStart="10dp"
+            android:textSize="20sp"
+            android:textColor="@color/black"
+            android:text=""/>
+
+        <ImageView
+            android:id="@+id/personView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_people"
+            android:layout_below="@+id/closeText"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="33dp"
+            android:layout_marginStart="10dp"
+            android:contentDescription="@string/persone" />
+
+        <TextView
+            android:id="@+id/contempPeopleText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/closeText"
+            android:layout_toEndOf="@+id/clockView"
+            android:layout_alignBaseline="@+id/clockView"
+            android:layout_marginTop="30dp"
+            android:layout_marginStart="10dp"
+            android:textSize="20sp"
+            android:textColor="@color/black"
+            android:text="@string/clienti_contemp"/>
+
+        <TextView
+            android:id="@+id/totalPeopleText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/contempPeopleText"
+            android:layout_toEndOf="@+id/clockView"
+            android:layout_alignBaseline="@+id/clockView"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="10dp"
+            android:textSize="20sp"
+            android:textColor="@color/black"
+            android:text="@string/capienza_massima"/>
+
+    </RelativeLayout>
+
+
+</FrameLayout>
