@@ -112,7 +112,8 @@ class ShowProfileFragment: Fragment() {
                 }
             }
             passDialogView!!.gallery.setOnClickListener {
-                startActivityForResult(Intent(Intent.ACTION_GET_CONTENT).setType("image/*"), AGC)
+                alertDialog.dismiss()
+                startActivityForResult(Intent(Intent.ACTION_PICK,MediaStore.Images.Media.EXTERNAL_CONTENT_URI), AGC)
 
             }
         }
@@ -316,25 +317,13 @@ class ShowProfileFragment: Fragment() {
             }
         } else if (requestCode == AGC && resultCode == RESULT_OK && data != null && data.data != null) {
             val image = data.data
+            vista!!.imageProfile.setImageURI(image)
+
+
 
             FirebaseStorage.getInstance().reference.child("pics/$id").putFile(image!!)
                 .addOnFailureListener {
                     Log.e("UPLOAD FROM GALLERY", it.message)
-                }
-                .addOnCompleteListener{ uploadTask ->
-                    if (uploadTask.isSuccessful) {
-                        FirebaseStorage.getInstance()
-                            .reference
-                            .child("pics/${FirebaseAuth.getInstance().currentUser!!.uid}").downloadUrl.addOnCompleteListener { urlTask ->
-                                urlTask.result.let {
-                                    imageUri = it
-                                    vista!!.progress_bar.visibility = View.INVISIBLE
-
-                                    vista!!.imageProfile.setImageURI(imageUri)
-                                }
-
-                            }
-                    }
                 }
         }
 
