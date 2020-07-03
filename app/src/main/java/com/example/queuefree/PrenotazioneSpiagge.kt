@@ -1,7 +1,9 @@
 package com.example.queuefree
 
+import android.graphics.BitmapFactory
 import android.location.Geocoder
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.FragmentActivity
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -21,12 +23,12 @@ class PrenotazioneSpiagge : FragmentActivity(), OnMapReadyCallback{
 
 
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.maps_activity)
         mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
-        val geo = Geocoder(this)
-
+        var geo = Geocoder(this)
 
 
         val database:FirebaseDatabaseHelper= FirebaseDatabaseHelper()
@@ -34,42 +36,30 @@ class PrenotazioneSpiagge : FragmentActivity(), OnMapReadyCallback{
 
 
         database.readFirmsandtakeAdress(object : FirebaseDatabaseHelper.DataStatusFirm {
-            override fun DataisLoadedFirm(firm: Firm) {
+            override fun DataisLoadedFirm(fr: Firm){
 
 
-                geo.getFromLocationName(firm.location, 1)
+                geo.getFromLocationName(fr.location,1)
 
-                val latlng = LatLng(
-                    geo.getFromLocationName(firm.location, 1).get(0).latitude,
-                    geo.getFromLocationName(
-                        firm.location, 1
-                    ).get(0).longitude
-                )
+                var latlng =LatLng( geo.getFromLocationName("${fr.location}",1).get(0).latitude,geo.getFromLocationName("${fr.location}",1).get(0).longitude)
 
-                if (intent.getStringExtra("tipo") == "Spiaggia") {
-                    map.addMarker(
-                        MarkerOptions().position(latlng).title(firm.nome)
-                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.ombrellone))
-                    )
+                if(intent.getStringExtra("tipo").equals("Spiaggia")) {
+                    map.addMarker(MarkerOptions().position(latlng).title("${fr.nome}").icon(BitmapDescriptorFactory.fromResource(R.drawable.ombrellone)))
                     map.animateCamera(CameraUpdateFactory.newLatLngZoom(latlng, 10f))
-                } else if (intent.getStringExtra("tipo") == "Museo") {
-                    map.addMarker(
-                        MarkerOptions().position(latlng).title(firm.nome)
-                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.museo))
-                    )
-                    map.animateCamera(CameraUpdateFactory.newLatLngZoom(latlng, 10f))
-                } else if (intent.getStringExtra("tipo") == "Biblioteca") {
-                    map.addMarker(
-                        MarkerOptions().position(latlng).title(firm.nome)
-                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.libro))
-                    )
-                    map.animateCamera(CameraUpdateFactory.newLatLngZoom(latlng, 10f))
+                }
+                else if(intent.getStringExtra("tipo").equals("Museo")) {
+                        map.addMarker(MarkerOptions().position(latlng).title("${fr.nome}").icon(BitmapDescriptorFactory.fromResource(R.drawable.museo)))
+                        MoveCamera(latlng,10f)
+                    }
+                else if(intent.getStringExtra("tipo").equals("Biblioteca")) {
+                    map.addMarker(MarkerOptions().position(latlng).title("${fr.nome}").icon(BitmapDescriptorFactory.fromResource(R.drawable.libro)))
+                    MoveCamera(latlng,10f)
                 }
 
 
             }
 
-        }, intent.getStringExtra("tipo")!!)
+        },intent.getStringExtra("tipo"))!!
 
 
 
@@ -85,6 +75,14 @@ class PrenotazioneSpiagge : FragmentActivity(), OnMapReadyCallback{
         map = googleMap
         map.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(42.76698, 12.493823), 6f))
 
+    }
+
+    fun MoveCamera(latLng: LatLng, zoom: Float){
+
+
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,zoom))
+        val windowadp=WindowAdapter(this)
+        map.setInfoWindowAdapter(windowadp)
 
     }
 
