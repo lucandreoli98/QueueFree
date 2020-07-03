@@ -4,6 +4,7 @@ import android.app.Activity.RESULT_OK
 import android.app.AlertDialog
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -84,14 +85,26 @@ class ShowProfileFragment: Fragment() {
                         updateLayout(user)
                     }
                 }
+
+
+
             }
         })
+        view.progress_bar.visibility=View.VISIBLE
+        FirebaseStorage.getInstance().reference.child("pics").child(id).getBytes(1024*1024).addOnSuccessListener { bytes ->
+            val bitmap=BitmapFactory.decodeByteArray(bytes,0,bytes.size)
+            view.imageProfile.setImageBitmap(bitmap)
+            view.progress_bar.visibility=View.INVISIBLE
+
+        }
+
 
         view.imageProfile.setOnClickListener{
             passDialogView = LayoutInflater.from(context).inflate(R.layout.ask_how_take_picture, null)
             val mBuilder = AlertDialog.Builder(context).setView(passDialogView)
             val alertDialog = mBuilder.show()
             passDialogView!!.take.setOnClickListener{
+                alertDialog.dismiss()
                 Intent(MediaStore.ACTION_IMAGE_CAPTURE).also{ pictureIntent ->
                     pictureIntent.resolveActivity(activity!!.packageManager!!).also {
                         startActivityForResult(pictureIntent,RIC)
@@ -175,7 +188,7 @@ class ShowProfileFragment: Fragment() {
 
 
                         } else {
-                            passDialogView.confirmPasswordEditText.error = "Error"
+                            passDialogView.confirmPasswordEditText.error = "Password non corretta"
                         }
                     }
                 }

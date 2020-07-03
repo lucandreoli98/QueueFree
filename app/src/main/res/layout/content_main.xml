@@ -21,10 +21,14 @@
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
                 android:gravity="center_vertical">
+                <ImageView
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/queue_free_logo" />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Navigation Drawer"
+                    android:text="Prenota il tuo posto!"
                     android:textColor="#FFFFFF"
                     style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"/>
             </LinearLayout>
