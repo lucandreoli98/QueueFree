@@ -39,23 +39,23 @@ class ShowProfileFragment: Fragment() {
             override fun DataIsLoaded(u: User) {
                 user = u
                 if(currentUser!!.getIdToken(false).result.signInProvider != "password"){
-                    passCancButton.visibility = View.INVISIBLE
-                    editProfileButton.visibility=View.INVISIBLE
+                    view.passCancButton.visibility = View.INVISIBLE
+                    view.editProfileButton.visibility=View.INVISIBLE
                 }
 
                 // parte visibile inizialmente
-                nameSurnameText.text = "${user.nome} ${user.cognome}"
-                emailTextView.text = user.email
-                dataTextView.text = "${user.dd}/${user.mm}/${user.yy}"
+                view.nameSurnameText.text = "${user.nome} ${user.cognome}"
+                view.emailTextView.text = user.email
+                view.dataTextView.text = "${user.dd}/${user.mm}/${user.yy}"
                 // parte invisibile
-                nameEditText.setText(user.nome)
-                surnameEditText.setText(user.cognome)
-                emailEditText.setText(user.email)
-                dataEditTextView.setText(dataTextView.text)
+                view.nameEditText.setText(user.nome)
+                view.surnameEditText.setText(user.cognome)
+                view.emailEditText.setText(user.email)
+                view.dataEditTextView.setText(view.dataTextView.text)
 
                 // modifica del profilo generale
                 view.editProfileButton.setOnClickListener {
-                    if (nameSurnameText.visibility == View.VISIBLE) {
+                    if (view.nameSurnameText.visibility == View.VISIBLE) {
                         changeVisibility()
                     } else {
                         updateProfile()
@@ -65,7 +65,7 @@ class ShowProfileFragment: Fragment() {
                 // modifica della password dell'utente
                 view.passCancButton.setOnClickListener {
                     // Se e' impostato su modifica password
-                    if (passCancButton.text.equals(resources.getString(R.string.modifica_password))) {
+                    if (view.passCancButton.text.equals(resources.getString(R.string.modifica_password))) {
                         editPassword()
                     } else { // se e' impostato su annulla
                         updateLayout(user)
@@ -101,6 +101,7 @@ class ShowProfileFragment: Fragment() {
         var ok: Boolean = true
 
         // controllo se sono vuoti gli editText
+        // TODO: CONTROLLARE I MESSAGGI DI ERRORE
         if (ok && name.isEmpty()) {
             nameEditText.error = resources.getString(R.string.passEmpty)
             nameEditText.requestFocus()
@@ -138,7 +139,7 @@ class ShowProfileFragment: Fragment() {
 
                             cUser.updateEmail(email).addOnCompleteListener { task2 ->
                                 if (task2.isSuccessful) {
-                                    Toast.makeText(activity, "Update avvenuto con successo", Toast.LENGTH_LONG).show()
+                                    Toast.makeText(activity, "Update del profilo avvenuto con successo", Toast.LENGTH_LONG).show()
                                     usersDB.child(id).setValue(newUser)
                                     user = newUser
                                     updateLayout(newUser)
@@ -187,20 +188,69 @@ class ShowProfileFragment: Fragment() {
     }
 
     fun editPassword(){
-        val passDialogView = LayoutInflater.from(context).inflate(R.layout.confirm_password, null)
-        val mBuilder = AlertDialog.Builder(context).setView(passDialogView)
-        val alertDialog = mBuilder.show()
+        val newPassDialogView = LayoutInflater.from(context).inflate(R.layout.update_password, null)
+        val mBuilder = AlertDialog.Builder(context).setView(newPassDialogView)
+        val alertDPasswordDialog = mBuilder.show()
 
-        passDialogView.okNewPassButton.setOnClickListener {
+        newPassDialogView.okNewPassButton.setOnClickListener {
             var ok = true
+            val email = newPassDialogView.emailForPass.text.toString()
+            val oldPassString = newPassDialogView.oldPassword.text.toString()
+            val newPasswordString = newPassDialogView.newPassword.text.toString()
 
-            if(newPassword.text != confirmNewPassword.text){
-                confirmNewPassword.error = resources.getString(R.string.confpassDifferent)
+            if (ok && email.isEmpty()) {
+                newPassDialogView.emailForPass.error = resources.getString(R.string.emailEmpty)
+                newPassDialogView.emailForPass.requestFocus()
+                ok = false
+            }
+            if (ok && oldPassString.isEmpty()) {
+                newPassDialogView.oldPassword.error = resources.getString(R.string.passEmpty)
+                newPassDialogView.oldPassword.requestFocus()
+                ok = false
+            }
+            if (ok && newPasswordString.isEmpty()) {
+                newPassDialogView.newPassword.error = resources.getString(R.string.passEmpty)
+                newPassDialogView.newPassword.requestFocus()
+                ok = false
+            }
+            if(ok && newPasswordString != newPassDialogView.confirmNewPassword.text.toString()){
+                newPassDialogView.confirmNewPassword.error = resources.getString(R.string.confpassDifferent)
                 ok = false
             }
 
+            if(ok) {
+                currentUser.let { cUser ->
+                    val credential = EmailAuthProvider.getCredential(email, oldPassString)
 
+                    cUser!!.reauthenticate(credential).addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            cUser.updatePassword(newPasswordString).addOnCompleteListener { task2 ->
+                                if (task2.isSuccessful) {
+                                    alertDPasswordDialog.dismiss()
+                                    Toast.makeText(
+                                        activity,
+                                        "Update della password avvenuto con successo",
+                                        Toast.LENGTH_LONG
+                                    ).show()
+                                } else {
+                                    Toast.makeText(
+                                        activity,
+                                        task2.exception.toString(),
+                                        Toast.LENGTH_LONG
+                                    ).show()
+                                }
+                            }
 
+                        } else {
+                            newPassDialogView.oldPassword.error = "Password o email errata"
+                        }
+                    }
+                }
+            }
+        }
+
+        newPassDialogView.cancelButton.setOnClickListener {
+            alertDPasswordDialog.dismiss()
         }
     }
 }
