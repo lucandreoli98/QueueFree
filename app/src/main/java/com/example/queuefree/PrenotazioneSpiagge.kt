@@ -1,5 +1,6 @@
 package com.example.queuefree
 
+import android.graphics.BitmapFactory
 import android.location.Geocoder
 import android.os.Bundle
 import android.util.Log
@@ -8,6 +9,7 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 
@@ -16,7 +18,7 @@ class PrenotazioneSpiagge : FragmentActivity(), OnMapReadyCallback{
 
     lateinit var map: GoogleMap
     lateinit var mapFragment: SupportMapFragment
-    lateinit var firms:ArrayList<Firm>
+
 
 
 
@@ -24,9 +26,10 @@ class PrenotazioneSpiagge : FragmentActivity(), OnMapReadyCallback{
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.maps_activity)
-        firms= ArrayList()
-        var geo = Geocoder(this)
         mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
+        var geo = Geocoder(this)
+
+
 
         val database:FirebaseDatabaseHelper= FirebaseDatabaseHelper()
 
@@ -37,9 +40,21 @@ class PrenotazioneSpiagge : FragmentActivity(), OnMapReadyCallback{
 
 
                 geo.getFromLocationName(fr.location,1)
+
                 var latlng =LatLng( geo.getFromLocationName("${fr.location}",1).get(0).latitude,geo.getFromLocationName("${fr.location}",1).get(0).longitude)
-                map!!.addMarker( MarkerOptions().position(latlng).title("${fr.nome}"))
-                map!!.animateCamera(CameraUpdateFactory.newLatLngZoom(latlng, 10f))
+
+                if(intent.getStringExtra("tipo").equals("Spiaggia")) {
+                    map.addMarker(MarkerOptions().position(latlng).title("${fr.nome}").icon(BitmapDescriptorFactory.fromResource(R.drawable.ombrellone)))
+                    map.animateCamera(CameraUpdateFactory.newLatLngZoom(latlng, 10f))
+                }
+                else if(intent.getStringExtra("tipo").equals("Museo")) {
+                        map.addMarker(MarkerOptions().position(latlng).title("${fr.nome}").icon(BitmapDescriptorFactory.fromResource(R.drawable.museo)))
+                        map.animateCamera(CameraUpdateFactory.newLatLngZoom(latlng, 10f))
+                    }
+                else if(intent.getStringExtra("tipo").equals("Biblioteca")) {
+                    map.addMarker(MarkerOptions().position(latlng).title("${fr.nome}").icon(BitmapDescriptorFactory.fromResource(R.drawable.book)))
+                    map.animateCamera(CameraUpdateFactory.newLatLngZoom(latlng, 10f))
+                }
 
 
             }
@@ -51,19 +66,18 @@ class PrenotazioneSpiagge : FragmentActivity(), OnMapReadyCallback{
 
 
 
-
-
-
-
-
-    mapFragment!!.getMapAsync(this)
+        mapFragment.getMapAsync(this)
 
 
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
-        map!!.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(42.76698, 12.493823), 6f))
+        map.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(42.76698, 12.493823), 6f))
+
+
+
+
 
 
     }
