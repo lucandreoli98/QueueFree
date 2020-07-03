@@ -19,16 +19,12 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.ask_how_take_picture.view.*
-import kotlinx.android.synthetic.main.confirm_password.*
 import kotlinx.android.synthetic.main.confirm_password.view.*
-import kotlinx.android.synthetic.main.confirm_password.view.cancPasswordButton
-import kotlinx.android.synthetic.main.fragment_login.*
 import kotlinx.android.synthetic.main.fragment_show_profile.*
 import kotlinx.android.synthetic.main.fragment_show_profile.view.*
-import kotlinx.android.synthetic.main.update_password.*
 import kotlinx.android.synthetic.main.update_password.view.*
-import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
+
 
 class ShowProfileFragment: Fragment() {
 
@@ -39,6 +35,8 @@ class ShowProfileFragment: Fragment() {
     private var passDialogView:View? = null
     private val fb: FirebaseDatabaseHelper = FirebaseDatabaseHelper()
     private val RIC = 1234
+    private val AGC = 5678
+
     private lateinit var imageUri: Uri
     private var vista:View? = null
 
@@ -99,18 +97,23 @@ class ShowProfileFragment: Fragment() {
         }
 
 
-        view.imageProfile.setOnClickListener{
-            passDialogView = LayoutInflater.from(context).inflate(R.layout.ask_how_take_picture, null)
+        view.imageProfile.setOnClickListener {
+            passDialogView =
+                LayoutInflater.from(context).inflate(R.layout.ask_how_take_picture, null)
             val mBuilder = AlertDialog.Builder(context).setView(passDialogView)
             val alertDialog = mBuilder.show()
-            passDialogView!!.take.setOnClickListener{
+            passDialogView!!.take.setOnClickListener {
                 alertDialog.dismiss()
-                Intent(MediaStore.ACTION_IMAGE_CAPTURE).also{ pictureIntent ->
+                Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { pictureIntent ->
                     pictureIntent.resolveActivity(activity!!.packageManager!!).also {
-                        startActivityForResult(pictureIntent,RIC)
+                        startActivityForResult(pictureIntent, RIC)
                     }
 
                 }
+            }
+            passDialogView!!.gallery.setOnClickListener {
+                startActivityForResult(Intent(Intent.ACTION_GET_CONTENT).setType("image/*"), AGC)
+
             }
         }
     }
@@ -212,9 +215,9 @@ class ShowProfileFragment: Fragment() {
         emailEditText.visibility = View.INVISIBLE
         dataEditTextView.visibility = View.INVISIBLE
 
-        nameSurnameText.setText("${user.nome} ${user.cognome}")
-        emailTextView.setText(user.email)
-        dataTextView.setText("${user.dd}/${user.mm}/${user.yy}")
+        nameSurnameText.text = "${user.nome} ${user.cognome}"
+        emailTextView.text = user.email
+        dataTextView.text = "${user.dd}/${user.mm}/${user.yy}"
         // parte invisibile
         nameEditText.setText(user.nome)
         surnameEditText.setText(user.cognome)
@@ -265,17 +268,9 @@ class ShowProfileFragment: Fragment() {
                             cUser.updatePassword(newPasswordString).addOnCompleteListener { task2 ->
                                 if (task2.isSuccessful) {
                                     alertDPasswordDialog.dismiss()
-                                    Toast.makeText(
-                                        activity,
-                                        "Update della password avvenuto con successo",
-                                        Toast.LENGTH_LONG
-                                    ).show()
+                                    Toast.makeText(activity, "Update della password avvenuto con successo", Toast.LENGTH_LONG).show()
                                 } else {
-                                    Toast.makeText(
-                                        activity,
-                                        task2.exception.toString(),
-                                        Toast.LENGTH_LONG
-                                    ).show()
+                                    Toast.makeText(activity, task2.exception.toString(), Toast.LENGTH_LONG).show()
                                 }
                             }
 
@@ -295,30 +290,54 @@ class ShowProfileFragment: Fragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if(requestCode == RIC && resultCode == RESULT_OK){
+        if (requestCode == RIC && resultCode == RESULT_OK) {
             val imageBitmap = data!!.extras!!.get("data") as Bitmap
-            val baos=ByteArrayOutputStream()
+            val baos = ByteArrayOutputStream()
             val storageRef = FirebaseStorage.getInstance()
                 .reference
                 .child("pics/${FirebaseAuth.getInstance().currentUser!!.uid}")
-            imageBitmap.compress(Bitmap.CompressFormat.JPEG,100,baos)
+            imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
             val upload = storageRef.putBytes(baos.toByteArray())
 
-            vista!!.progress_bar.visibility=View.VISIBLE
-            upload.addOnCompleteListener{ uploadTask ->
-                if(uploadTask.isSuccessful){
-                    vista!!.progress_bar.visibility=View.INVISIBLE
+            vista!!.progress_bar.visibility = View.VISIBLE
+            upload.addOnCompleteListener { uploadTask ->
+                if (uploadTask.isSuccessful) {
                     storageRef.downloadUrl.addOnCompleteListener { urlTask ->
-                        urlTask!!.result.let {
+                        urlTask.result.let {
                             imageUri = it
+                            vista!!.progress_bar.visibility = View.INVISIBLE
                             vista!!.imageProfile.setImageBitmap(imageBitmap)
                         }
 
                     }
-                }else{
-                    Log.e("UPLOAD","ERROR: ${uploadTask.result.error?.message}")
+                } else {
+                    Log.e("UPLOAD", "ERROR: ${uploadTask.result.error?.message}")
                 }
             }
+        } else if (requestCode == AGC && resultCode == RESULT_OK && data != null && data.data != null) {
+            val image = data.data
+
+            FirebaseStorage.getInstance().reference.child("pics/$id").putFile(image!!)
+                .addOnFailureListener {
+                    Log.e("UPLOAD FROM GALLERY", it.message)
+                }
+                .addOnCompleteListener{ uploadTask ->
+                    if (uploadTask.isSuccessful) {
+                        FirebaseStorage.getInstance()
+                            .reference
+                            .child("pics/${FirebaseAuth.getInstance().currentUser!!.uid}").downloadUrl.addOnCompleteListener { urlTask ->
+                                urlTask.result.let {
+                                    imageUri = it
+                                    vista!!.progress_bar.visibility = View.INVISIBLE
+
+                                    vista!!.imageProfile.setImageURI(imageUri)
+                                }
+
+                            }
+                    }
+                }
         }
+
     }
+
 }
