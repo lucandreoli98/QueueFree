@@ -37,7 +37,7 @@ class ShowProfileFragment: Fragment() {
     private val id = currentUser!!.uid.trim { it <= ' ' }
     private var passDialogView:View? = null
     private val fb: FirebaseDatabaseHelper = FirebaseDatabaseHelper()
-    private val RIC = 123
+    private val RIC = 1234
     private lateinit var imageUri: Uri
     private var vista:View? = null
 
