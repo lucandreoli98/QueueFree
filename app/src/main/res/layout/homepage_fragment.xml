@@ -17,7 +17,6 @@
         android:background="@drawable/btn_spiagga"
         android:padding="20dp"
         android:text="@string/spiaggiaHomeView"
-        android:textAlignment="textStart"
         android:textColor="@color/white"
         android:textSize="30sp" />
 

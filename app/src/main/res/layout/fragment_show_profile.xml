@@ -6,7 +6,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="250dp"
-        android:background="@color/lightBlue"
+        android:background="@color/backgroundRed"
         android:elevation="20dp">
 
         <Button
@@ -31,7 +31,7 @@
             android:layout_centerInParent="true"
             android:gravity="center"
             android:text=""
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:textSize="30sp"
             android:textStyle="bold" />
 
@@ -47,7 +47,7 @@
             android:text=""
             android:inputType="textPersonName"
             android:visibility="invisible"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:textSize="30sp"
             android:textStyle="bold" />
 
@@ -64,7 +64,7 @@
             android:text=""
             android:inputType="textPersonName"
             android:visibility="invisible"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:textSize="30sp"
             android:textStyle="bold" />
     </RelativeLayout>

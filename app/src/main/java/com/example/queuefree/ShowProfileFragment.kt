@@ -38,8 +38,7 @@ class ShowProfileFragment: Fragment() {
         fb!!.readUserFromDB(object : FirebaseDatabaseHelper.DataStatus {
             override fun DataIsLoaded(u: User) {
                 user = u
-                //if(currentUser!!.providerData[0].providerId == "google.com")
-                if(currentUser!!.getIdToken(false).result.signInProvider != "firebase"){
+                if(currentUser!!.getIdToken(false).result.signInProvider != "password"){
                     passCancButton.visibility = View.INVISIBLE
                     editProfileButton.visibility=View.INVISIBLE
                 }

@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/red"
+    android:background="@color/backgroundRed"
     android:padding="15dp">
 
     <Button
@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/insertdate"
-        android:textColor="@color/backgroundRed" />
+        android:textColor="@color/red" />
 
     <Button
         android:layout_marginTop="20dp"
@@ -19,5 +19,5 @@
         android:layout_height="wrap_content"
         android:background="@drawable/btn_rounded"
         android:text="@string/confirm"
-        android:textColor="@color/backgroundRed" />
+        android:textColor="@color/red" />
 </LinearLayout>
