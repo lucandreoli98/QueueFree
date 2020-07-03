@@ -104,6 +104,7 @@ class RegisterFragment: Fragment(), OnDateSetListener {
                             Log.e("task not successful: ", task.exception.toString())
                         }
                     }
+
                     .addOnFailureListener{
                         Toast.makeText(activity!!,it.message,Toast.LENGTH_SHORT).show()
                     }

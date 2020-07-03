@@ -67,4 +67,5 @@
     <string name="gallery">GALLERIA</string>
     <string name="takepic">SCATTA FOTO</string>
     <string name="menu_string">Menu</string>
+    <string name="title_activity_about">About</string>
 </resources>

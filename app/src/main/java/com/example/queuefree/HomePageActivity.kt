@@ -48,6 +48,7 @@ class HomePageActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
 
         when (id) {
             R.id.nav_profile -> startActivity(Intent(this, ProflileActivity::class.java))
+            R.id.nav_about -> startActivity(Intent(this, AboutActivity::class.java))
             R.id.nav_logout -> signOut()
         }
 
