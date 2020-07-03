@@ -7,6 +7,14 @@
     android:background="@color/white"
     android:gravity="center">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingBottom="100dp"
+        android:textSize="30sp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:text="Prenota il tuo posto!"/>
     <Button
         android:id="@+id/spiaggiaButton"
         android:layout_width="match_parent"
