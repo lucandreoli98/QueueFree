@@ -316,6 +316,7 @@ class ShowProfileFragment: Fragment() {
                 }
             }
         } else if (requestCode == AGC && resultCode == RESULT_OK && data != null && data.data != null) {
+
             val image = data.data
             vista!!.imageProfile.setImageURI(image)
 
