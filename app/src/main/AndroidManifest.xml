@@ -24,6 +24,8 @@
             android:label="@string/title_activity_about"
             android:theme="@style/DialogTheme">
         </activity>
+        <activity android:name=".LetsbookActivity" />
+
         <activity android:name=".ProflileActivity" />
         <activity android:name=".PrenotazioneSpiagge" />
         <activity android:name=".HomePageActivity"
