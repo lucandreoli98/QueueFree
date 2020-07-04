@@ -1,5 +1,6 @@
 package com.example.queuefree
 
+import android.app.AlertDialog
 import android.graphics.BitmapFactory
 import android.location.Geocoder
 import android.os.Bundle
@@ -11,9 +12,10 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 
-class PrenotazioneSpiagge : FragmentActivity(), OnMapReadyCallback{
+class PrenotazioneSpiagge : FragmentActivity(), OnMapReadyCallback,GoogleMap.OnMarkerClickListener{
 
 
     lateinit var map: GoogleMap
@@ -28,6 +30,15 @@ class PrenotazioneSpiagge : FragmentActivity(), OnMapReadyCallback{
         super.onCreate(savedInstanceState)
         setContentView(R.layout.maps_activity)
         mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
+        mapFragment.getMapAsync(this)
+
+
+    }
+
+    override fun onMapReady(googleMap: GoogleMap) {
+        map = googleMap
+        map.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(42.76698, 12.493823), 6f))
+
         var geo = Geocoder(this)
 
 
@@ -41,49 +52,43 @@ class PrenotazioneSpiagge : FragmentActivity(), OnMapReadyCallback{
 
                 geo.getFromLocationName(fr.location,1)
 
-                var latlng =LatLng( geo.getFromLocationName("${fr.location}",1).get(0).latitude,geo.getFromLocationName("${fr.location}",1).get(0).longitude)
+                var latlng =LatLng( geo.getFromLocationName(fr.location,1).get(0).latitude,geo.getFromLocationName(
+                    fr.location,1).get(0).longitude)
 
-                if(intent.getStringExtra("tipo").equals("Spiaggia")) {
-                    map.addMarker(MarkerOptions().position(latlng).title("${fr.nome}").icon(BitmapDescriptorFactory.fromResource(R.drawable.ombrellone)))
-                    map.animateCamera(CameraUpdateFactory.newLatLngZoom(latlng, 10f))
+                if(intent.getStringExtra("tipo") == "Spiaggia") {
+                    map.addMarker(MarkerOptions().position(latlng).title(fr.nome).icon(BitmapDescriptorFactory.fromResource(R.drawable.ombrellone)))
+                    map.moveCamera(CameraUpdateFactory.newLatLngZoom(latlng,10f))
+
                 }
-                else if(intent.getStringExtra("tipo").equals("Museo")) {
-                        map.addMarker(MarkerOptions().position(latlng).title("${fr.nome}").icon(BitmapDescriptorFactory.fromResource(R.drawable.museo)))
-                        MoveCamera(latlng,10f)
-                    }
-                else if(intent.getStringExtra("tipo").equals("Biblioteca")) {
-                    map.addMarker(MarkerOptions().position(latlng).title("${fr.nome}").icon(BitmapDescriptorFactory.fromResource(R.drawable.libro)))
-                    MoveCamera(latlng,10f)
+                else if(intent.getStringExtra("tipo") == "Museo") {
+                    map.addMarker(MarkerOptions().position(latlng).title(fr.nome).icon(BitmapDescriptorFactory.fromResource(R.drawable.museo)))
+                    map.moveCamera(CameraUpdateFactory.newLatLngZoom(latlng,10f))
+
+                }
+                else if(intent.getStringExtra("tipo") == "Biblioteca") {
+                    map.addMarker(MarkerOptions().position(latlng).title(fr.nome).icon(BitmapDescriptorFactory.fromResource(R.drawable.libro)))
+                    map.moveCamera(CameraUpdateFactory.newLatLngZoom(latlng,10f))
+
                 }
 
 
             }
 
-        },intent.getStringExtra("tipo"))!!
+        },intent.getStringExtra("tipo"))
 
 
 
-
-
-
-        mapFragment.getMapAsync(this)
 
 
     }
 
-    override fun onMapReady(googleMap: GoogleMap) {
-        map = googleMap
-        map.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(42.76698, 12.493823), 6f))
-
-    }
-
-    fun MoveCamera(latLng: LatLng, zoom: Float){
+    override fun onMarkerClick(p0: Marker?): Boolean {
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Ciao")
+        builder.show()
 
 
-        map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,zoom))
-        val windowadp=WindowAdapter(this)
-        map.setInfoWindowAdapter(windowadp)
-
+    return false
     }
 
 }
