@@ -33,10 +33,10 @@ class FirmRegisterFragment : Fragment() {
     private var locationString: String = ""
     private var latitude:String = ""
     private var longitude:String = ""
-    private var hhOpen: Int? = null
-    private var mmOpen: Int? = null
-    private var hhClose: Int? = null
-    private var mmClose: Int? = null
+    private var hhOpen: Long? = null
+    private var mmOpen: Long? = null
+    private var hhClose: Long? = null
+    private var mmClose: Long? = null
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -100,8 +100,8 @@ class FirmRegisterFragment : Fragment() {
                 else {
                     view.openButton.text = "$hour:$minute"
                 }
-                hhOpen = hour
-                mmOpen = minute
+                hhOpen = hour.toLong()
+                mmOpen = minute.toLong()
             }
             openHourDialogView.okTimerButton.setOnClickListener {
                 alertOpenDialog.dismiss()
@@ -133,8 +133,8 @@ class FirmRegisterFragment : Fragment() {
                 else {
                     view.closeButton.text = "$hour:$minute"
                 }
-                hhClose = hour
-                mmClose = minute
+                hhClose = hour.toLong()
+                mmClose = minute.toLong()
             }
             closeHourDialogView.okTimerButton.setOnClickListener {
                 alertOpenDialog.dismiss()
