@@ -42,7 +42,7 @@ class PrenotazioneSpiagge : FragmentActivity(), OnMapReadyCallback,GoogleMap.OnM
 
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
-        map.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(42.76698, 12.493823), 6f))
+        map.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(44.4222, 8.9052), 8f))
 
         var geo = Geocoder(this)
 

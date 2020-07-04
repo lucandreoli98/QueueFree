@@ -39,6 +39,13 @@ class FirebaseDatabaseHelper () {
                                     "password" -> f.password = field.value as String
                                     "categoria" -> f.categoria= field.value as String
                                     "location" -> f.location = field.value as String
+                                    "startHour"->f.startHour= field.value as Int
+                                    "endHour"->f.endHour= field.value as Int
+                                    "endMinute"->f.endMinute= field.value as Int
+                                    "maxTurn"->f.maxTurn= field.value as Int
+                                    "startMinute"->f.startMinute= field.value as Int
+                                    "capienza"->f.capienza= field.value as Int
+                                    "descrizione"->f.descrizione= field.value as String
                                 }
                             }
                             ds.DataisLoadedFirm(f)
