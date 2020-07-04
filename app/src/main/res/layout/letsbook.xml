@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:background="@color/backgroundRed"
+        android:elevation="20dp">
+
+        <ImageView
+            android:id="@+id/firmImage"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="145dp"
+            android:layout_marginEnd="145dp"
+            android:layout_marginTop="30dp"
+            android:src="@color/white"
+            android:contentDescription="@string/firmimage" />
+
+        <TextView
+            android:id="@+id/firmName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/firmImage"
+            android:layout_marginTop="10dp"
+            android:layout_centerVertical="true"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text=""
+            android:textColor="@color/white"
+            android:textSize="30sp"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="250dp">
+
+        <TextView
+            android:id="@+id/startH"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/startH"
+            android:textColor="@color/black"
+            android:layout_marginTop="10dp"
+            android:textSize="30sp"/>
+
+        <Spinner
+            android:id="@+id/startHour"
+            android:layout_width="150dp"
+            android:layout_height="40sp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_toEndOf="@+id/startH"
+            />
+
+        <TextView
+            android:id="@+id/npartecipanti"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/startH"
+            android:text="@string/peoples"
+            android:textColor="@color/black"
+            android:textSize="30sp"
+            android:layout_marginTop="10dp"
+            />
+
+        <Spinner
+            android:id="@+id/npeople"
+            android:layout_width="150dp"
+            android:layout_height="40sp"
+            android:layout_marginStart="20dp"
+            android:layout_toEndOf="@+id/npartecipanti"
+            android:layout_below="@+id/startH"
+            android:layout_marginTop="10dp"
+
+            />
+
+        <TextView
+            android:id="@+id/duratap"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/npartecipanti"
+            android:text="@string/durata_prenotazione"
+            android:textColor="@color/black"
+            android:textSize="30sp"
+            android:layout_marginTop="10dp"/>
+
+        <Spinner
+            android:id="@+id/nhours"
+            android:layout_width="100dp"
+            android:layout_height="40sp"
+            android:layout_marginStart="20dp"
+            android:layout_toEndOf="@+id/duratap"
+            android:layout_below="@+id/npeople"
+            android:layout_marginTop="10dp"
+
+            />
+
+    </RelativeLayout>
+
+
+</FrameLayout>
