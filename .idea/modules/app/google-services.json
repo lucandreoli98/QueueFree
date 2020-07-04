@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "873106771137",
+    "firebase_url": "https://queuefree-f4eb9.firebaseio.com",
+    "project_id": "queuefree-f4eb9",
+    "storage_bucket": "queuefree-f4eb9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:873106771137:android:1478b73547b39c873a9840",
+        "android_client_info": {
+          "package_name": "com.example.queuefree"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "873106771137-aq7jtkhujm543quukres921kf2rioca5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.queuefree",
+            "certificate_hash": "5c4989a9781c3ad97376dfb4c59b72a101a807ea"
+          }
+        },
+        {
+          "client_id": "873106771137-jsofrbb738j7mmpq9onuqeb7473fnpss.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDtTX397n1caYoD4FtWxHoT1Ir0FFgk1yw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "873106771137-jsofrbb738j7mmpq9onuqeb7473fnpss.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
