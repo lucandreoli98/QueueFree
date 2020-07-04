@@ -43,6 +43,7 @@ class RegisterFragment: Fragment(), OnDateSetListener {
 
             val nome = nameRegisterEditText.text.toString().trim()
             val cognome = surnameRegisterEditText.text.toString().trim()
+
             val email = emailRegisterEditText.text.toString().trim()
             val password = passRegisterEditText.text.toString().trim()
             val conf = confpassRegisterEditText.text.toString().trim()
