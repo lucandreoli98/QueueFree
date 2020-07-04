@@ -6,10 +6,10 @@ class Firm(
     var password: String = "",
     var categoria: String = "",
     var location: String = "",
-    var startHour: Int = 0,
-    var startMinute: Int = 0,
-    var endHour: Int = 0,
-    var endMinute: Int = 0,
-    var capienza: Int = 0,
+    var startHour: Long = 0,
+    var startMinute: Long = 0,
+    var endHour: Long = 0,
+    var endMinute: Long = 0,
+    var capienza: Long = 0,
     var descrizione: String = ""
 )

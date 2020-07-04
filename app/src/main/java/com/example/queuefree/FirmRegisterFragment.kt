@@ -211,7 +211,7 @@ class FirmRegisterFragment : Fragment() {
                 fireBase!!.createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener { task ->
                         if (task.isSuccessful) {
-                            val f = Firm(firmName, email, password, categoriaString, locationString,this.hhOpen!!,this.mmOpen!!,this.hhClose!!,this.mmClose!!,capienza.toInt(),"")
+                            val f = Firm(firmName, email, password, categoriaString, locationString,this.hhOpen!!,this.mmOpen!!,this.hhClose!!,this.mmClose!!,capienza.toLong(),"")
 
                             Log.e("task successful", resources.getString(R.string.userRegistrated))
 
