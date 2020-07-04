@@ -13,27 +13,19 @@ class FirebaseDatabaseHelper () {
     var referencefirm: DatabaseReference = database.getReference("firm")
     var user = User("","","",0L, 0L, 0L)
 
-
-
-    interface DataStatus{
-        fun DataIsLoaded(user : User)
-
+    interface DataStatus {
+        fun DataIsLoaded(user: User)
     }
     interface DataStatusFirm {
-
         fun DataisLoadedFirm(firm:Firm)
-
     }
 
-
     fun readFirmsandtakeAdress(ds: DataStatusFirm,cat: String) {
-
-
         referencefirm.addValueEventListener(object : ValueEventListener {
-
             override fun onCancelled(p0: DatabaseError) {
                 Log.e("OnCancelled", p0.toException().toString())
             }
+
             override fun onDataChange(p0: DataSnapshot) {
                 if(p0.exists())
                     for(aziende in p0.children){
@@ -41,7 +33,6 @@ class FirebaseDatabaseHelper () {
                         if(p0.child("$fid/categoria").value?.equals(cat.trim())!!) {
                             var f=Firm("","","","","","","")
                             for(field in aziende.children){
-
                                 when(field.key){
                                     "nome" -> f.nome = field.value as String
                                     "cognome" -> f.cognome = field.value as String
@@ -51,24 +42,13 @@ class FirebaseDatabaseHelper () {
                                     "categoria" -> f.categoria= field.value as String
                                     "location" -> f.location = field.value as String
                                 }
-
                             }
                             ds.DataisLoadedFirm(f)
-
-
                         }
-
                     }
-
-
             }
-
         })
-
-
     }
-
-
 
     fun readUserFromDB(ds: DataStatus){
         referenceuser.addValueEventListener(object : ValueEventListener {
