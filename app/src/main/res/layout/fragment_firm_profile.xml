@@ -40,189 +40,250 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="75dp">
+        android:layout_marginTop="75dp"
+        android:padding="10dp">
 
         <ImageView
             android:id="@+id/emailImage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_email"
-            android:layout_alignParentTop="true"
             android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="10dp"
             android:layout_marginTop="17dp"
-            android:layout_marginStart="10dp" />
+            android:src="@drawable/ic_email" />
 
         <TextView
             android:id="@+id/emailText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_toEndOf="@+id/emailImage"
             android:layout_alignBaseline="@+id/emailImage"
-            android:layout_marginTop="15dp"
+            android:layout_alignParentTop="true"
             android:layout_marginStart="10dp"
-            android:textSize="20sp"
+            android:layout_marginTop="15dp"
+            android:layout_toEndOf="@+id/emailImage"
+            android:text="@string/emailText"
             android:textColor="@color/black"
-            android:text="@string/emailText"/>
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/emailTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toEndOf="@+id/emailText"
             android:layout_alignBaseline="@+id/emailText"
             android:layout_marginStart="10dp"
+            android:layout_toEndOf="@+id/emailText"
+            android:text=""
             android:textColor="@color/black"
-            android:textSize="20sp"
-            android:text=""/>
+            android:textSize="20sp" />
 
         <EditText
             android:id="@+id/emailEditText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toEndOf="@+id/emailText"
             android:layout_alignBaseline="@+id/emailText"
             android:layout_marginStart="10dp"
+            android:layout_toEndOf="@+id/emailText"
+            android:inputType="textEmailAddress"
+            android:text=""
             android:textColor="@color/black"
             android:textSize="20sp"
-            android:text=""
-            android:inputType="textEmailAddress"
             android:visibility="invisible" />
 
         <ImageView
             android:id="@+id/locationView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_location"
             android:layout_below="@+id/emailImage"
             android:layout_alignParentStart="true"
-            android:layout_marginTop="35dp"
             android:layout_marginStart="10dp"
-            android:contentDescription="@string/clock" />
+            android:layout_marginTop="35dp"
+            android:contentDescription="@string/clock"
+            android:src="@drawable/ic_location" />
 
         <TextView
             android:id="@+id/locationText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/emailText"
-            android:layout_toEndOf="@+id/locationView"
             android:layout_alignBaseline="@+id/locationView"
-            android:layout_marginTop="30dp"
             android:layout_marginStart="10dp"
-            android:textSize="20sp"
+            android:layout_marginTop="30dp"
+            android:layout_toEndOf="@+id/locationView"
+            android:text="@string/posizioneText"
             android:textColor="@color/black"
-            android:text="@string/posizioneText"/>
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/locationTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/emailText"
-            android:layout_toEndOf="@+id/locationText"
             android:layout_alignBaseline="@+id/locationView"
-            android:layout_marginTop="30dp"
             android:layout_marginStart="10dp"
-            android:textSize="20sp"
+            android:layout_marginTop="30dp"
+            android:layout_toEndOf="@+id/locationText"
+            android:text=""
             android:textColor="@color/black"
-            android:text=""/>
+            android:textSize="20sp" />
 
         <ImageView
             android:id="@+id/clockView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_clock"
             android:layout_below="@+id/locationView"
             android:layout_alignParentStart="true"
-            android:layout_marginTop="35dp"
             android:layout_marginStart="10dp"
-            android:contentDescription="@string/clock" />
+            android:layout_marginTop="35dp"
+            android:contentDescription="@string/clock"
+            android:src="@drawable/ic_clock" />
 
         <TextView
             android:id="@+id/openText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/locationText"
-            android:layout_toEndOf="@+id/clockView"
             android:layout_alignBaseline="@+id/clockView"
-            android:layout_marginTop="30dp"
             android:layout_marginStart="10dp"
-            android:textSize="20sp"
+            android:layout_marginTop="30dp"
+            android:layout_toEndOf="@+id/clockView"
+            android:text="@string/openFirm"
             android:textColor="@color/black"
-            android:text="@string/openFirm"/>
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/openNumberText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/emailText"
-            android:layout_toEndOf="@+id/openText"
+            android:layout_below="@+id/locationText"
             android:layout_alignBaseline="@+id/clockView"
-            android:layout_marginTop="30dp"
             android:layout_marginStart="10dp"
-            android:textSize="20sp"
+            android:layout_marginTop="30dp"
+            android:layout_toEndOf="@+id/openText"
+            android:text=""
             android:textColor="@color/black"
-            android:text=""/>
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/closeText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/openText"
-            android:layout_marginTop="10dp"
             android:layout_alignStart="@+id/openText"
+            android:layout_marginTop="10dp"
+            android:text="@string/closeFirm"
             android:textColor="@color/black"
-            android:textSize="20sp"
-            android:text="@string/closeFirm"/>
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/closeNumberText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/openText"
-            android:layout_toEndOf="@+id/closeText"
             android:layout_alignBaseline="@+id/closeText"
-            android:layout_marginTop="30dp"
             android:layout_marginStart="10dp"
-            android:textSize="20sp"
+            android:layout_marginTop="30dp"
+            android:layout_toEndOf="@+id/closeText"
+            android:text=""
             android:textColor="@color/black"
-            android:text=""/>
+            android:textSize="20sp" />
 
         <ImageView
             android:id="@+id/personView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_people"
             android:layout_below="@+id/closeText"
             android:layout_alignParentStart="true"
+            android:layout_marginStart="10dp"
             android:layout_marginTop="33dp"
-            android:layout_marginStart="10dp"
-            android:contentDescription="@string/persone" />
-
-        <TextView
-            android:id="@+id/contempPeopleText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/closeText"
-            android:layout_toEndOf="@+id/clockView"
-            android:layout_alignBaseline="@+id/clockView"
-            android:layout_marginTop="30dp"
-            android:layout_marginStart="10dp"
-            android:textSize="20sp"
-            android:textColor="@color/black"
-            android:text="@string/clienti_contemp"/>
+            android:contentDescription="@string/persone"
+            android:src="@drawable/ic_people" />
 
         <TextView
             android:id="@+id/totalPeopleText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/contempPeopleText"
-            android:layout_toEndOf="@+id/clockView"
-            android:layout_alignBaseline="@+id/clockView"
-            android:layout_marginTop="10dp"
+            android:layout_below="@+id/closeText"
+            android:layout_alignBaseline="@+id/personView"
             android:layout_marginStart="10dp"
-            android:textSize="20sp"
+            android:layout_marginTop="30dp"
+            android:layout_toEndOf="@+id/personView"
+            android:text="@string/capienza_massima"
             android:textColor="@color/black"
-            android:text="@string/capienza_massima"/>
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/totalPeopleTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/closeText"
+            android:layout_alignBaseline="@+id/personView"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="30dp"
+            android:layout_toEndOf="@+id/totalPeopleText"
+            android:text=""
+            android:textColor="@color/black"
+            android:textSize="20sp" />
+
+        <ImageView
+            android:id="@+id/fasciaView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/personView"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="33dp"
+            android:layout_marginStart="10dp"
+            android:src="@drawable/ic_birth"/>
+
+        <TextView
+            android:id="@+id/durataText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/fasciaView"
+            android:layout_below="@+id/totalPeopleText"
+            android:layout_marginTop="30dp"
+            android:layout_marginStart="10dp"
+            android:text="@string/durata_turno"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
+        
+        <Spinner
+            android:id="@+id/spinnerFascia"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/durataText"
+            android:layout_below="@+id/totalPeopleText" 
+            android:layout_marginTop="30dp"
+            android:layout_marginStart="10dp"/>
+        
+        <Button
+            android:layout_width="140dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/durataText"
+            android:background="@drawable/btn_edit"
+            android:layout_marginTop="80dp"
+            android:layout_marginStart="35dp"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textAllCaps="false"
+            android:text="@string/prenotazioni"/>
+
+        <Button
+            android:layout_width="140dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@+id/durataText"
+            android:layout_marginTop="80dp"
+            android:layout_marginEnd="35dp"
+            android:textAllCaps="false"
+            android:background="@drawable/btn_edit"
+            android:text="@string/editProfileButton"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="10dp"/>
 
     </RelativeLayout>
 

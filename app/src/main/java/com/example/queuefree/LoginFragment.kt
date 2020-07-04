@@ -41,9 +41,8 @@ class LoginFragment : Fragment() {
 
         // Se si e' gia' loggati nell'applicazione si viene reindirizzati alla homePage
         if ((fireBase != null && fireBase!!.currentUser != null) || gaccount!=null ) {
-            val i=Intent(activity, HomePageActivity::class.java)
-            i.flags=Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
-            startActivity(i)        }
+            isFirm(fireBase!!.currentUser!!.email!!)
+        }
 
         // Se viene cliccato il testo "REGISTRATI"
         view.signUpTextView.setOnClickListener {
@@ -55,7 +54,6 @@ class LoginFragment : Fragment() {
         view.loginButtonlogin.setOnClickListener {
             // se nullo
             if (fireBase!!.currentUser != null) {
-
                 val i=Intent(activity, HomePageActivity::class.java)
                 i.flags=Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
                 startActivity(i)
@@ -82,9 +80,7 @@ class LoginFragment : Fragment() {
                         .addOnCompleteListener { task ->
                             if (task.isSuccessful) {
                                 // autenticazione è avvenuta con successo e l'utente viene reindirizzato verso la homePage
-                                val i=Intent(activity, HomePageActivity::class.java)
-                                i.flags=Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
-                                startActivity(i)
+                                isFirm(email)
                             } else {
                                 Toast.makeText(activity,"Email o password errate", Toast.LENGTH_LONG).show();
                                 Log.e("Login", "signInWithEmail:failure", task.exception)
@@ -263,5 +259,25 @@ class LoginFragment : Fragment() {
             Log.w(TAG, "signInResult:failed code=" + e.statusCode)
 
         }
+    }
+
+    fun isFirm(email: String){
+        FirebaseDatabase.getInstance().getReference("/firm").orderByChild("email").equalTo(email).addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onCancelled(error: DatabaseError) {
+            }
+
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if(snapshot.exists()){
+                    val i = Intent(activity,FirmActivity()::class.java)
+                    i.flags=Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    startActivity(i)
+                }else{
+                    val i = Intent(activity, HomePageActivity::class.java)
+                    i.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    startActivity(i)
+                }
+            }
+
+        })
     }
 }

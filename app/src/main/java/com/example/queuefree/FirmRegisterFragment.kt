@@ -1,15 +1,14 @@
 package com.example.queuefree
 
+import android.app.AlertDialog
+import android.app.TimePickerDialog
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.google.android.gms.common.api.Status
@@ -23,6 +22,9 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.fragment_register_firm.*
 import kotlinx.android.synthetic.main.fragment_register_firm.view.*
+import kotlinx.android.synthetic.main.time_picker_layout.view.*
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 class FirmRegisterFragment : Fragment() {
@@ -52,11 +54,7 @@ class FirmRegisterFragment : Fragment() {
 
 
         // Per lo spinner
-        ArrayAdapter.createFromResource(
-            activity!!,
-            R.array.category_array,
-            android.R.layout.simple_spinner_item
-        ).also { adapter ->
+        ArrayAdapter.createFromResource(activity!!, R.array.category_array, android.R.layout.simple_spinner_item).also { adapter ->
             // Specify the layout to use when the list of choices appears
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             // Apply the adapter to the spinner
@@ -79,26 +77,77 @@ class FirmRegisterFragment : Fragment() {
             }
         }
 
+        view.openButton.setOnClickListener {
+            val openHourDialogView = LayoutInflater.from(context).inflate(R.layout.time_picker_layout, null)
+            val mBuilder = AlertDialog.Builder(context).setView(openHourDialogView)
+            val alertOpenDialog = mBuilder.show()
+
+            openHourDialogView.timePicker.setIs24HourView(true)
+            openHourDialogView.timePicker.setOnTimeChangedListener { timePicker, hour, minute ->
+                if(hour<10){
+                    if(minute<10){
+                        view.openButton.text = "0$hour:0$minute"
+                    }
+                    view.openButton.text = "0$hour:$minute"
+                }
+                if(minute<10){
+                    view.openButton.text = "$hour:0$minute"
+                }
+                view.openButton.text = "$hour:$minute"
+            }
+            openHourDialogView.okTimerButton.setOnClickListener {
+                alertOpenDialog.dismiss()
+            }
+            openHourDialogView.cancTimerButton.setOnClickListener {
+                view.openButton.text = resources.getString(R.string.orario_apertura_text)
+                alertOpenDialog.dismiss()
+            }
+            
+        }
+
+        view.closeButton.setOnClickListener {
+            val openHourDialogView = LayoutInflater.from(context).inflate(R.layout.time_picker_layout, null)
+            val mBuilder = AlertDialog.Builder(context).setView(openHourDialogView)
+            val alertOpenDialog = mBuilder.show()
+
+            openHourDialogView.timePicker.setIs24HourView(true)
+            openHourDialogView.timePicker.setOnTimeChangedListener { timePicker, hour, minute ->
+                if(hour<10){
+                    if(minute<10){
+                        view.closeButton.text = "0$hour:0$minute"
+                    }else {
+                        view.closeButton.text = "0$hour:$minute"
+                    }
+                }
+                else if(minute<10){
+                    view.closeButton.text = "$hour:0$minute"
+                }
+                else {
+                    view.closeButton.text = "$hour:$minute"
+                }
+            }
+            openHourDialogView.okTimerButton.setOnClickListener {
+                alertOpenDialog.dismiss()
+            }
+            openHourDialogView.cancTimerButton.setOnClickListener {
+                view.openButton.text = resources.getString(R.string.orario_apertura_text)
+                alertOpenDialog.dismiss()
+            }
+
+        }
+
         view.submitButton.setOnClickListener {
 
-            val nome = nameRegisterEditText.text.toString().trim()
-            val cognome = surnameRegisterEditText.text.toString().trim()
+            val firmName = firm_name.text.toString().trim()
             val email = emailRegisterEditText.text.toString().trim()
             val password = passRegisterEditText.text.toString().trim()
             val conf = confpassRegisterEditText.text.toString().trim()
-            val firm_n = firm_name.text.toString().trim()
             val placeString = placesSelect.text.toString().trim()
             var ok=true          //ti evita di fare le operazioni in piu per ogni controllo basta che un campo non sia compilato
 
-            // verifica se tutti i campi sono stati compilati, altrimenti segnala un errore
-            if (ok && nome.isEmpty()) {
-                nameRegisterEditText.error = resources.getString(R.string.nameEmpty)
-                nameRegisterEditText.requestFocus()
-                ok=false
-            }
-            if (ok && cognome.isEmpty()) {
-                surnameRegisterEditText.error = resources.getString(R.string.surnameEmpty)
-                surnameRegisterEditText.requestFocus()
+            if (ok && firmName.isEmpty()) {
+                firm_name.error = resources.getString(R.string.f_nameEmpty)
+                firm_name.requestFocus()
                 ok=false
             }
             if (ok && email.isEmpty()) {
@@ -121,11 +170,6 @@ class FirmRegisterFragment : Fragment() {
                 confpassRegisterEditText.requestFocus()
                 ok=false
             }
-            if (ok && firm_n.isEmpty()) {
-                firm_name.error = resources.getString(R.string.f_nameEmpty)
-                firm_name.requestFocus()
-                ok=false
-            }
             if(ok && placeString.isEmpty()){
                 placesSelect.error = resources.getString(R.string.placesnameEmpty)
                 placesSelect.requestFocus()
@@ -141,16 +185,7 @@ class FirmRegisterFragment : Fragment() {
                 fireBase!!.createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener { task ->
                         if (task.isSuccessful) {
-                            val f = Firm(
-                                nome,
-                                cognome,
-                                email,
-                                password,
-                                firm_n,
-                                categoriaString,
-                                locationString
-
-                            )
+                            val f = Firm(firmName, email, password, categoriaString, locationString)
 
                             Log.e("task successful", resources.getString(R.string.userRegistrated))
 
@@ -169,12 +204,6 @@ class FirmRegisterFragment : Fragment() {
                         Toast.makeText(activity!!,it.message,Toast.LENGTH_SHORT).show()
                     }
         }
-
-
-
-
-
-
         return view
     }
 

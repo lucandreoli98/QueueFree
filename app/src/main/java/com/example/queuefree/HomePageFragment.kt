@@ -83,10 +83,10 @@ class HomePageFragment : Fragment(), DatePickerDialog.OnDateSetListener {// , Na
         navView?.setNavigationItemSelectedListener(this)*/
 
         view.spiaggiaButton.setOnClickListener(){
-            //fragmentManager!!.beginTransaction().replace(R.id.fragment_home, FirmProfileFragment()).commit()
-            val intent = Intent(activity,PrenotazioneSpiagge::class.java)
+            fragmentManager!!.beginTransaction().replace(R.id.fragment_home, FirmProfileFragment()).commit()
+            /*val intent = Intent(activity,PrenotazioneSpiagge::class.java)
             intent.putExtra("tipo","Spiaggia")
-            startActivity(intent)
+            startActivity(intent)*/
 
 
         }
