@@ -39,11 +39,11 @@ class FirebaseDatabaseHelper () {
                                     "password" -> f.password = field.value as String
                                     "categoria" -> f.categoria= field.value as String
                                     "location" -> f.location = field.value as String
-                                    "startHour"->f.startHour= field.value as Int
-                                    "endHour"->f.endHour= field.value as Int
-                                    "endMinute"->f.endMinute= field.value as Int
-                                    "startMinute"->f.startMinute= field.value as Int
-                                    "capienza"->f.capienza= field.value as Int
+                                    "startHour"->f.startHour= field.value as Long
+                                    "endHour"->f.endHour= field.value as Long
+                                    "endMinute"->f.endMinute= field.value as Long
+                                    "startMinute"->f.startMinute= field.value as Long
+                                    "capienza"->f.capienza= field.value as Long
                                     "descrizione"->f.descrizione= field.value as String
                                 }
                             }
