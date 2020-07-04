@@ -96,7 +96,7 @@ class PrenotazioneSpiagge : FragmentActivity(), OnMapReadyCallback,GoogleMap.OnM
         }
         passDialogView.prenota.setOnClickListener {
             val intent = Intent(this,LetsbookActivity::class.java)
-            //intent.putExtra("email",p0!!.snippet)
+            intent.putExtra("email",p0!!.snippet)
             startActivity(intent)
 
         }
