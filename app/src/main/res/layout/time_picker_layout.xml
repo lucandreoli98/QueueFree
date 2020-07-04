@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <TimePicker
+        android:id="@+id/timePicker"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:timePickerMode="spinner" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <Button
+            android:id="@+id/cancTimerButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="30dp"
+            android:layout_marginStart="50dp"
+            android:background="@drawable/btn_edit"
+            android:text="@string/cancelPassButton"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:textAllCaps="false"
+            android:padding="10dp"/>
+
+        <Button
+            android:id="@+id/okTimerButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="40dp"
+            android:textAllCaps="false"
+            android:background="@drawable/btn_edit"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:text="@string/confirm"
+            android:padding="10dp"/>
+
+    </RelativeLayout>
+
+</LinearLayout>

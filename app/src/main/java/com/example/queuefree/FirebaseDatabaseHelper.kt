@@ -20,7 +20,7 @@ class FirebaseDatabaseHelper () {
         fun DataisLoadedFirm(firm:Firm)
     }
 
-    fun readFirmsandtakeAdress(ds: DataStatusFirm,cat: String) {
+    fun readFirmsandtakeAdress(ds: DataStatusFirm, cat: String) {
         referencefirm.addValueEventListener(object : ValueEventListener {
             override fun onCancelled(p0: DatabaseError) {
                 Log.e("OnCancelled", p0.toException().toString())
@@ -31,16 +31,21 @@ class FirebaseDatabaseHelper () {
                     for(aziende in p0.children){
                         var fid=aziende.key
                         if(p0.child("$fid/categoria").value?.equals(cat.trim())!!) {
-                            var f=Firm("","","","","","","")
+                            var f=Firm()
                             for(field in aziende.children){
                                 when(field.key){
-                                    "nome" -> f.nome = field.value as String
-                                    "cognome" -> f.cognome = field.value as String
+                                    "nomeazienda" -> f.nomeazienza = field.value as String
                                     "email" -> f.email = field.value as String
                                     "password" -> f.password = field.value as String
-                                    "nomeazienda" -> f.nomeazienza = field.value as String
                                     "categoria" -> f.categoria= field.value as String
                                     "location" -> f.location = field.value as String
+                                    "startHour"->f.startHour= field.value as Int
+                                    "endHour"->f.endHour= field.value as Int
+                                    "endMinute"->f.endMinute= field.value as Int
+                                    "maxTurn"->f.maxTurn= field.value as Int
+                                    "startMinute"->f.startMinute= field.value as Int
+                                    "capienza"->f.capienza= field.value as Int
+                                    "descrizione"->f.descrizione= field.value as String
                                 }
                             }
                             ds.DataisLoadedFirm(f)

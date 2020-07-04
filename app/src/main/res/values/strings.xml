@@ -81,4 +81,9 @@
     <string name="durata_prenotazione">Durata prenotazione:</string>
     <string name="book">Prenota</string>
     <string name="annulla">Annulla</string>
+    <string name="durata_turno">Durata di un turno:</string>
+    <string name="prenotazioni">Prenotazioni</string>
+    <string name="orario_apertura_text">Seleziona orario apertura</string>
+    <string name="orario_di_chiusura_text">Seleziona orario di chiusura</string>
+    <string name="capienza_massima_reg">Capienza massima</string>
 </resources>

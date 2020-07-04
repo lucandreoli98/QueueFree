@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/backgroundRed">
 
     <TextView
-        android:id="@+id/loginTextView"
+        android:id="@+id/registerTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
@@ -22,36 +21,18 @@
         android:textStyle="bold" />
 
     <EditText
-        android:id="@+id/nameRegisterEditText"
+        android:id="@+id/firm_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/loginTextView"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="70dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginEnd="70dp"
-        android:ems="10"
-        android:hint="@string/name"
-        android:inputType="textWebEmailAddress"
-        android:textColor="@color/white"
-        android:textColorHint="@color/white"
-        android:textSize="20sp" />
-
-
-    <EditText
-        android:id="@+id/surnameRegisterEditText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/nameRegisterEditText"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_marginStart="70dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="70dp"
         android:ems="10"
-        android:hint="@string/surname"
-        android:inputType="textWebEmailAddress"
+        android:hint="@string/nome_dell_azienda"
+        android:inputType="textPersonName"
+        android:layout_below="@+id/registerTextView"
         android:textColor="@color/white"
         android:textColorHint="@color/white"
         android:textSize="20sp" />
@@ -60,7 +41,7 @@
         android:id="@+id/emailRegisterEditText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/surnameRegisterEditText"
+        android:layout_below="@+id/firm_name"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_marginStart="70dp"
@@ -107,23 +88,6 @@
         android:textColorHint="@color/white"
         android:textSize="20sp" />
 
-    <EditText
-        android:id="@+id/firm_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="70dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="70dp"
-        android:ems="10"
-        android:hint="@string/nome_dell_azienda"
-        android:layout_below="@+id/confpassRegisterEditText"
-        android:textColor="@color/white"
-        android:textColorHint="@color/white"
-        android:textSize="20sp"
-        />
-
     <TextView
         android:id="@+id/placesSelect"
         android:layout_width="wrap_content"
@@ -133,7 +97,7 @@
         android:layout_marginStart="70dp"
         android:layout_marginEnd="70dp"
         android:ems="10"
-        android:layout_below="@+id/firm_name"
+        android:layout_below="@+id/confpassRegisterEditText"
         android:textColor="@color/white"
         android:textColorHint="@color/white"
         android:textSize="20sp"
@@ -156,17 +120,78 @@
         android:textColorHint="@color/white"
         android:textSize="20sp"
         android:gravity="start"
-        android:paddingTop="20dp"
-        android:paddingEnd="20dp"
-        android:paddingBottom="20dp"
-        />
+        android:padding="20dp" />
 
+    <Button
+        android:id="@+id/openButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/firm_category"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="70dp"
+        android:layout_marginEnd="70dp"
+        android:textSize="20sp"
+        android:textColor="@color/white"
+        android:background="@drawable/btn_edit"
+        android:textAllCaps="false"
+        android:text="@string/orario_apertura_text"/>
+
+    <Button
+        android:id="@+id/closeButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/openButton"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="70dp"
+        android:layout_marginEnd="70dp"
+        android:textSize="20sp"
+        android:textColor="@color/white"
+        android:background="@drawable/btn_edit"
+        android:textAllCaps="false"
+        android:text="@string/orario_di_chiusura_text"/>
+
+    <Spinner
+        android:id="@+id/maxTurn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="70dp"
+        android:layout_marginEnd="70dp"
+        android:ems="10"
+        android:layout_below="@+id/closeButton"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"
+        android:textSize="20sp"
+        android:gravity="start"
+        android:padding="20dp" />
+
+    <EditText
+        android:id="@+id/capienzaEditText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="70dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="70dp"
+        android:ems="10"
+        android:hint="@string/capienza_massima_reg"
+        android:inputType="textPersonName"
+        android:layout_below="@+id/maxTurn"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"
+        android:textSize="20sp" />
 
     <Button
         android:id="@+id/submitButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/firm_category"
+        android:layout_below="@+id/capienzaEditText"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="60dp"
         android:layout_marginStart="60dp"
@@ -174,4 +199,5 @@
         android:text="@string/registred"
         android:textColor="@color/backgroundRed"
         android:textSize="20sp" />
+
 </RelativeLayout>
