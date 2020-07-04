@@ -27,24 +27,13 @@
         android:textColor="@color/black"
         android:textStyle="bold" />
 
-    <Button
-        android:id="@+id/cancel"
-        android:layout_width="100dp"
-        android:layout_height="60dp"
-        android:layout_below="@id/info_firm"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/bg_round"
-        android:text="Annulla"
-        android:textSize="20dp"
-        android:textColor="@color/quantum_grey900">
 
-    </Button>
     <Button
         android:id="@+id/prenota"
         android:layout_width="100dp"
         android:layout_height="60dp"
         android:layout_below="@id/info_firm"
-        android:layout_alignParentEnd="true"
+        android:layout_centerInParent="true"
         android:layout_marginTop="20dp"
         android:background="@drawable/bg_round_red"
         android:text="Prenota"

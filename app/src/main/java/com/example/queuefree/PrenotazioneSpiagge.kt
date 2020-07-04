@@ -7,6 +7,7 @@ import android.location.Geocoder
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import androidx.fragment.app.FragmentActivity
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -88,8 +89,7 @@ class PrenotazioneSpiagge : FragmentActivity(), OnMapReadyCallback,GoogleMap.OnM
     }
 
     override fun onMarkerClick(p0: Marker?): Boolean {
-        val passDialogView =
-            LayoutInflater.from(this).inflate(R.layout.custom_info_window, null)
+        val passDialogView = LayoutInflater.from(this).inflate(R.layout.custom_info_window, null)
         if (p0 != null) {
             passDialogView.titlefirm.text = p0.title
             passDialogView.info_firm.text=p0.snippet
@@ -100,6 +100,7 @@ class PrenotazioneSpiagge : FragmentActivity(), OnMapReadyCallback,GoogleMap.OnM
             startActivity(intent)
 
         }
+
         val mBuilder = AlertDialog.Builder(this).setView(passDialogView)
         val alertDialog = mBuilder.show()
 
