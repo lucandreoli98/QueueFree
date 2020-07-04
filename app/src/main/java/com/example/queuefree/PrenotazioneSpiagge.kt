@@ -1,10 +1,12 @@
 package com.example.queuefree
 
 import android.app.AlertDialog
+import android.content.Intent
 import android.graphics.BitmapFactory
 import android.location.Geocoder
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import androidx.fragment.app.FragmentActivity
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -14,6 +16,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
+import kotlinx.android.synthetic.main.custom_info_window.view.*
 
 class PrenotazioneSpiagge : FragmentActivity(), OnMapReadyCallback,GoogleMap.OnMarkerClickListener{
 
@@ -31,6 +34,7 @@ class PrenotazioneSpiagge : FragmentActivity(), OnMapReadyCallback,GoogleMap.OnM
         setContentView(R.layout.maps_activity)
         mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
+
 
 
     }
@@ -56,17 +60,18 @@ class PrenotazioneSpiagge : FragmentActivity(), OnMapReadyCallback,GoogleMap.OnM
                     fr.location,1).get(0).longitude)
 
                 if(intent.getStringExtra("tipo") == "Spiaggia") {
-                    map.addMarker(MarkerOptions().position(latlng).title(fr.nome).icon(BitmapDescriptorFactory.fromResource(R.drawable.ombrellone)))
+
+                    map.addMarker(MarkerOptions().position(latlng).title(fr.nome).snippet(fr.email).icon(BitmapDescriptorFactory.fromResource(R.drawable.ombrellone)))
                     map.moveCamera(CameraUpdateFactory.newLatLngZoom(latlng,10f))
 
                 }
                 else if(intent.getStringExtra("tipo") == "Museo") {
-                    map.addMarker(MarkerOptions().position(latlng).title(fr.nome).icon(BitmapDescriptorFactory.fromResource(R.drawable.museo)))
+                    map.addMarker(MarkerOptions().position(latlng).title(fr.nome).snippet(fr.email).icon(BitmapDescriptorFactory.fromResource(R.drawable.museo)))
                     map.moveCamera(CameraUpdateFactory.newLatLngZoom(latlng,10f))
 
                 }
                 else if(intent.getStringExtra("tipo") == "Biblioteca") {
-                    map.addMarker(MarkerOptions().position(latlng).title(fr.nome).icon(BitmapDescriptorFactory.fromResource(R.drawable.libro)))
+                    map.addMarker(MarkerOptions().position(latlng).title(fr.nome).snippet(fr.email).icon(BitmapDescriptorFactory.fromResource(R.drawable.libro)))
                     map.moveCamera(CameraUpdateFactory.newLatLngZoom(latlng,10f))
 
                 }
@@ -76,16 +81,29 @@ class PrenotazioneSpiagge : FragmentActivity(), OnMapReadyCallback,GoogleMap.OnM
 
         },intent.getStringExtra("tipo"))
 
-
+        map.setOnMarkerClickListener(this)
 
 
 
     }
 
     override fun onMarkerClick(p0: Marker?): Boolean {
-        val builder = AlertDialog.Builder(this)
-        builder.setTitle("Ciao")
-        builder.show()
+        val passDialogView =
+            LayoutInflater.from(this).inflate(R.layout.custom_info_window, null)
+        if (p0 != null) {
+            passDialogView.titlefirm.text = p0.title
+            passDialogView.info_firm.text=p0.snippet
+        }
+        passDialogView.prenota.setOnClickListener {
+            val intent = Intent(this,Letsbook::class.java)
+            intent.putExtra("email",p0!!.snippet)
+            startActivity(intent)
+
+        }
+        val mBuilder = AlertDialog.Builder(this).setView(passDialogView)
+        val alertDialog = mBuilder.show()
+
+
 
 
     return false
