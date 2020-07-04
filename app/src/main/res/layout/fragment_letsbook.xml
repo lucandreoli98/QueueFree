@@ -76,7 +76,7 @@
             android:id="@+id/npeople"
             android:layout_width="150dp"
             android:layout_height="40sp"
-            android:layout_marginStart="20dp"
+            android:layout_alignStart="@id/startHour"
             android:layout_toEndOf="@+id/npartecipanti"
             android:layout_below="@+id/startH"
             android:layout_marginTop="10dp"
