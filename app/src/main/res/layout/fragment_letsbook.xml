@@ -83,26 +83,29 @@
 
             />
 
-        <TextView
-            android:id="@+id/duratap"
-            android:layout_width="wrap_content"
+        <Button
+            android:id="@+id/book"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/npartecipanti"
-            android:text="@string/durata_prenotazione"
-            android:textColor="@color/black"
-            android:textSize="30sp"
-            android:layout_marginTop="10dp"/>
-
-        <Spinner
-            android:id="@+id/nhours"
-            android:layout_width="100dp"
-            android:layout_height="40sp"
-            android:layout_marginStart="20dp"
-            android:layout_toEndOf="@+id/duratap"
-            android:layout_below="@+id/npeople"
-            android:layout_marginTop="10dp"
-
+            android:background="@drawable/btn_musei"
+            android:text="@string/book"
+            android:textColor="@color/white"
+            android:textSize="25sp"
+            android:layout_below="@id/npartecipanti"
+            android:layout_marginTop="250dp"
             />
+        <Button
+            android:id="@+id/canc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btn_musei"
+            android:text="@string/annulla"
+            android:textColor="@color/white"
+            android:textSize="25sp"
+            android:layout_below="@id/book"
+            android:layout_marginTop="10dp"
+        />
+
 
     </RelativeLayout>
 

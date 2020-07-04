@@ -79,4 +79,6 @@
     <string name="startH">Orario d\'inizio:</string>
     <string name="peoples"># partecipanti</string>
     <string name="durata_prenotazione">Durata prenotazione:</string>
+    <string name="book">Prenota</string>
+    <string name="annulla">Annulla</string>
 </resources>
