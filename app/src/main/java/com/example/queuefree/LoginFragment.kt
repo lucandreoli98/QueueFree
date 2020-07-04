@@ -53,7 +53,7 @@ class LoginFragment : Fragment() {
 
         // Se viene cliccato il tasto di login
         view.loginButtonlogin.setOnClickListener {
-
+            // se nullo
             if (fireBase!!.currentUser != null) {
 
                 val i=Intent(activity, HomePageActivity::class.java)
