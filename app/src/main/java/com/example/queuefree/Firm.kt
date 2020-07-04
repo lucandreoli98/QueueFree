@@ -10,7 +10,6 @@ class Firm(
     var startMinute: Int = 0,
     var endHour: Int = 0,
     var endMinute: Int = 0,
-    var maxTurn: Int = 0,
     var capienza: Int = 0,
     var descrizione: String = ""
 )

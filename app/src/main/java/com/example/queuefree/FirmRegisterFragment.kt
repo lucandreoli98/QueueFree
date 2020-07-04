@@ -31,8 +31,12 @@ class FirmRegisterFragment : Fragment() {
 
     private var fireBase: FirebaseAuth? = null
     private var locationString: String = ""
-    private  var latitude:String = ""
-    private  var longitude:String = ""
+    private var latitude:String = ""
+    private var longitude:String = ""
+    private var hhOpen: Int? = null
+    private var mmOpen: Int? = null
+    private var hhClose: Int? = null
+    private var mmClose: Int? = null
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -64,7 +68,6 @@ class FirmRegisterFragment : Fragment() {
         view.firm_category.onItemSelectedListener = object :
             AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
-
                 val categorie = resources.getStringArray(R.array.category_array)
                 positionSpinner=position
                 categoriaString=categorie[positionSpinner]
@@ -87,13 +90,18 @@ class FirmRegisterFragment : Fragment() {
                 if(hour<10){
                     if(minute<10){
                         view.openButton.text = "0$hour:0$minute"
+                    }else {
+                        view.openButton.text = "0$hour:$minute"
                     }
-                    view.openButton.text = "0$hour:$minute"
                 }
-                if(minute<10){
+                else if(minute<10){
                     view.openButton.text = "$hour:0$minute"
                 }
-                view.openButton.text = "$hour:$minute"
+                else {
+                    view.openButton.text = "$hour:$minute"
+                }
+                hhOpen = hour
+                mmOpen = minute
             }
             openHourDialogView.okTimerButton.setOnClickListener {
                 alertOpenDialog.dismiss()
@@ -106,12 +114,12 @@ class FirmRegisterFragment : Fragment() {
         }
 
         view.closeButton.setOnClickListener {
-            val openHourDialogView = LayoutInflater.from(context).inflate(R.layout.time_picker_layout, null)
-            val mBuilder = AlertDialog.Builder(context).setView(openHourDialogView)
+            val closeHourDialogView = LayoutInflater.from(context).inflate(R.layout.time_picker_layout, null)
+            val mBuilder = AlertDialog.Builder(context).setView(closeHourDialogView)
             val alertOpenDialog = mBuilder.show()
 
-            openHourDialogView.timePicker.setIs24HourView(true)
-            openHourDialogView.timePicker.setOnTimeChangedListener { timePicker, hour, minute ->
+            closeHourDialogView.timePicker.setIs24HourView(true)
+            closeHourDialogView.timePicker.setOnTimeChangedListener { timePicker, hour, minute ->
                 if(hour<10){
                     if(minute<10){
                         view.closeButton.text = "0$hour:0$minute"
@@ -125,11 +133,13 @@ class FirmRegisterFragment : Fragment() {
                 else {
                     view.closeButton.text = "$hour:$minute"
                 }
+                hhClose = hour
+                mmClose = minute
             }
-            openHourDialogView.okTimerButton.setOnClickListener {
+            closeHourDialogView.okTimerButton.setOnClickListener {
                 alertOpenDialog.dismiss()
             }
-            openHourDialogView.cancTimerButton.setOnClickListener {
+            closeHourDialogView.cancTimerButton.setOnClickListener {
                 view.openButton.text = resources.getString(R.string.orario_apertura_text)
                 alertOpenDialog.dismiss()
             }
@@ -143,6 +153,7 @@ class FirmRegisterFragment : Fragment() {
             val password = passRegisterEditText.text.toString().trim()
             val conf = confpassRegisterEditText.text.toString().trim()
             val placeString = placesSelect.text.toString().trim()
+            val capienza = capienzaEditText.text.toString().trim()
             var ok=true          //ti evita di fare le operazioni in piu per ogni controllo basta che un campo non sia compilato
 
             if (ok && firmName.isEmpty()) {
@@ -179,13 +190,28 @@ class FirmRegisterFragment : Fragment() {
                 Toast.makeText(activity!!,resources.getString(R.string.categoryEmpty),Toast.LENGTH_SHORT).show()
                 ok=false
             }
+            if(ok && hhOpen == null){
+                openButton.error = "Inserisci un orario di apertura"
+                openButton.requestFocus()
+                ok=false
+            }
+            if(ok && hhClose == null){
+                openButton.error = "Inserisci un orario di chiusura"
+                openButton.requestFocus()
+                ok=false
+            }
+            if(ok && capienza.isEmpty()){
+                capienzaEditText.error = "Inserisci un orario di apertura"
+                capienzaEditText.requestFocus()
+                ok=false
+            }
 
 
             if(ok)
                 fireBase!!.createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener { task ->
                         if (task.isSuccessful) {
-                            val f = Firm(firmName, email, password, categoriaString, locationString)
+                            val f = Firm(firmName, email, password, categoriaString, locationString,this.hhOpen!!,this.mmOpen!!,this.hhClose!!,this.mmClose!!,capienza.toInt(),"")
 
                             Log.e("task successful", resources.getString(R.string.userRegistrated))
 

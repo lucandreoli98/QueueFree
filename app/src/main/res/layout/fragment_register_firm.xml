@@ -4,26 +4,11 @@
     android:layout_height="match_parent"
     android:background="@color/backgroundRed">
 
-    <TextView
-        android:id="@+id/registerTextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="70dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginEnd="70dp"
-        android:fontFamily="@font/coming_soon"
-        android:gravity="center"
-        android:text="@string/registred"
-        android:textColor="@color/white"
-        android:textSize="30sp"
-        android:textStyle="bold" />
-
     <EditText
         android:id="@+id/firm_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_marginStart="70dp"
@@ -32,7 +17,6 @@
         android:ems="10"
         android:hint="@string/nome_dell_azienda"
         android:inputType="textPersonName"
-        android:layout_below="@+id/registerTextView"
         android:textColor="@color/white"
         android:textColorHint="@color/white"
         android:textSize="20sp" />
@@ -154,22 +138,6 @@
         android:textAllCaps="false"
         android:text="@string/orario_di_chiusura_text"/>
 
-    <Spinner
-        android:id="@+id/maxTurn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="70dp"
-        android:layout_marginEnd="70dp"
-        android:ems="10"
-        android:layout_below="@+id/closeButton"
-        android:textColor="@color/white"
-        android:textColorHint="@color/white"
-        android:textSize="20sp"
-        android:gravity="start"
-        android:padding="20dp" />
-
     <EditText
         android:id="@+id/capienzaEditText"
         android:layout_width="wrap_content"
@@ -181,8 +149,8 @@
         android:layout_marginEnd="70dp"
         android:ems="10"
         android:hint="@string/capienza_massima_reg"
-        android:inputType="textPersonName"
-        android:layout_below="@+id/maxTurn"
+        android:inputType="numberDecimal"
+        android:layout_below="@+id/closeButton"
         android:textColor="@color/white"
         android:textColorHint="@color/white"
         android:textSize="20sp" />

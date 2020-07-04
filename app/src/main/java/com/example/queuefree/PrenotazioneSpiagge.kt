@@ -62,17 +62,17 @@ class PrenotazioneSpiagge : FragmentActivity(), OnMapReadyCallback,GoogleMap.OnM
 
                 if(intent.getStringExtra("tipo") == "Spiaggia") {
 
-                    map.addMarker(MarkerOptions().position(latlng).title(fr.nome).snippet(fr.email).icon(BitmapDescriptorFactory.fromResource(R.drawable.ombrellone)))
+                    map.addMarker(MarkerOptions().position(latlng).title(fr.nomeazienza).snippet(fr.email).icon(BitmapDescriptorFactory.fromResource(R.drawable.ombrellone)))
                     map.moveCamera(CameraUpdateFactory.newLatLngZoom(latlng,10f))
 
                 }
                 else if(intent.getStringExtra("tipo") == "Museo") {
-                    map.addMarker(MarkerOptions().position(latlng).title(fr.nome).snippet(fr.email).icon(BitmapDescriptorFactory.fromResource(R.drawable.museo)))
+                    map.addMarker(MarkerOptions().position(latlng).title(fr.nomeazienza).snippet(fr.email).icon(BitmapDescriptorFactory.fromResource(R.drawable.museo)))
                     map.moveCamera(CameraUpdateFactory.newLatLngZoom(latlng,10f))
 
                 }
                 else if(intent.getStringExtra("tipo") == "Biblioteca") {
-                    map.addMarker(MarkerOptions().position(latlng).title(fr.nome).snippet(fr.email).icon(BitmapDescriptorFactory.fromResource(R.drawable.libro)))
+                    map.addMarker(MarkerOptions().position(latlng).title(fr.nomeazienza).snippet(fr.email).icon(BitmapDescriptorFactory.fromResource(R.drawable.libro)))
                     map.moveCamera(CameraUpdateFactory.newLatLngZoom(latlng,10f))
 
                 }
