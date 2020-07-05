@@ -5,7 +5,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="450dp"
+        android:layout_height="310dp"
         android:background="@color/backgroundRed"
         android:elevation="20dp">
 
@@ -35,12 +35,57 @@
             android:textColor="@color/white"
             android:textSize="30sp"
             android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/startHo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/firmName"
+            android:layout_marginTop="10dp"
+            android:text="@string/openFirm"
+            android:textColor="@color/white"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            android:layout_marginStart="70dp"/>
+        <TextView
+            android:id="@+id/startHou"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/firmName"
+            android:layout_toEndOf="@id/startHo"
+            android:layout_marginTop="10dp"
+            android:text=""
+            android:textColor="@color/white"
+            android:textSize="25sp"
+            android:textStyle="bold" />
+        <TextView
+        android:id="@+id/endHo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/startHo"
+        android:layout_marginTop="10dp"
+        android:text="@string/closeFirm"
+        android:textColor="@color/white"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        android:layout_marginStart="70dp"/>
+        <TextView
+            android:id="@+id/endHou"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/startHou"
+            android:layout_alignStart="@+id/startHou"
+            android:layout_marginTop="10dp"
+            android:text=""
+            android:textColor="@color/white"
+            android:textSize="25sp"
+            android:textStyle="bold" />
     </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="450dp"
+        android:layout_marginTop="310dp"
         android:padding="10dp">
 
         <TextView
@@ -50,15 +95,16 @@
             android:text="@string/startH"
             android:textColor="@color/black"
             android:layout_marginTop="10dp"
-            android:textSize="30sp"/>
+            android:textSize="25sp"/>
 
         <Spinner
             android:id="@+id/startHour"
-            android:layout_width="150dp"
+            android:layout_width="wrap_content"
             android:layout_height="40sp"
             android:layout_marginStart="20dp"
             android:layout_marginTop="10dp"
             android:layout_toEndOf="@+id/startH"
+            android:backgroundTint="@color/backgroundRed"
             />
 
         <TextView
@@ -68,13 +114,13 @@
             android:layout_below="@+id/startH"
             android:text="@string/peoples"
             android:textColor="@color/black"
-            android:textSize="30sp"
+            android:textSize="25sp"
             android:layout_marginTop="10dp"
             />
 
         <Spinner
             android:id="@+id/npeople"
-            android:layout_width="150dp"
+            android:layout_width="wrap_content"
             android:layout_height="40sp"
             android:layout_alignStart="@id/startHour"
             android:layout_toEndOf="@+id/npartecipanti"
@@ -82,6 +128,27 @@
             android:layout_marginTop="10dp"
 
             />
+
+        <TextView
+        android:id="@+id/durata"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/npeople"
+        android:text="@string/durata_prenotazione"
+        android:textColor="@color/black"
+        android:textSize="25sp"
+        android:layout_marginTop="10dp"
+        />
+
+        <Spinner
+            android:id="@+id/durataH"
+            android:layout_width="wrap_content"
+            android:layout_height="40sp"
+            android:layout_toEndOf="@id/durata"
+            android:layout_below="@+id/npeople"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="15dp"
+        />
 
         <Button
             android:id="@+id/book"
@@ -91,7 +158,7 @@
             android:text="@string/book"
             android:textColor="@color/white"
             android:textSize="25sp"
-            android:layout_below="@id/npartecipanti"
+            android:layout_below="@id/durata"
             android:layout_marginTop="25dp"
             />
         <Button
