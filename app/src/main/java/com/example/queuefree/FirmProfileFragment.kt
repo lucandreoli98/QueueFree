@@ -30,16 +30,16 @@ class FirmProfileFragment: Fragment() {
 
         })
 
-        view.logout_firm.setOnClickListener{
+        /*view.logout_firm.setOnClickListener{
             signOut()
-        }
+        }*/
 
 
 
         return view
     }
 
-    private fun signOut(){
+    /*private fun signOut(){
         fireBase!!.signOut()
 
         LoginManager.getInstance().logOut()
@@ -52,5 +52,5 @@ class FirmProfileFragment: Fragment() {
         val i= Intent(context!!, MainActivity::class.java)
         i.flags= Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
         startActivity(i)
-    }
+    }*/
 }
