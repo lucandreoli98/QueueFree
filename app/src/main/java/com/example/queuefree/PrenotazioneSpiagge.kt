@@ -90,10 +90,10 @@ class PrenotazioneSpiagge : FragmentActivity(), OnMapReadyCallback,GoogleMap.OnM
 
     override fun onMarkerClick(p0: Marker?): Boolean {
         val passDialogView = LayoutInflater.from(this).inflate(R.layout.custom_info_window, null)
-        if (p0 != null) {
-            passDialogView.titlefirm.text = p0.title
-            passDialogView.info_firm.text=p0.snippet
-        }
+
+            passDialogView.titlefirm.text = p0!!.title
+            passDialogView.info_firm.text=p0!!.snippet
+
         passDialogView.prenota.setOnClickListener {
             val intent = Intent(this,LetsbookActivity::class.java)
             Log.e("SNIPPPPPPPPPPPPPPPPETTTTTTT",p0!!.snippet)
