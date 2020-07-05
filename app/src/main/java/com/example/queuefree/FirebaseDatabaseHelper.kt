@@ -29,9 +29,9 @@ class FirebaseDatabaseHelper () {
             override fun onDataChange(p0: DataSnapshot) {
                 if(p0.exists())
                     for(aziende in p0.children){
-                        var fid=aziende.key
+                        val fid=aziende.key
                         if(p0.child("$fid/categoria").value?.equals(cat.trim())!!) {
-                            var f=Firm()
+                            val f=Firm()
                             for(field in aziende.children){
                                 when(field.key){
                                     "nomeazienda" -> f.nomeazienza = field.value as String
@@ -77,6 +77,40 @@ class FirebaseDatabaseHelper () {
 
             override fun onCancelled(p0: DatabaseError) {
                 Log.e("OnCancelled", p0.toException().toString())
+            }
+        })
+    }
+
+    fun readFirmsfromEmail(ema: String,ds: DataStatusFirm) {
+        referencefirm.addValueEventListener(object : ValueEventListener {
+            override fun onCancelled(p0: DatabaseError) {
+                Log.e("OnCancelled", p0.toException().toString())
+            }
+
+            override fun onDataChange(p0: DataSnapshot) {
+                if(p0.exists())
+                    for(aziende in p0.children){
+                        val fid=aziende.key
+                        if(p0.child("$fid/email").value?.equals(ema.trim())!!) {
+                            val f=Firm()
+                            for(field in aziende.children){
+                                when(field.key){
+                                    "nomeazienda" -> f.nomeazienza = field.value as String
+                                    "email" -> f.email = field.value as String
+                                    "password" -> f.password = field.value as String
+                                    "categoria" -> f.categoria= field.value as String
+                                    "location" -> f.location = field.value as String
+                                    "startHour"->f.startHour= field.value as Long
+                                    "endHour"->f.endHour= field.value as Long
+                                    "endMinute"->f.endMinute= field.value as Long
+                                    "startMinute"->f.startMinute= field.value as Long
+                                    "capienza"->f.capienza= field.value as Long
+                                    "descrizione"->f.descrizione= field.value as String
+                                }
+                            }
+                            ds.DataisLoadedFirm(f)
+                        }
+                    }
             }
         })
     }
