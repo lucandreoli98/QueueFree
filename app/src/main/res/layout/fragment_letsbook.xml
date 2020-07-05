@@ -5,7 +5,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="250dp"
+        android:layout_height="450dp"
         android:background="@color/backgroundRed"
         android:elevation="20dp">
 
@@ -40,7 +40,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="250dp"
+        android:layout_marginTop="450dp"
         android:padding="10dp">
 
         <TextView
@@ -92,7 +92,7 @@
             android:textColor="@color/white"
             android:textSize="25sp"
             android:layout_below="@id/npartecipanti"
-            android:layout_marginTop="250dp"
+            android:layout_marginTop="25dp"
             />
         <Button
             android:id="@+id/canc"
