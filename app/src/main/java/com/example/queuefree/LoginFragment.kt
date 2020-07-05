@@ -40,7 +40,7 @@ class LoginFragment : Fragment() {
         val gaccount = GoogleSignIn.getLastSignedInAccount(context!!)
 
         // Se si e' gia' loggati nell'applicazione si viene reindirizzati alla homePage
-        if ((fireBase != null && fireBase!!.currentUser != null) || gaccount!=null ) {
+        if ((fireBase != null && fireBase!!.currentUser != null) ) {
             isFirm(fireBase!!.currentUser!!.email!!)
         }
 

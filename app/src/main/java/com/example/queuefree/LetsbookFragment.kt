@@ -11,6 +11,7 @@ class LetsbookFragment: Fragment() {
         val view: View = inflater.inflate(R.layout.fragment_letsbook, container, false)
 
 
+
         return view
     }
 }

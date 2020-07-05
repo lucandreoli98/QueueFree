@@ -2,12 +2,13 @@ package com.example.queuefree
 
 import android.app.AlertDialog
 import android.content.Intent
-import android.graphics.BitmapFactory
 import android.location.Geocoder
+import android.os.AsyncTask
 import android.os.Bundle
+import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
+import android.widget.Toast
 import androidx.fragment.app.FragmentActivity
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -18,13 +19,13 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import kotlinx.android.synthetic.main.custom_info_window.view.*
+import kotlin.coroutines.coroutineContext
 
 class PrenotazioneSpiagge : FragmentActivity(), OnMapReadyCallback,GoogleMap.OnMarkerClickListener{
 
 
     lateinit var map: GoogleMap
     lateinit var mapFragment: SupportMapFragment
-
 
 
 
@@ -38,13 +39,14 @@ class PrenotazioneSpiagge : FragmentActivity(), OnMapReadyCallback,GoogleMap.OnM
 
 
 
+
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
         map.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(44.4222, 8.9052), 8f))
 
-        var geo = Geocoder(this)
+        val geo = Geocoder(this)
 
 
         val database:FirebaseDatabaseHelper= FirebaseDatabaseHelper()
@@ -52,27 +54,27 @@ class PrenotazioneSpiagge : FragmentActivity(), OnMapReadyCallback,GoogleMap.OnM
 
 
         database.readFirmsandtakeAdress(object : FirebaseDatabaseHelper.DataStatusFirm {
-            override fun DataisLoadedFirm(fr: Firm){
+            override fun DataisLoadedFirm(firm: Firm){
 
 
-                geo.getFromLocationName(fr.location,1)
+                geo.getFromLocationName(firm.location,1)
 
-                val latlng =LatLng( geo.getFromLocationName(fr.location,1).get(0).latitude,geo.getFromLocationName(
-                    fr.location,1).get(0).longitude)
+                val latlng =LatLng( geo.getFromLocationName(firm.location,1).get(0).latitude, geo.getFromLocationName(
+                    firm.location,1)[0].longitude)
 
                 if(intent.getStringExtra("tipo") == "Spiaggia") {
 
-                    map.addMarker(MarkerOptions().position(latlng).title(fr.nomeazienza).snippet(fr.email).icon(BitmapDescriptorFactory.fromResource(R.drawable.ombrellone)))
+                    map.addMarker(MarkerOptions().position(latlng).title(firm.nomeazienza).snippet(firm.email).icon(BitmapDescriptorFactory.fromResource(R.drawable.ombrellone)))
                     map.moveCamera(CameraUpdateFactory.newLatLngZoom(latlng,10f))
 
                 }
                 else if(intent.getStringExtra("tipo") == "Museo") {
-                    map.addMarker(MarkerOptions().position(latlng).title(fr.nomeazienza).snippet(fr.email).icon(BitmapDescriptorFactory.fromResource(R.drawable.museo)))
+                    map.addMarker(MarkerOptions().position(latlng).title(firm.nomeazienza).snippet(firm.email).icon(BitmapDescriptorFactory.fromResource(R.drawable.museo)))
                     map.moveCamera(CameraUpdateFactory.newLatLngZoom(latlng,10f))
 
                 }
                 else if(intent.getStringExtra("tipo") == "Biblioteca") {
-                    map.addMarker(MarkerOptions().position(latlng).title(fr.nomeazienza).snippet(fr.email).icon(BitmapDescriptorFactory.fromResource(R.drawable.libro)))
+                    map.addMarker(MarkerOptions().position(latlng).title(firm.nomeazienza).snippet(firm.email).icon(BitmapDescriptorFactory.fromResource(R.drawable.libro)))
                     map.moveCamera(CameraUpdateFactory.newLatLngZoom(latlng,10f))
 
                 }
@@ -80,7 +82,7 @@ class PrenotazioneSpiagge : FragmentActivity(), OnMapReadyCallback,GoogleMap.OnM
 
             }
 
-        },intent.getStringExtra("tipo"))
+        },intent.getStringExtra("tipo")!!)
 
         map.setOnMarkerClickListener(this)
 
@@ -96,7 +98,8 @@ class PrenotazioneSpiagge : FragmentActivity(), OnMapReadyCallback,GoogleMap.OnM
         }
         passDialogView.prenota.setOnClickListener {
             val intent = Intent(this,LetsbookActivity::class.java)
-            //intent.putExtra("email",p0!!.snippet)
+            Log.e("SNIPPPPPPPPPPPPPPPPETTTTTTTT",p0!!.snippet)
+            intent.putExtra("email",p0!!.snippet)
             startActivity(intent)
 
         }
@@ -109,5 +112,6 @@ class PrenotazioneSpiagge : FragmentActivity(), OnMapReadyCallback,GoogleMap.OnM
 
     return false
     }
+
 
 }
