@@ -16,9 +16,8 @@ class FirmProfileFragment: Fragment() {
 
 
     private var fireBase: FirebaseAuth? = null
-    private val id = FirebaseAuth.getInstance().currentUser!!.uid.trim { it <= ' ' }
-    private val fb : FirebaseDatabaseHelper = FirebaseDatabaseHelper()
 
+    private val fb : FirebaseDatabaseHelper = FirebaseDatabaseHelper()
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view: View = inflater.inflate(R.layout.fragment_firm_profile, container, false)
 
