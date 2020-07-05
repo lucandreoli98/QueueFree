@@ -89,16 +89,16 @@ class FirmRegisterFragment : Fragment() {
             openHourDialogView.timePicker.setOnTimeChangedListener { timePicker, hour, minute ->
                 if(hour<10){
                     if(minute<10){
-                        view.openButton.text = "0$hour:0$minute"
+                        view.openButton.text = " 0$hour:0$minute"
                     }else {
-                        view.openButton.text = "0$hour:$minute"
+                        view.openButton.text = " 0$hour:$minute"
                     }
                 }
                 else if(minute<10){
-                    view.openButton.text = "$hour:0$minute"
+                    view.openButton.text = " $hour:0$minute"
                 }
                 else {
-                    view.openButton.text = "$hour:$minute"
+                    view.openButton.text = " $hour:$minute"
                 }
                 hhOpen = hour.toLong()
                 mmOpen = minute.toLong()
