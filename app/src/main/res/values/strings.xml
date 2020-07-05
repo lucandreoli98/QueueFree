@@ -86,4 +86,10 @@
     <string name="orario_apertura_text">Seleziona orario apertura</string>
     <string name="orario_di_chiusura_text">Seleziona orario di chiusura</string>
     <string name="capienza_massima_reg">Capienza massima</string>
+    <string name="about">La versione dell\'app QueueFree permette di poter prenotare un posto a scelta
+                        tra tre differenti categorie: Spiaggia, Biblioteca, Museo.
+                        Sperando che questo servizio semplifichi la gestione degli orari da parte
+                        dell\'ente richiedente.
+                        Vi auguriamo una buona esperienza. ALE Development Team
+    </string>
 </resources>

@@ -4,12 +4,25 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AboutActivity">
+    tools:context=".AboutActivity"
+    android:padding="20dp">
+
+    <TextView
+        android:id="@+id/titleAbout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:textSize="30sp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:text="@string/title_activity_about"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/titleAbout"
         android:padding="10dp"
-        android:text="Testo di prova per vedere come si vede" />
+        android:gravity="center"
+        android:text="@string/about" />
 
 </RelativeLayout>

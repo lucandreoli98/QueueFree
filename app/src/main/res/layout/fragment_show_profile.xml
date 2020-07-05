@@ -187,9 +187,11 @@
             android:layout_marginTop="30dp"
             android:layout_marginStart="50dp"
             android:layout_marginEnd="50dp"
-            android:textColor="@color/red"
+            android:textColor="@color/white"
             android:textSize="20sp"
+            android:textStyle="bold"
             android:textAllCaps="false"
+            android:background="@drawable/btn_edit"
             android:text="@string/editProfileButton"/>
 
         <Button
@@ -202,9 +204,12 @@
             android:layout_marginTop="20dp"
             android:layout_marginStart="50dp"
             android:layout_marginEnd="50dp"
-            android:textColor="@color/red"
+            android:layout_marginBottom="10dp"
+            android:textColor="@color/white"
             android:textSize="20sp"
             android:textAllCaps="false"
+            android:textStyle="bold"
+            android:background="@drawable/btn_edit"
             android:text="@string/modifica_password"/>
 
     </RelativeLayout>

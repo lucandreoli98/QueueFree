@@ -23,23 +23,34 @@ class FirmProfileFragment: Fragment() {
 
         fireBase = FirebaseAuth.getInstance()
 
-        view.logout_firm.setOnClickListener{
-            fireBase!!.signOut()
+        fb.readFirmFromDB(object : FirebaseDatabaseHelper.DataStatusFirm {
+            override fun DataisLoadedFirm(firm: Firm) {
 
-            LoginManager.getInstance().logOut()
+            }
 
-            val gso =
-                GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).build()
+        })
 
-            val googleSignInClient = GoogleSignIn.getClient(context!!, gso)
-            googleSignInClient.signOut()
+        /*view.logout_firm.setOnClickListener{
+            signOut()
+        }*/
 
-            val i= Intent(context!!, MainActivity::class.java)
-            i.flags= Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
-            startActivity(i)
-        }
 
 
         return view
     }
+
+    /*private fun signOut(){
+        fireBase!!.signOut()
+
+        LoginManager.getInstance().logOut()
+
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).build()
+
+        val googleSignInClient = GoogleSignIn.getClient(context!!, gso)
+        googleSignInClient.signOut()
+
+        val i= Intent(context!!, MainActivity::class.java)
+        i.flags= Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
+        startActivity(i)
+    }*/
 }
