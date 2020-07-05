@@ -16,30 +16,42 @@ class FirmProfileFragment: Fragment() {
 
 
     private var fireBase: FirebaseAuth? = null
-
+    private val id = FirebaseAuth.getInstance().currentUser!!.uid.trim { it <= ' ' }
     private val fb : FirebaseDatabaseHelper = FirebaseDatabaseHelper()
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view: View = inflater.inflate(R.layout.fragment_firm_profile, container, false)
 
         fireBase = FirebaseAuth.getInstance()
 
+        fb.readFirmFromDB(object : FirebaseDatabaseHelper.DataStatusFirm {
+            override fun DataisLoadedFirm(firm: Firm) {
+
+            }
+
+        })
+
         view.logout_firm.setOnClickListener{
-            fireBase!!.signOut()
-
-            LoginManager.getInstance().logOut()
-
-            val gso =
-                GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).build()
-
-            val googleSignInClient = GoogleSignIn.getClient(context!!, gso)
-            googleSignInClient.signOut()
-
-            val i= Intent(context!!, MainActivity::class.java)
-            i.flags= Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
-            startActivity(i)
+            signOut()
         }
 
 
+
         return view
+    }
+
+    private fun signOut(){
+        fireBase!!.signOut()
+
+        LoginManager.getInstance().logOut()
+
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).build()
+
+        val googleSignInClient = GoogleSignIn.getClient(context!!, gso)
+        googleSignInClient.signOut()
+
+        val i= Intent(context!!, MainActivity::class.java)
+        i.flags= Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
+        startActivity(i)
     }
 }
