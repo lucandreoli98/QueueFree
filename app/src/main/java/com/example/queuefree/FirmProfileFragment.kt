@@ -23,21 +23,7 @@ class FirmProfileFragment: Fragment() {
 
         fireBase = FirebaseAuth.getInstance()
 
-        view.logout_firm.setOnClickListener{
-            fireBase!!.signOut()
 
-            LoginManager.getInstance().logOut()
-
-            val gso =
-                GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).build()
-
-            val googleSignInClient = GoogleSignIn.getClient(context!!, gso)
-            googleSignInClient.signOut()
-
-            val i= Intent(context!!, MainActivity::class.java)
-            i.flags= Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
-            startActivity(i)
-        }
 
 
         return view
