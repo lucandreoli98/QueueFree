@@ -80,7 +80,7 @@ class LetsbookFragment: Fragment(), DatePickerDialog.OnDateSetListener {
                         //TODO: aggiungere n prenotazioni tante quante le ore di durata(ciclo for) e il numero di partecipanti
                         FirebaseDatabase.getInstance().getReference("/bookings/${firm.email}/$id").setValue(r)
                         for(i in view.startHour.selectedItemPosition+1..view.durataH.selectedItemPosition+view.startHour.selectedItemPosition+2){
-                            val r = Reservation(day,month,year,i.toLong(),(view.npeople.selectedItemPosition+1).toLong())
+                            val r = Reservation(day,month,year,i.toLong(),(view.npeople.selectedItemPosition+1).toLong()) //enri gay
                             FirebaseDatabase.getInstance().getReference("/bookings/${firm.email}/$id").setValue(r)
                         }
                     }
