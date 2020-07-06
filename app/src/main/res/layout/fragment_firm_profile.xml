@@ -8,7 +8,7 @@
         android:elevation="20dp">
 
         <ImageView
-            android:id="@+id/imageProfile"
+            android:id="@+id/imageProfileFirm"
             android:layout_width="match_parent"
             android:layout_height="120dp"
             android:layout_alignParentTop="true"
@@ -22,16 +22,16 @@
         <ProgressBar
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/progress_bar"
+            android:id="@+id/progress_bar_firm"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="65dp"
             android:visibility="invisible"
             />
         <TextView
-            android:id="@+id/nameSurnameText"
+            android:id="@+id/nameFirmText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/imageProfile"
+            android:layout_below="@+id/imageProfileFirm"
             android:layout_marginTop="10dp"
             android:layout_centerVertical="true"
             android:layout_centerInParent="true"
@@ -41,39 +41,9 @@
             android:textSize="30sp"
             android:textStyle="bold" />
 
-        <EditText
-            android:id="@+id/nameEditText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/imageProfile"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="120dp"
-            android:layout_marginTop="10dp"
-            android:gravity="center"
-            android:text=""
-            android:inputType="textPersonName"
-            android:visibility="invisible"
-            android:textColor="@color/white"
-            android:textSize="30sp"
-            android:textStyle="bold" />
 
-        <EditText
-            android:id="@+id/surnameEditText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/imageProfile"
-            android:layout_toEndOf="@+id/nameEditText"
-            android:layout_marginTop="10dp"
-            android:layout_centerVertical="true"
-            android:layout_centerInParent="true"
-            android:gravity="center"
-            android:text=""
-            android:inputType="textPersonName"
-            android:visibility="invisible"
-            android:textColor="@color/white"
-            android:textSize="30sp"
-            android:textStyle="bold"
-            android:autofillHints="" />
+
+
     </RelativeLayout>
 
 
@@ -84,7 +54,7 @@
         android:padding="10dp">
 
         <ImageView
-            android:id="@+id/emailImage"
+            android:id="@+id/emailImageFirm"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
@@ -94,47 +64,36 @@
             android:src="@drawable/ic_email" />
 
         <TextView
-            android:id="@+id/emailText"
+            android:id="@+id/emailTextFirm"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/emailImage"
+            android:layout_alignBaseline="@+id/emailImageFirm"
             android:layout_alignParentTop="true"
             android:layout_marginStart="10dp"
             android:layout_marginTop="15dp"
-            android:layout_toEndOf="@+id/emailImage"
+            android:layout_toEndOf="@+id/emailImageFirm"
             android:text="@string/emailText"
             android:textColor="@color/black"
             android:textSize="20sp" />
 
         <TextView
-            android:id="@+id/emailTextView"
+            android:id="@+id/emailTextViewFirm"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/emailText"
+            android:layout_alignBaseline="@+id/emailTextFirm"
             android:layout_marginStart="10dp"
-            android:layout_toEndOf="@+id/emailText"
+            android:layout_toEndOf="@+id/emailTextFirm"
             android:text=""
             android:textColor="@color/black"
             android:textSize="20sp" />
 
-        <EditText
-            android:id="@+id/emailEditText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/emailText"
-            android:layout_marginStart="10dp"
-            android:layout_toEndOf="@+id/emailText"
-            android:inputType="textEmailAddress"
-            android:text=""
-            android:textColor="@color/black"
-            android:textSize="20sp"
-            android:visibility="invisible" />
+
 
         <ImageView
             android:id="@+id/locationView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/emailImage"
+            android:layout_below="@+id/emailImageFirm"
             android:layout_alignParentStart="true"
             android:layout_marginStart="10dp"
             android:layout_marginTop="35dp"
@@ -145,7 +104,7 @@
             android:id="@+id/locationText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/emailText"
+            android:layout_below="@+id/emailTextFirm"
             android:layout_alignBaseline="@+id/locationView"
             android:layout_marginStart="10dp"
             android:layout_marginTop="30dp"
@@ -158,7 +117,7 @@
             android:id="@+id/locationTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/emailText"
+            android:layout_below="@+id/emailTextFirm"
             android:layout_alignBaseline="@+id/locationView"
             android:layout_marginStart="10dp"
             android:layout_marginTop="30dp"
@@ -204,6 +163,22 @@
             android:textColor="@color/black"
             android:textSize="20sp" />
 
+
+        <TextView
+            android:id="@+id/openNumberEditText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/locationText"
+            android:layout_alignBaseline="@+id/clockView"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="30dp"
+            android:layout_toEndOf="@+id/openText"
+            android:text=""
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:visibility="invisible"/>
+
+
         <TextView
             android:id="@+id/closeText"
             android:layout_width="wrap_content"
@@ -228,6 +203,46 @@
             android:textColor="@color/black"
             android:textSize="20sp" />
 
+
+        <TextView
+            android:id="@+id/closeNumberEditText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/openText"
+            android:layout_alignBaseline="@+id/closeText"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="30dp"
+            android:layout_toEndOf="@+id/closeText"
+            android:text=""
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:visibility="invisible"/>
+        <ImageButton
+            android:id="@+id/open"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignLeft="@+id/openNumberEditText"
+            android:layout_below="@+id/locationView"
+            android:layout_marginStart="100dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/bg_round_red"
+            android:src="@drawable/ic_baseline_keyboard_arrow_down_24">
+
+        </ImageButton>
+
+        <ImageButton
+             android:id="@+id/close"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignLeft="@+id/closeNumberEditText"
+            android:layout_below="@+id/open"
+            android:layout_marginStart="100dp"
+            android:layout_marginTop="2dp"
+            android:background="@drawable/bg_round_red"
+            android:src="@drawable/ic_baseline_keyboard_arrow_down_24">
+
+        </ImageButton>
+
         <ImageView
             android:id="@+id/personView"
             android:layout_width="wrap_content"
@@ -237,7 +252,8 @@
             android:layout_marginStart="10dp"
             android:layout_marginTop="33dp"
             android:contentDescription="@string/persone"
-            android:src="@drawable/ic_people" />
+            android:src="@drawable/ic_people"
+            />
 
         <TextView
             android:id="@+id/totalPeopleText"
@@ -264,6 +280,21 @@
             android:text=""
             android:textColor="@color/black"
             android:textSize="20sp" />
+
+        <EditText
+            android:id="@+id/totalPeopledEditText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/closeText"
+            android:layout_alignBaseline="@+id/personView"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="30dp"
+            android:layout_toEndOf="@+id/totalPeopleText"
+            android:text=""
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:visibility="invisible"/>
+
 
         <ImageView
             android:id="@+id/fasciaView"
@@ -314,14 +345,15 @@
 
 
         <Button
+            android:id="@+id/pwd_edit"
             android:layout_width="140dp"
             android:layout_height="wrap_content"
             android:layout_below="@+id/durataText"
             android:layout_marginTop="20dp"
-
             android:layout_marginBottom="10dp"
+            android:layout_marginStart="200dp"
             android:background="@drawable/btn_edit"
-            android:text="@string/editProfileButton"
+            android:text="Password"
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="20sp"
