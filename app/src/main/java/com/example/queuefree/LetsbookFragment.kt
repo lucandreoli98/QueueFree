@@ -76,7 +76,7 @@ class LetsbookFragment: Fragment(), DatePickerDialog.OnDateSetListener {
                         view.select_data.text = resources.getString(R.string.dataEmpty)
                         view.select_data.requestFocus()
                     }else {
-                        val r = Reservation(day,month,year)
+                        val r = Booking("",day,month,year)
                         //TODO: aggiungere n prenotazioni tante quante le ore di durata(ciclo for) e il numero di partecipanti
                         FirebaseDatabase.getInstance().getReference("/bookings/${firm.email}/$id").setValue(r)
                     }
