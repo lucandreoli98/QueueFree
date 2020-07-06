@@ -11,5 +11,7 @@ class Firm(
     var endHour: Long = 0,
     var endMinute: Long = 0,
     var capienza: Long = 0,
-    var descrizione: String = ""
+    var descrizione: String = "",
+    var maxTurn: Long = 4,
+    var maxPartecipants: Long = 10
 )
