@@ -59,16 +59,16 @@
             android:textSize="25sp"
             android:textStyle="bold" />
         <TextView
-        android:id="@+id/endHo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/startHo"
-        android:layout_marginTop="10dp"
-        android:text="@string/closeFirm"
-        android:textColor="@color/white"
-        android:textSize="25sp"
-        android:textStyle="bold"
-        android:layout_marginStart="70dp"/>
+            android:id="@+id/endHo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/startHo"
+            android:layout_marginTop="10dp"
+            android:text="@string/closeFirm"
+            android:textColor="@color/white"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            android:layout_marginStart="70dp"/>
         <TextView
             android:id="@+id/endHou"
             android:layout_width="wrap_content"
@@ -92,18 +92,32 @@
             android:id="@+id/startH"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/startH"
+            android:text="@string/quando"
             android:textColor="@color/black"
             android:layout_marginTop="10dp"
             android:textSize="25sp"/>
 
+        <Button
+            android:id="@+id/select_data"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/data"
+            android:layout_toEndOf="@+id/startH"
+            android:layout_marginStart="20dp"
+            android:background="@drawable/btn_musei"
+            android:textColor="@color/white"
+            android:layout_marginTop="3dp"
+            />
+
+
+
         <Spinner
             android:id="@+id/startHour"
             android:layout_width="wrap_content"
-            android:layout_height="40sp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginTop="10dp"
-            android:layout_toEndOf="@+id/startH"
+            android:layout_toEndOf="@+id/select_data"
             android:backgroundTint="@color/backgroundRed"
             />
 
@@ -121,13 +135,13 @@
         <Spinner
             android:id="@+id/npeople"
             android:layout_width="wrap_content"
-            android:layout_height="40sp"
-            android:layout_alignStart="@id/startHour"
+            android:layout_height="wrap_content"
             android:layout_toEndOf="@+id/npartecipanti"
             android:layout_below="@+id/startH"
             android:layout_marginTop="10dp"
-
+            android:layout_marginStart="10dp"
             />
+
 
         <TextView
         android:id="@+id/durata"
@@ -143,7 +157,7 @@
         <Spinner
             android:id="@+id/durataH"
             android:layout_width="wrap_content"
-            android:layout_height="40sp"
+            android:layout_height="wrap_content"
             android:layout_toEndOf="@id/durata"
             android:layout_below="@+id/npeople"
             android:layout_marginTop="10dp"
