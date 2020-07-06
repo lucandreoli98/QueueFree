@@ -119,20 +119,10 @@ class FirmRegisterFragment : Fragment() {
             val alertOpenDialog = mBuilder.show()
 
             closeHourDialogView.timePicker.setIs24HourView(true)
-            closeHourDialogView.timePicker.setOnTimeChangedListener { timePicker, hour, minute ->
-                if(hour<10){
-                    if(minute<10){
-                        view.closeButton.text = "0$hour:0$minute"
-                    }else {
-                        view.closeButton.text = "0$hour:$minute"
-                    }
-                }
-                else if(minute<10){
-                    view.closeButton.text = "$hour:0$minute"
-                }
-                else {
-                    view.closeButton.text = "$hour:$minute"
-                }
+            closeHourDialogView.timePicker.setOnTimeChangedListener { _, hour, minute ->
+
+                view.closeButton.text = completeTimeStamp(hour.toLong(),minute.toLong())
+
                 hhClose = hour.toLong()
                 mmClose = minute.toLong()
             }
@@ -250,5 +240,19 @@ class FirmRegisterFragment : Fragment() {
             placesSelect.text = ""
         }
 
+    }
+
+    fun completeTimeStamp(hour :Long,minute: Long):String{
+        return if(hour<10){
+            if(minute<10){
+                "0${hour}:0${minute}"
+            } else {
+                "0${hour}:${minute}"
+            }
+        } else if(minute<10){
+            "${hour}:0${minute}"
+        } else {
+            "${hour}:${minute}"
+        }
     }
 }

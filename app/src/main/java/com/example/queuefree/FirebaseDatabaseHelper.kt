@@ -169,7 +169,6 @@ class FirebaseDatabaseHelper () {
                             bookings.add(Booking())
                             for(book in booking.children){
                                 when(book.key){
-                                    "idUser" -> bookings[bookings.size-1].idUser = book.value as String
                                     "dd" -> bookings[bookings.size-1].dd = book.value as Long
                                     "mm" -> bookings[bookings.size-1].mm = book.value as Long
                                     "yy" -> bookings[bookings.size-1].yy = book.value as Long
