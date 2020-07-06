@@ -60,7 +60,7 @@ class ShowProfileFragment: Fragment(), DatePickerDialog.OnDateSetListener {
                 user = u
                 if(currentUser!!.getIdToken(false).result.signInProvider != "password"){
                     view.passCancButton.visibility = View.INVISIBLE
-                    view.editProfileButton.visibility=View.INVISIBLE
+                    view.editProfileButton.visibility = View.INVISIBLE
                 }
 
                 // parte visibile inizialmente

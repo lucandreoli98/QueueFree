@@ -15,6 +15,7 @@ class FirebaseDatabaseHelper () {
     var user = User()
     var firm= Firm()
     var bookings: ArrayList<Booking> = ArrayList()
+    var bookingsFirm: ArrayList<Long> = ArrayList()
 
     interface DataStatus {
         fun DataIsLoaded(user: User)
@@ -23,7 +24,34 @@ class FirebaseDatabaseHelper () {
         fun DataisLoadedFirm(firm:Firm)
     }
     interface DataStatusBooking {
-        fun BookingisLoaded(bookings: ArrayList<Booking>)
+        fun BookingisLoaded(bookings: ArrayList<Long>)
+    }
+
+    fun readUserFromDB(ds: DataStatus){
+        referenceuser.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(p0: DataSnapshot) {
+                if (p0.exists())
+                    for (uDB in p0.children) { // per tutti gli utente dentro la tabella user
+                        if(id == uDB.key){
+                            for(field in uDB.children) {
+                                when(field.key) {
+                                    "nome" -> user.nome = field.value as String
+                                    "cognome" -> user.cognome = field.value as String
+                                    "email" -> user.email = field.value as String
+                                    "dd" -> user.dd = field.value as Long
+                                    "mm" -> user.mm = field.value as Long
+                                    "yy" -> user.yy = field.value as Long
+                                }
+                            }
+                            ds.DataIsLoaded(user)
+                        }
+                    }
+            }
+
+            override fun onCancelled(p0: DatabaseError) {
+                Log.e("OnCancelled", p0.toException().toString())
+            }
+        })
     }
 
     fun readFirmsandtakeAdress(ds: DataStatusFirm, cat: String) {
@@ -57,33 +85,6 @@ class FirebaseDatabaseHelper () {
                             ds.DataisLoadedFirm(f)
                         }
                     }
-            }
-        })
-    }
-
-    fun readUserFromDB(ds: DataStatus){
-        referenceuser.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(p0: DataSnapshot) {
-                if (p0.exists())
-                    for (uDB in p0.children) { // per tutti gli utente dentro la tabella user
-                        if(id == uDB.key){
-                            for(field in uDB.children) {
-                                when(field.key) {
-                                    "nome" -> user.nome = field.value as String
-                                    "cognome" -> user.cognome = field.value as String
-                                    "email" -> user.email = field.value as String
-                                    "dd" -> user.dd = field.value as Long
-                                    "mm" -> user.mm = field.value as Long
-                                    "yy" -> user.yy = field.value as Long
-                                }
-                            }
-                            ds.DataIsLoaded(user)
-                        }
-                    }
-            }
-
-            override fun onCancelled(p0: DatabaseError) {
-                Log.e("OnCancelled", p0.toException().toString())
             }
         })
     }
@@ -160,6 +161,7 @@ class FirebaseDatabaseHelper () {
 
     // Lettura delle prenotazioni in base alla mail dell'azienda
     fun readBookingFromEmail(emailFirm: String, ds: DataStatusBooking){
+        bookings.clear()
         referenceBooking.addValueEventListener(object: ValueEventListener{
             override fun onCancelled(error: DatabaseError) {
             }
@@ -181,7 +183,48 @@ class FirebaseDatabaseHelper () {
                         }
                     }
                 }
-                ds.BookingisLoaded(bookings)
+                //ds.BookingisLoaded(bookings)
+            }
+
+        })
+    }
+
+    fun readDailyBooking(dd: Long, mm: Long, yy: Long, firm: Firm, ds: DataStatusBooking){
+        bookingsFirm.clear()
+
+        for(i in 0..(firm.endHour - firm.startHour)){
+            bookingsFirm.add(firm.capienza)
+        }
+
+        referenceBooking.addValueEventListener(object: ValueEventListener{
+            override fun onCancelled(error: DatabaseError) {
+            }
+
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if(snapshot.exists()){
+                    for(firms in snapshot.children){
+                        if(firm.id == firms.key){ // se c'è l'id dell'azienda
+                            for(book in firms.children){
+                                for(data in book.children){
+                                    var booking = Booking()
+                                    when(data.key) {
+                                        "dd" -> booking.dd = book.value as Long
+                                        "mm" -> booking.mm = book.value as Long
+                                        "yy" -> booking.yy = book.value as Long
+                                        "nOre" -> booking.nOre =
+                                            book.value as Long
+                                        "nPartecipanti" -> booking.nPartecipanti =
+                                            book.value as Long
+                                    }
+                                    if(booking.dd == dd && booking.mm == mm && booking.yy == yy){
+                                        bookingsFirm[booking.nOre.toInt()] = bookingsFirm[booking.nOre.toInt()] - booking.nPartecipanti
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                ds.BookingisLoaded(bookingsFirm)
             }
 
         })
