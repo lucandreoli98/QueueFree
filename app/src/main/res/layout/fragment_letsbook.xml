@@ -119,6 +119,8 @@
             android:layout_marginTop="10dp"
             android:layout_toEndOf="@+id/select_data"
             android:backgroundTint="@color/backgroundRed"
+            android:padding="7dp"
+            android:visibility="invisible"
             />
 
         <TextView
@@ -140,18 +142,21 @@
             android:layout_below="@+id/startH"
             android:layout_marginTop="10dp"
             android:layout_marginStart="10dp"
+            android:backgroundTint="@color/backgroundRed"
+            android:padding="7dp"
+
             />
 
 
         <TextView
-        android:id="@+id/durata"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/npeople"
-        android:text="@string/durata_prenotazione"
-        android:textColor="@color/black"
-        android:textSize="25sp"
-        android:layout_marginTop="10dp"
+            android:id="@+id/durata"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/npeople"
+            android:text="@string/durata_prenotazione"
+            android:textColor="@color/black"
+            android:textSize="25sp"
+            android:layout_marginTop="10dp"
         />
 
         <Spinner
@@ -162,7 +167,10 @@
             android:layout_below="@+id/npeople"
             android:layout_marginTop="10dp"
             android:layout_marginStart="15dp"
-        />
+            android:backgroundTint="@color/backgroundRed"
+            android:padding="7dp"
+
+            />
 
         <Button
             android:id="@+id/book"
