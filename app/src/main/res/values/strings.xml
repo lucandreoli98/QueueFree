@@ -51,7 +51,7 @@
     <string name="saveProfile">Salva</string>
     <string name="facebook_app_id">2717158775186497</string>
     <string name="fb_login_protocol_scheme">fb2717158775186497</string>
-
+    <string name="Pwd_firm">Password</string>
     <string name="modifica_password">Modifica Password</string>
     <string name="canc_modifica">Annulla Modifiche</string>
     <string name="inserisci_password">Inserisci la password</string>
