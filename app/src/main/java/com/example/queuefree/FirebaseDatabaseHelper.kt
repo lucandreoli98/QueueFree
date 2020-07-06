@@ -11,14 +11,19 @@ class FirebaseDatabaseHelper () {
     val id = FirebaseAuth.getInstance().currentUser!!.uid.trim { it <= ' ' }
     var referenceuser: DatabaseReference = database.getReference("users")
     var referencefirm: DatabaseReference = database.getReference("firm")
-    var user = User("","","",0L, 0L, 0L)
-    var firm= Firm("","","","","",0L,0L,0L,0L,0L,"")
+    var referenceBooking: DatabaseReference = database.getReference("bookings")
+    var user = User()
+    var firm= Firm()
+    var bookings: ArrayList<Booking> = ArrayList()
 
     interface DataStatus {
         fun DataIsLoaded(user: User)
     }
     interface DataStatusFirm {
         fun DataisLoadedFirm(firm:Firm)
+    }
+    interface DataStatusBooking {
+        fun BookingisLoaded(bookings: ArrayList<Booking>)
     }
 
     fun readFirmsandtakeAdress(ds: DataStatusFirm, cat: String) {
@@ -149,5 +154,35 @@ class FirebaseDatabaseHelper () {
             }
         })
 
+    }
+
+    // Lettura delle prenotazioni in base alla mail dell'azienda
+    fun readBookingFromEmail(emailFirm: String, ds: DataStatusBooking){
+        referenceBooking.addValueEventListener(object: ValueEventListener{
+            override fun onCancelled(error: DatabaseError) {
+            }
+
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if(snapshot.exists()){
+                    for(booking in snapshot.children){
+                        if(emailFirm == booking.key){
+                            bookings.add(Booking())
+                            for(book in booking.children){
+                                when(book.key){
+                                    "idUser" -> bookings[bookings.size-1].idUser = book.value as String
+                                    "dd" -> bookings[bookings.size-1].dd = book.value as Long
+                                    "mm" -> bookings[bookings.size-1].mm = book.value as Long
+                                    "yy" -> bookings[bookings.size-1].yy = book.value as Long
+                                    "nOre" -> bookings[bookings.size-1].nOre = book.value as Long
+                                    "nPartecipanti" -> bookings[bookings.size-1].nPartecipanti = book.value as Long
+                                }
+                            }
+                        }
+                    }
+                }
+                ds.BookingisLoaded(bookings)
+            }
+
+        })
     }
 }

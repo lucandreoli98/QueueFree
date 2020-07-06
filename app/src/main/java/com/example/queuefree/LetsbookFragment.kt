@@ -68,7 +68,7 @@ class LetsbookFragment: Fragment(), DatePickerDialog.OnDateSetListener {
                     partArray.add(i.toString())
                 val c = ArrayAdapter(context!!,android.R.layout.simple_spinner_item,durataArray)
                 c.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                view.durataH.adapter = c
+                view.npeople.adapter = c
 
                 view.book.setOnClickListener{
                     val id = FirebaseAuth.getInstance().currentUser!!.uid.trim { it <= ' ' }
@@ -76,6 +76,9 @@ class LetsbookFragment: Fragment(), DatePickerDialog.OnDateSetListener {
                         view.select_data.text = resources.getString(R.string.dataEmpty)
                         view.select_data.requestFocus()
                     }else {
+                        val r = Booking(id,day,month,year)
+                        //TODO: aggiungere n prenotazioni tante quante le ore di durata(ciclo for) e il numero di partecipanti
+                        FirebaseDatabase.getInstance().getReference("/bookings/${firm.email}/$id").setValue(r)
                         for(i in view.startHour.selectedItemPosition+1..view.durataH.selectedItemPosition+view.startHour.selectedItemPosition+2){
                             val r = Reservation(day,month,year,i.toLong(),(view.npeople.selectedItemPosition+1).toLong())
                             FirebaseDatabase.getInstance().getReference("/bookings/${firm.email}/$id").setValue(r)
