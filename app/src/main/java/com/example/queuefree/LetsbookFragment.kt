@@ -65,10 +65,10 @@ class LetsbookFragment: Fragment(), DatePickerDialog.OnDateSetListener {
 
                 val durataArray : ArrayList<String> = ArrayList()
                 for(i in 1..firm.maxTurn)
-                    partArray.add(i.toString())
+                    durataArray.add(i.toString())
                 val c = ArrayAdapter(context!!,android.R.layout.simple_spinner_item,durataArray)
                 c.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                view.npeople.adapter = c
+                view.durataH.adapter = c
 
                 view.book.setOnClickListener{
                     val id = FirebaseAuth.getInstance().currentUser!!.uid.trim { it <= ' ' }
@@ -76,9 +76,10 @@ class LetsbookFragment: Fragment(), DatePickerDialog.OnDateSetListener {
                         view.select_data.text = resources.getString(R.string.dataEmpty)
                         view.select_data.requestFocus()
                     }else {
+                        view.startHour.visibility=View.VISIBLE
                         for(i in view.startHour.selectedItemPosition+1..view.durataH.selectedItemPosition+view.startHour.selectedItemPosition+2){
                             val r = Booking(day,month,year,i.toLong(),(view.npeople.selectedItemPosition+1).toLong()) //enri gay
-                            FirebaseDatabase.getInstance().getReference("/bookings/${firm.email}/$id").setValue(r)
+                            FirebaseDatabase.getInstance().getReference("/bookings/${firm.id}/$id-$i").setValue(r)
                         }
                     }
                 }

@@ -1,6 +1,7 @@
 package com.example.queuefree
 
 class Firm(
+    var id:String = "",
     var nomeazienza: String = "",
     var email:    String = "",
     var password: String = "",

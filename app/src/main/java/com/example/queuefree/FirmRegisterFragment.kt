@@ -86,20 +86,9 @@ class FirmRegisterFragment : Fragment() {
             val alertOpenDialog = mBuilder.show()
 
             openHourDialogView.timePicker.setIs24HourView(true)
-            openHourDialogView.timePicker.setOnTimeChangedListener { timePicker, hour, minute ->
-                if(hour<10){
-                    if(minute<10){
-                        view.openButton.text = " 0$hour:0$minute"
-                    }else {
-                        view.openButton.text = " 0$hour:$minute"
-                    }
-                }
-                else if(minute<10){
-                    view.openButton.text = " $hour:0$minute"
-                }
-                else {
-                    view.openButton.text = " $hour:$minute"
-                }
+            openHourDialogView.timePicker.setOnTimeChangedListener { _, hour, minute ->
+                view.openButton.text = completeTimeStamp(hour.toLong(),minute.toLong())
+
                 hhOpen = hour.toLong()
                 mmOpen = minute.toLong()
             }
@@ -201,11 +190,12 @@ class FirmRegisterFragment : Fragment() {
                 fireBase!!.createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener { task ->
                         if (task.isSuccessful) {
-                            val f = Firm(firmName, email, password, categoriaString, locationString,this.hhOpen!!,this.mmOpen!!,this.hhClose!!,this.mmClose!!,capienza.toLong(),"")
+                            val id = FirebaseAuth.getInstance().currentUser!!.uid.trim { it <= ' ' }
+
+                            val f = Firm(id,firmName, email, password, categoriaString, locationString,this.hhOpen!!,this.mmOpen!!,this.hhClose!!,this.mmClose!!,capienza.toLong(),"")
 
                             Log.e("task successful", resources.getString(R.string.userRegistrated))
 
-                            val id = FirebaseAuth.getInstance().currentUser!!.uid.trim { it <= ' ' }
                             FirebaseDatabase.getInstance().getReference("/firm/$id").setValue(f)
                             FirebaseAuth.getInstance().currentUser!!.sendEmailVerification()
                             fireBase!!.signOut()

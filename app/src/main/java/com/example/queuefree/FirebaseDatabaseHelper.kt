@@ -40,6 +40,7 @@ class FirebaseDatabaseHelper () {
                             val f=Firm()
                             for(field in aziende.children){
                                 when(field.key){
+                                    "id" -> f.id = field.value as String
                                     "nomeazienda" -> f.nomeazienza = field.value as String
                                     "email" -> f.email = field.value as String
                                     "password" -> f.password = field.value as String
@@ -101,6 +102,7 @@ class FirebaseDatabaseHelper () {
                             val f=Firm()
                             for(field in aziende.children){
                                 when(field.key){
+                                    "id" -> f.id = field.value as String
                                     "nomeazienza" -> f.nomeazienza = field.value as String
                                     "email" -> f.email = field.value as String
                                     "password" -> f.password = field.value as String
