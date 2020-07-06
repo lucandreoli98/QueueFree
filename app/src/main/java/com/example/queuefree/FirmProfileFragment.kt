@@ -49,7 +49,6 @@ class FirmProfileFragment: Fragment() {
     var minuteclosetime=0L
     var hourclosetime=0L
 
-
     private lateinit var imageUri: Uri
     private var vista:View? = null
 
@@ -73,6 +72,8 @@ class FirmProfileFragment: Fragment() {
                 view.emailTextViewFirm.text = firm.email
                 view.locationTextView.text = firm.location
                 view.totalPeopleTextView.text = firm.capienza.toString()
+
+
 
 
                 var open=""
@@ -324,7 +325,8 @@ class FirmProfileFragment: Fragment() {
         openNumberText.visibility=View.VISIBLE
         closeNumberText.visibility=View.VISIBLE
         totalPeopleTextView.visibility=View.VISIBLE
-        // editText invisibili
+
+                // editText invisibili
         openNumberEditText.visibility=View.INVISIBLE
         closeNumberEditText.visibility=View.INVISIBLE
         totalPeopledEditText.visibility=View.INVISIBLE
@@ -335,6 +337,7 @@ class FirmProfileFragment: Fragment() {
         openNumberText.text = completeTimeStamp(firm.startHour,firm.startMinute)
         totalPeopleTextView.text=firm.capienza.toString()
         closeNumberText.text=completeTimeStamp(firm.endHour,firm.endMinute)
+
 
 
         // parte invisibile
@@ -354,6 +357,7 @@ class FirmProfileFragment: Fragment() {
         val open = openNumberEditText.text.toString().trim()
         val close = closeNumberEditText.text.toString().trim()
         val tot = totalPeopledEditText.text.toString().trim()
+
         var ok: Boolean = true
 
         // controllo se sono vuoti gli editText
@@ -373,6 +377,7 @@ class FirmProfileFragment: Fragment() {
             totalPeopledEditText.requestFocus()
             ok = false
         }
+
 
         // se non ci sono campi vuoti
         if(ok){
@@ -398,7 +403,8 @@ class FirmProfileFragment: Fragment() {
                             if (task.isSuccessful) {
                                 alertDialog.dismiss()
                                 val email = emailTextViewFirm.text.toString().trim()
-                                val newFirm = Firm(firm.nomeazienza, firm.email, firm.password, firm.categoria,firm.location,houropentime,minuteopentime,hourclosetime,minuteclosetime,tot.toLong(),firm.descrizione,firm.maxTurn,firm.maxPartecipants)
+
+                                val newFirm = Firm(currentUser!!.uid,firm.nomeazienza, firm.email, firm.password, firm.categoria,firm.location,houropentime,minuteopentime,hourclosetime,minuteclosetime,tot.toLong(),firm.descrizione,firm.maxTurn,firm.maxPartecipants)
 
                                 cUser.updateEmail(email).addOnCompleteListener { task2 ->
                                     if (task2.isSuccessful) {
