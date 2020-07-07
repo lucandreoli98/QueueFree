@@ -192,33 +192,33 @@ class FirebaseDatabaseHelper () {
     fun readDailyBooking(dd: Long, mm: Long, yy: Long, firm: Firm, ds: DataStatusBooking){
         bookingsFirm.clear()
 
-        for(i in 0..(firm.endHour - firm.startHour)){
-            bookingsFirm.add(firm.capienza)
-        }
+        if((firm.endHour - firm.startHour)>0)
+            for(i in 0..(firm.endHour - firm.startHour))
+                bookingsFirm.add(firm.capienza)
+        else
+            for(i in 0..23)
+                bookingsFirm.add(firm.capienza)
+
 
         referenceBooking.addValueEventListener(object: ValueEventListener{
             override fun onCancelled(error: DatabaseError) {
             }
-
             override fun onDataChange(snapshot: DataSnapshot) {
                 if(snapshot.exists()){
                     for(firms in snapshot.children){
                         if(firm.id == firms.key){ // se c'è l'id dell'azienda
                             for(book in firms.children){
                                 for(data in book.children){
-                                    var booking = Booking()
+                                    val booking = Booking()
                                     when(data.key) {
                                         "dd" -> booking.dd = book.value as Long
                                         "mm" -> booking.mm = book.value as Long
                                         "yy" -> booking.yy = book.value as Long
-                                        "nOre" -> booking.nOre =
-                                            book.value as Long
-                                        "nPartecipanti" -> booking.nPartecipanti =
-                                            book.value as Long
+                                        "nOre" -> booking.nOre = book.value as Long
+                                        "nPartecipanti" -> booking.nPartecipanti = book.value as Long
                                     }
-                                    if(booking.dd == dd && booking.mm == mm && booking.yy == yy){
+                                    if(booking.dd == dd && booking.mm == mm && booking.yy == yy)
                                         bookingsFirm[booking.nOre.toInt()] = bookingsFirm[booking.nOre.toInt()] - booking.nPartecipanti
-                                    }
                                 }
                             }
                         }
