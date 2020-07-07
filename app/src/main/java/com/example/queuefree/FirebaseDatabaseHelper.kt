@@ -214,8 +214,8 @@ class FirebaseDatabaseHelper () {
                                         "dd" -> booking.dd = book.value as Long
                                         "mm" -> booking.mm = book.value as Long
                                         "yy" -> booking.yy = book.value as Long
-                                        "nOre" -> booking.nOre = book.value as Long
-                                        "nPartecipanti" -> booking.nPartecipanti = book.value as Long
+                                        "nore" -> booking.nOre = book.value as Long
+                                        "npartecipanti" -> booking.nPartecipanti = book.value as Long
                                     }
                                     if(booking.dd == dd && booking.mm == mm && booking.yy == yy)
                                         bookingsFirm[booking.nOre.toInt()] = bookingsFirm[booking.nOre.toInt()] - booking.nPartecipanti
