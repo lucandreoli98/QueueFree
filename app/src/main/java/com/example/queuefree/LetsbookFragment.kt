@@ -6,22 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import android.content.Intent
-import android.util.Log
-import android.widget.Toast
 import android.widget.ArrayAdapter
 import android.widget.DatePicker
 
-import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.model.BitmapDescriptorFactory
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.FirebaseDatabase
-import kotlinx.android.synthetic.main.fragment_letsbook.*
 import kotlinx.android.synthetic.main.fragment_letsbook.view.*
-import kotlinx.android.synthetic.main.fragment_register.*
-import kotlinx.android.synthetic.main.fragment_register_firm.view.*
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -74,7 +63,7 @@ class LetsbookFragment: Fragment(), DatePickerDialog.OnDateSetListener {
                         hoursArray.add(completeTimeStamp(firm.startHour,firm.startMinute))
                         for(i in firm.startHour+1 until firm.endHour)
                             hoursArray.add(completeTimeStamp(i,firm.startMinute))
-                        val a = ArrayAdapter(context!!,R.layout.spinner_item,hoursArray)
+                        val a = SpinnerAdapter(context!!,hoursArray, null)
                         a.setDropDownViewResource(R.layout.spinner_item)
                         view.startHour.adapter = a
 
