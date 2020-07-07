@@ -217,6 +217,7 @@
             android:textColor="@color/black"
             android:textSize="20sp"
             android:visibility="invisible"/>
+
         <ImageButton
             android:id="@+id/open"
             android:layout_width="40dp"

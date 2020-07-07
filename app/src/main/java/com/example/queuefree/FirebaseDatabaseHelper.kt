@@ -190,36 +190,36 @@ class FirebaseDatabaseHelper () {
     }
 
     fun readDailyBooking(dd: Long, mm: Long, yy: Long, firm: Firm, ds: DataStatusBooking){
-        bookingsFirm.clear()
-
-        if((firm.endHour - firm.startHour)>0)
-            for(i in 0..(firm.endHour - firm.startHour))
-                bookingsFirm.add(firm.capienza)
-        else
-            for(i in 0..23)
-                bookingsFirm.add(firm.capienza)
-
-
         referenceBooking.addValueEventListener(object: ValueEventListener{
             override fun onCancelled(error: DatabaseError) {
             }
             override fun onDataChange(snapshot: DataSnapshot) {
+                bookingsFirm.clear()
+
+                if((firm.endHour - firm.startHour)>0)
+                    for(i in 0 until (firm.endHour - firm.startHour))
+                        bookingsFirm.add(firm.capienza)
+                else
+                    for(i in 0..23)
+                        bookingsFirm.add(firm.capienza)
+
                 if(snapshot.exists()){
                     for(firms in snapshot.children){
                         if(firm.id == firms.key){ // se c'è l'id dell'azienda
                             for(book in firms.children){
+                                val booking = Booking()
                                 for(data in book.children){
-                                    val booking = Booking()
                                     when(data.key) {
-                                        "dd" -> booking.dd = book.value as Long
-                                        "mm" -> booking.mm = book.value as Long
-                                        "yy" -> booking.yy = book.value as Long
-                                        "nore" -> booking.nOre = book.value as Long
-                                        "npartecipanti" -> booking.nPartecipanti = book.value as Long
+                                        "dd" -> booking.dd = data.value as Long
+                                        "mm" -> booking.mm = data.value as Long
+                                        "yy" -> booking.yy = data.value as Long
+                                        "nore" -> booking.nOre = data.value as Long
+                                        "npartecipanti" -> booking.nPartecipanti = data.value as Long
                                     }
-                                    if(booking.dd == dd && booking.mm == mm && booking.yy == yy)
-                                        bookingsFirm[booking.nOre.toInt()] = bookingsFirm[booking.nOre.toInt()] - booking.nPartecipanti
                                 }
+                                Log.d("PRENOTAZIONI: ", "${booking.dd} ${booking.mm} ${booking.yy} ${booking.nPartecipanti}")
+                                if(booking.dd == dd && booking.mm == mm && booking.yy == yy)
+                                    bookingsFirm[booking.nOre.toInt()] -=  booking.nPartecipanti
                             }
                         }
                     }

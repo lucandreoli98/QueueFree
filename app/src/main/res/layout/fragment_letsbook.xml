@@ -181,12 +181,8 @@
             android:textColor="@color/white"
             android:textSize="25sp"
             android:layout_below="@id/durata"
-            android:layout_marginTop="30dp"
-            />
-
-
+            android:visibility="invisible"
+            android:layout_marginTop="20dp" />
 
     </RelativeLayout>
-
-
 </FrameLayout>

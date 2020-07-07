@@ -2,17 +2,21 @@ package com.example.queuefree
 
 import android.content.Context
 import android.graphics.Color
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import kotlinx.android.synthetic.main.spinner_item.view.*
+import kotlin.math.min
 
-class SpinnerAdapter(ctx: Context, hours: List<String>, disponibilita: List<Int>?) :
-    ArrayAdapter<String>(ctx, 0, hours) {
+class SpinnerAdapter(ctx: Context, hours: List<Long>, booking: List<Long>, nPartecipanti: Int, minute: Long) :
+    ArrayAdapter<Long>(ctx, 0, hours) {
 
-
-    private val ct = ctx
+    private val hours = hours
+    private val booking = booking
+    private val nPartecipanti = nPartecipanti
+    private val minute = minute
 
 
     override fun getView(position: Int, recycledView: View?, parent: ViewGroup): View {
@@ -23,13 +27,34 @@ class SpinnerAdapter(ctx: Context, hours: List<String>, disponibilita: List<Int>
     }
 
     private fun createView(position: Int, recycledView: View?, parent: ViewGroup): View {
-        //val mood = getItem(position)
+
         val view = recycledView ?: LayoutInflater.from(context).inflate(R.layout.spinner_item, parent, false)
 
+        //Log.d("BOOKING", booking.toString()+" "+hours.toString())
 
-        if(position==0) view.prova.setBackgroundColor(Color.BLACK)
-        if(position==1) view.prova.setBackgroundColor(Color.GRAY)
+        for(i in booking.indices){
+            if(position == i){
+                if(booking[i] >= nPartecipanti)
+                    view.prova.setBackgroundColor(Color.GREEN)
+
+                view.prova.text = completeTimeStamp(hours[i], minute)
+            }
+        }
 
         return view
+    }
+
+    private fun completeTimeStamp(hour :Long, minute: Long):String{
+        return if(hour<10){
+            if(minute<10){
+                "0${hour}:0${minute}"
+            } else {
+                "0${hour}:${minute}"
+            }
+        } else if(minute<10){
+            "${hour}:0${minute}"
+        } else {
+            "${hour}:${minute}"
+        }
     }
 }

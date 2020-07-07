@@ -99,7 +99,7 @@ class ShowProfileFragment: Fragment(), DatePickerDialog.OnDateSetListener {
             }
         })
         view.progress_bar.visibility=View.VISIBLE
-        FirebaseStorage.getInstance().reference.child("pics").child(id).getBytes(1024*1024).addOnSuccessListener { bytes ->
+        FirebaseStorage.getInstance().reference.child("pics").child(id).getBytes(4096*4096).addOnSuccessListener { bytes ->
             val bitmap=BitmapFactory.decodeByteArray(bytes,0,bytes.size)
             view.imageProfile.setImageBitmap(bitmap)
             view.progress_bar.visibility=View.INVISIBLE

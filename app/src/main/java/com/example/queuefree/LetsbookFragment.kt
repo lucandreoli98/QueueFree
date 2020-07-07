@@ -5,11 +5,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import androidx.fragment.app.Fragment
 import android.widget.ArrayAdapter
 import android.widget.DatePicker
 
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.fragment_letsbook.view.*
 import java.util.*
 import kotlin.collections.ArrayList
@@ -21,63 +23,57 @@ class LetsbookFragment: Fragment(), DatePickerDialog.OnDateSetListener {
     private var year = 0L
     private var v:View? = null
     private val fb = FirebaseDatabaseHelper()
+    private var nPeople = 1
+    private var firm = Firm()
+    private val id = FirebaseAuth.getInstance().currentUser!!.uid.trim { it <= ' ' }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view: View = inflater.inflate(R.layout.fragment_letsbook, container, false)
         v=view
 
         FirebaseDatabaseHelper().readFirmsfromEmail(arguments!!.getString("email",""), object : FirebaseDatabaseHelper.DataStatusFirm {
-            override fun DataisLoadedFirm(firm: Firm){
+            // lettura dell'azienda da DB
+            override fun DataisLoadedFirm(f: Firm){
+                firm = f
+                // compilazione dei campi relativi all'azienda
                 view.firmName.text=firm.nomeazienza
-
                 view.startHou.text = completeTimeStamp(firm.startHour,firm.startMinute)
                 view.endHou.text = completeTimeStamp(firm.endHour,firm.endMinute)
 
+                // Data del giorno da prenotare
                 view.select_data.setOnClickListener {
                     showDatePickerDialog() // apre il pannello del calendario sulla data di oggi
                 }
 
+                // numero di partecipanti
                 val partArray : ArrayList<String> = ArrayList()
                 for(i in 1..firm.maxPartecipants)
                     partArray.add(i.toString())
+
                 val b = ArrayAdapter(context!!,android.R.layout.simple_spinner_item,partArray)
                 b.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                 view.npeople.adapter = b
+                view.npeople.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                    override fun onNothingSelected(p0: AdapterView<*>?) {
+                        // se non viene selezionato niente..
+                    }
 
+                    override fun onItemSelected(p0: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                        nPeople = position+1 // posizione parte da 0
+                        if(day != 0L && month != 0L && year != 0L) {
+                            readBooking()
+                        }
+                    }
+                }
+
+                // tempo di permanenza nella struttura
                 val durataArray : ArrayList<String> = ArrayList()
                 for(i in 1..firm.maxTurn)
                     durataArray.add(i.toString())
+
                 val c = ArrayAdapter(context!!,android.R.layout.simple_spinner_item,durataArray)
                 c.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                 view.durataH.adapter = c
-
-                view.book.setOnClickListener{
-                    val id = FirebaseAuth.getInstance().currentUser!!.uid.trim { it <= ' ' }
-                    if(day == 0L || month == 0L || year == 0L){
-                        view.select_data.text = resources.getString(R.string.dataEmpty)
-                        view.select_data.requestFocus()
-                    }else {
-                        view.startHour.visibility=View.VISIBLE
-
-                        val hoursArray : ArrayList<String> = ArrayList()
-                        hoursArray.add(completeTimeStamp(firm.startHour,firm.startMinute))
-                        for(i in firm.startHour+1 until firm.endHour)
-                            hoursArray.add(completeTimeStamp(i,firm.startMinute))
-                        val a = SpinnerAdapter(context!!,hoursArray, null)
-                        a.setDropDownViewResource(R.layout.spinner_item)
-                        view.startHour.adapter = a
-
-                        /*fb.readDailyBooking(day,month,year,firm, object: FirebaseDatabaseHelper.DataStatusBooking{
-                            override fun BookingisLoaded(bookings: ArrayList<Long>) {
-
-                            }
-                        })
-                        for(i in view.startHour.selectedItemPosition+1..view.durataH.selectedItemPosition+view.startHour.selectedItemPosition+2){
-                            val r = Booking(day,month,year,i.toLong(),(view.npeople.selectedItemPosition+1).toLong()) //enri gay
-                            FirebaseDatabase.getInstance().getReference("/bookings/${firm.id}/$id-$i").setValue(r)
-                        }*/
-                    }
-                }
             }
         })
 
@@ -114,5 +110,39 @@ class LetsbookFragment: Fragment(), DatePickerDialog.OnDateSetListener {
         this.year = year.toLong()
         val date = dayOfMonth.toString() + " / " + (month + 1) + " / " + year
         v!!.select_data.text = date
+
+        readBooking() // lettura DB
+    }
+
+    private fun readBooking(){
+        fb.readDailyBooking(day,month,year,firm, object: FirebaseDatabaseHelper.DataStatusBooking{
+            override fun BookingisLoaded(bookings: ArrayList<Long>) {
+                // selezione dell'orario visibile
+                v!!.startHour.visibility = View.VISIBLE
+                v!!.book.visibility = View.VISIBLE
+
+                // Ore possibili da prenotare
+                val hoursArray: ArrayList<Long> = ArrayList()
+                for (i in firm.startHour until firm.endHour)
+                    hoursArray.add(i)
+
+                // spinner personalizzato
+                val a = SpinnerAdapter(context!!, hoursArray, bookings,nPeople,firm.startMinute)
+                a.setDropDownViewResource(R.layout.spinner_item)
+                v!!.startHour.adapter = a
+
+                v!!.book.setOnClickListener {
+                    for (i in v!!.startHour.selectedItemPosition..v!!.durataH.selectedItemPosition + v!!.startHour.selectedItemPosition) {
+                        val r = Booking(day, month, year, i.toLong(), (v!!.npeople.selectedItemPosition+1).toLong())
+                        FirebaseDatabase.getInstance()
+                            .getReference("/bookings/${firm.id}/$id-$i-$year$month$day").setValue(r)
+
+
+                    }
+
+                    //TODO: AGGIUNGERE IL CAMBIO ACTIVIY
+                }
+            }
+        })
     }
 }
