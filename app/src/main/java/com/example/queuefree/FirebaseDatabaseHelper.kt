@@ -80,6 +80,7 @@ class FirebaseDatabaseHelper () {
                                     "startMinute"->f.startMinute= field.value as Long
                                     "capienza"->f.capienza= field.value as Long
                                     "descrizione"->f.descrizione= field.value as String
+                                    "maxTurn"->firm.maxTurn=field.value as Long
                                 }
                             }
                             ds.DataisLoadedFirm(f)
@@ -115,6 +116,7 @@ class FirebaseDatabaseHelper () {
                                     "startMinute"->f.startMinute= field.value as Long
                                     "capienza"->f.capienza= field.value as Long
                                     "descrizione"->f.descrizione= field.value as String
+                                    "maxTurn"->firm.maxTurn=field.value as Long
                                 }
                             }
                             ds.DataisLoadedFirm(f)
@@ -144,6 +146,7 @@ class FirebaseDatabaseHelper () {
                                     "startMinute"->firm.startMinute= field.value as Long
                                     "capienza"->firm.capienza= field.value as Long
                                     "descrizione"->firm.descrizione= field.value as String
+                                    "maxTurn"->firm.maxTurn=field.value as Long
 
                                 }
                             }

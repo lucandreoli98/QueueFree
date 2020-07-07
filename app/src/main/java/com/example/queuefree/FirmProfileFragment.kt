@@ -49,6 +49,7 @@ class FirmProfileFragment: Fragment() {
     var minuteclosetime=0
     var hourclosetime=0
 
+
     private lateinit var imageUri: Uri
     private var vista:View? = null
 
@@ -67,21 +68,23 @@ class FirmProfileFragment: Fragment() {
 
         fb.readFirmFromDB(object : FirebaseDatabaseHelper.DataStatusFirm {
             override fun DataisLoadedFirm(f: Firm) {
-                firm = f
+
                 houropentime=f.startHour.toInt()
                 hourclosetime=f.endHour.toInt()
-                view.nameFirmText.text = firm.nomeazienza
-                view.emailTextViewFirm.text = firm.email
-                view.locationTextView.text = firm.location
-                view.totalPeopleTextView.text = firm.capienza.toString()
-                view.FasciaTextView.text=firm.maxTurn.toString()
-                view.openNumberText.text=completeTimeStamp(firm.startHour,firm.startMinute)
-                view.closeNumberText.text=completeTimeStamp(firm.endHour,firm.endMinute)
+                minuteclosetime=f.endMinute.toInt()
+                minuteopentime=f.startMinute.toInt()
+                view.nameFirmText.text = f.nomeazienza
+                view.emailTextViewFirm.text = f.email
+                view.locationTextView.text = f.location
+                view.totalPeopleTextView.text = f.capienza.toString()
+                view.FasciaTextView.text=f.maxTurn.toString()
+                view.openNumberText.text=completeTimeStamp(f.startHour,f.startMinute)
+                view.closeNumberText.text=completeTimeStamp(f.endHour,f.endMinute)
 
-                view.openNumberEditText.setText(completeTimeStamp(firm.startHour,firm.startMinute))
-                view.closeNumberEditText.setText(completeTimeStamp(firm.endHour,firm.endMinute))
-                view.totalPeopledEditText.setText(firm.capienza.toString())
-                view.FasciaEditText.setText(firm.maxTurn.toString())
+                view.openNumberEditText.setText(completeTimeStamp(f.startHour,f.startMinute))
+                view.closeNumberEditText.setText(completeTimeStamp(f.endHour,f.endMinute))
+                view.totalPeopledEditText.setText(f.capienza.toString())
+                view.FasciaEditText.setText(f.maxTurn.toString())
 
 
 
@@ -102,7 +105,7 @@ class FirmProfileFragment: Fragment() {
                     if (view.pwd_edit.text =="Password") {
                         editPassword()
                     } else { // se e' impostato su annulla
-                        updateLayout(firm)
+                        updateLayout(f)
 
                     }
                 }
@@ -341,7 +344,7 @@ class FirmProfileFragment: Fragment() {
         val open = openNumberEditText.text.toString().trim()
         val close = closeNumberEditText.text.toString().trim()
         val tot = totalPeopledEditText.text.toString().trim()
-        val turn=FasciaEditText.text.toString().trim()
+        val turno=FasciaEditText.text.toString().trim().toLong()
 
         var ok: Boolean = true
 
@@ -367,7 +370,7 @@ class FirmProfileFragment: Fragment() {
             FasciaEditText.requestFocus()
             ok = false
         }
-        else if(turn.toLong()>hourclosetime-houropentime){
+        else if(turno>hourclosetime-houropentime){
             FasciaEditText.error ="il campo Numero di turni non può essere maggiore dell'orario lavorativo"
             FasciaEditText.requestFocus()
             ok = false
@@ -401,7 +404,7 @@ class FirmProfileFragment: Fragment() {
                                 alertDialog.dismiss()
                                 val email = emailTextViewFirm.text.toString().trim()
 
-                                val newFirm = Firm(currentUser!!.uid,firm.nomeazienza, firm.email, firm.password, firm.categoria,firm.location,houropentime.toLong(),minuteopentime.toLong(),hourclosetime.toLong(),minuteclosetime.toLong(),tot.toLong(),firm.descrizione,turn.toLong(),firm.maxPartecipants)
+                                this.firm = Firm(currentUser!!.uid,firm.nomeazienza, firm.email, firm.password, firm.categoria,firm.location,firm.startHour,firm.startMinute,firm.endHour,firm.endMinute,tot.toLong(),firm.descrizione,turno,firm.maxPartecipants)
 
                                 cUser.updateEmail(email).addOnCompleteListener { task2 ->
                                     if (task2.isSuccessful) {
@@ -410,8 +413,8 @@ class FirmProfileFragment: Fragment() {
                                             "Update del profilo avvenuto con successo",
                                             Toast.LENGTH_LONG
                                         ).show()
-                                        firmDB.child(id).setValue(newFirm)
-                                        updateLayout(newFirm)
+                                        firmDB.child(id).setValue(this.firm)
+                                        updateLayout(this.firm)
                                     } else {
                                         Toast.makeText(
                                             activity,

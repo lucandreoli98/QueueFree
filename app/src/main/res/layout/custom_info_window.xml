@@ -17,7 +17,7 @@
     android:textSize="30sp"
     android:textStyle="bold" />
 
-    <TextView
+    <ImageView
         android:id="@+id/info_firm"
         android:layout_width="match_parent"
         android:layout_height="100dp"

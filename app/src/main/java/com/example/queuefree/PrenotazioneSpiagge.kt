@@ -74,7 +74,7 @@ class PrenotazioneSpiagge : FragmentActivity(), OnMapReadyCallback,GoogleMap.OnM
 
         if (p0 != null) {
             passDialogView.titlefirm.text = p0.title
-            passDialogView.info_firm.text=p0.snippet
+
         }
 
         passDialogView.prenota.setOnClickListener {
