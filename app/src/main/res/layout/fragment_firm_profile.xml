@@ -227,7 +227,8 @@
             android:layout_marginStart="100dp"
             android:layout_marginTop="20dp"
             android:background="@drawable/bg_round_red"
-            android:src="@drawable/ic_baseline_keyboard_arrow_down_24">
+            android:src="@drawable/ic_baseline_keyboard_arrow_down_24"
+            android:visibility="invisible">
 
         </ImageButton>
 
@@ -240,7 +241,8 @@
             android:layout_marginStart="100dp"
             android:layout_marginTop="2dp"
             android:background="@drawable/bg_round_red"
-            android:src="@drawable/ic_baseline_keyboard_arrow_down_24">
+            android:src="@drawable/ic_baseline_keyboard_arrow_down_24"
+            android:visibility="invisible">
 
         </ImageButton>
 
@@ -315,18 +317,33 @@
             android:layout_below="@+id/totalPeopleText"
             android:layout_marginTop="30dp"
             android:layout_marginStart="10dp"
-            android:text="@string/durata_turno"
+            android:text="Numero di turni al giorno"
             android:textColor="@color/black"
             android:textSize="20sp" />
         
-        <Spinner
-            android:id="@+id/spinnerFascia"
+        <EditText
+            android:id="@+id/FasciaEditText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toEndOf="@+id/durataText"
             android:layout_below="@+id/totalPeopleText" 
-            android:layout_marginTop="30dp"
-            android:layout_marginStart="10dp"/>
+            android:layout_marginTop="28dp"
+            android:layout_marginStart="10dp"
+            android:inputType="number"
+            android:visibility="invisible"
+            android:textColor="@color/black"
+            android:textSize="20sp"/>
+
+        <TextView
+            android:id="@+id/FasciaTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/durataText"
+            android:layout_below="@+id/totalPeopleText"
+            android:layout_marginTop="28dp"
+            android:layout_marginStart="10dp"
+            android:textColor="@color/black"
+            android:textSize="20sp"/>
         
 
         <Button

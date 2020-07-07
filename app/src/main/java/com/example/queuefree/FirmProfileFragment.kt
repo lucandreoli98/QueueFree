@@ -44,10 +44,10 @@ class FirmProfileFragment: Fragment() {
     private val fb: FirebaseDatabaseHelper = FirebaseDatabaseHelper()
     private val RIC = 1234
     private val AGC = 5678
-    var minuteopentime=0L
-    var houropentime=0L
-    var minuteclosetime=0L
-    var hourclosetime=0L
+    var minuteopentime=0
+    var houropentime=0
+    var minuteclosetime=0
+    var hourclosetime=0
 
     private lateinit var imageUri: Uri
     private var vista:View? = null
@@ -68,44 +68,21 @@ class FirmProfileFragment: Fragment() {
         fb.readFirmFromDB(object : FirebaseDatabaseHelper.DataStatusFirm {
             override fun DataisLoadedFirm(f: Firm) {
                 firm = f
+                houropentime=f.startHour.toInt()
+                hourclosetime=f.endHour.toInt()
                 view.nameFirmText.text = firm.nomeazienza
                 view.emailTextViewFirm.text = firm.email
                 view.locationTextView.text = firm.location
                 view.totalPeopleTextView.text = firm.capienza.toString()
+                view.FasciaTextView.text=firm.maxTurn.toString()
+                view.openNumberText.text=completeTimeStamp(firm.startHour,firm.startMinute)
+                view.closeNumberText.text=completeTimeStamp(firm.endHour,firm.endMinute)
 
+                view.openNumberEditText.setText(completeTimeStamp(firm.startHour,firm.startMinute))
+                view.closeNumberEditText.setText(completeTimeStamp(firm.endHour,firm.endMinute))
+                view.totalPeopledEditText.setText(firm.capienza.toString())
+                view.FasciaEditText.setText(firm.maxTurn.toString())
 
-
-
-                var open=""
-                var close=""
-
-
-                if (firm.startHour < 10 && firm.startMinute < 10)
-                    open = "0${firm.startHour}:0${firm.startMinute}"
-                else if (firm.startHour < 10 && firm.startMinute > 10)
-                    open = "0${firm.startHour}:${firm.startMinute}"
-                else if (firm.startHour > 10 && firm.startMinute < 10)
-                    open = "${firm.startHour}:0${firm.startMinute}"
-                else
-                   open = "${firm.startHour}:${firm.startMinute}"
-
-                view.openNumberText.text=open
-
-
-                if (firm.endHour < 10 && firm.endMinute < 10)
-                   close= "0${firm.endHour}:0${firm.endMinute}"
-                else if (firm.endHour < 10 && firm.endMinute > 10)
-                    close = "0${firm.endHour}:${firm.endMinute}"
-                else if (firm.endHour > 10 && firm.endMinute < 10)
-                    close = "${firm.endHour}:0${firm.endMinute}"
-                else
-                   close = "${firm.endHour}:${firm.endMinute}"
-
-                view.closeNumberText.text=close
-
-                view.openNumberEditText.setText(open)
-                view.closeNumberEditText.setText(close)
-                view.totalPeopledEditText.setText(view.totalPeopleTextView.text)
 
 
                 // modifica del profilo generale
@@ -138,12 +115,12 @@ class FirmProfileFragment: Fragment() {
                     openHourDialogView.timePicker.setIs24HourView(true)
                     openHourDialogView.timePicker.setOnTimeChangedListener { timePicker, hour, minute ->
 
-                        houropentime=hour.toLong()
-                        minuteopentime=minute.toLong()
+                        houropentime=hour
+                        minuteopentime=minute
 
                     }
                     openHourDialogView.okTimerButton.setOnClickListener {
-                        openNumberEditText.setText(completeTimeStamp(houropentime,minuteopentime))
+                        openNumberEditText.setText(completeTimeStamp(houropentime.toLong(),minuteopentime.toLong()))
                         alertOpenDialog.dismiss()
                     }
                     openHourDialogView.cancTimerButton.setOnClickListener {
@@ -161,8 +138,8 @@ class FirmProfileFragment: Fragment() {
                     openHourDialogView.timePicker.setIs24HourView(true)
                     openHourDialogView.timePicker.setOnTimeChangedListener { timePicker, hour, minute ->
 
-                        hourclosetime=hour.toLong()
-                        minuteclosetime=minute.toLong()
+                        hourclosetime=hour
+                        minuteclosetime=minute
 
                     }
                     openHourDialogView.okTimerButton.setOnClickListener {
@@ -306,11 +283,14 @@ class FirmProfileFragment: Fragment() {
         totalPeopledEditText.visibility = View.VISIBLE
         open.visibility= View.VISIBLE
         close.visibility= View.VISIBLE
+        FasciaEditText.visibility=View.VISIBLE
+
 
 
         openNumberText.visibility=View.INVISIBLE
         closeNumberText.visibility=View.INVISIBLE
         totalPeopleTextView.visibility=View.INVISIBLE
+        FasciaTextView.visibility=View.INVISIBLE
 
 
         pwd_edit.text = "Annulla"
@@ -325,6 +305,8 @@ class FirmProfileFragment: Fragment() {
         openNumberText.visibility=View.VISIBLE
         closeNumberText.visibility=View.VISIBLE
         totalPeopleTextView.visibility=View.VISIBLE
+        FasciaTextView.visibility=View.VISIBLE
+
 
                 // editText invisibili
         openNumberEditText.visibility=View.INVISIBLE
@@ -332,11 +314,13 @@ class FirmProfileFragment: Fragment() {
         totalPeopledEditText.visibility=View.INVISIBLE
         open.visibility=View.INVISIBLE
         close.visibility=View.INVISIBLE
+        FasciaEditText.visibility=View.INVISIBLE
 
 
         openNumberText.text = completeTimeStamp(firm.startHour,firm.startMinute)
         totalPeopleTextView.text=firm.capienza.toString()
         closeNumberText.text=completeTimeStamp(firm.endHour,firm.endMinute)
+        FasciaTextView.text=firm.maxTurn.toString()
 
 
 
@@ -357,6 +341,7 @@ class FirmProfileFragment: Fragment() {
         val open = openNumberEditText.text.toString().trim()
         val close = closeNumberEditText.text.toString().trim()
         val tot = totalPeopledEditText.text.toString().trim()
+        val turn=FasciaEditText.text.toString().trim()
 
         var ok: Boolean = true
 
@@ -377,6 +362,18 @@ class FirmProfileFragment: Fragment() {
             totalPeopledEditText.requestFocus()
             ok = false
         }
+        if (ok && tot.isEmpty()) {
+            FasciaEditText.error ="il campo Numero di turni al giorno è vuoto"
+            FasciaEditText.requestFocus()
+            ok = false
+        }
+        else if(turn.toLong()>hourclosetime-houropentime){
+            FasciaEditText.error ="il campo Numero di turni non può essere maggiore dell'orario lavorativo"
+            FasciaEditText.requestFocus()
+            ok = false
+
+        }
+
 
 
         // se non ci sono campi vuoti
@@ -404,7 +401,7 @@ class FirmProfileFragment: Fragment() {
                                 alertDialog.dismiss()
                                 val email = emailTextViewFirm.text.toString().trim()
 
-                                val newFirm = Firm(currentUser!!.uid,firm.nomeazienza, firm.email, firm.password, firm.categoria,firm.location,houropentime,minuteopentime,hourclosetime,minuteclosetime,tot.toLong(),firm.descrizione,firm.maxTurn,firm.maxPartecipants)
+                                val newFirm = Firm(currentUser!!.uid,firm.nomeazienza, firm.email, firm.password, firm.categoria,firm.location,houropentime.toLong(),minuteopentime.toLong(),hourclosetime.toLong(),minuteclosetime.toLong(),tot.toLong(),firm.descrizione,turn.toLong(),firm.maxPartecipants)
 
                                 cUser.updateEmail(email).addOnCompleteListener { task2 ->
                                     if (task2.isSuccessful) {
@@ -474,14 +471,15 @@ class FirmProfileFragment: Fragment() {
             imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
             val upload = storageRef.putBytes(baos.toByteArray())
 
-            vista!!.progress_bar.visibility = View.VISIBLE
+            vista!!.progress_bar_firm.visibility = View.VISIBLE
+
             upload.addOnCompleteListener { uploadTask ->
                 if (uploadTask.isSuccessful) {
                     storageRef.downloadUrl.addOnCompleteListener { urlTask ->
                         urlTask.result.let {
                             imageUri = it
-                            vista!!.progress_bar.visibility = View.INVISIBLE
-                            vista!!.imageProfile.setImageBitmap(imageBitmap)
+                            vista!!.progress_bar_firm.visibility = View.INVISIBLE
+                            vista!!.imageProfileFirm.setImageBitmap(imageBitmap)
                         }
 
                     }
