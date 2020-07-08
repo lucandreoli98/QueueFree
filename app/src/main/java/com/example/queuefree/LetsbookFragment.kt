@@ -15,6 +15,7 @@ import android.widget.Toast
 
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
+import kotlinx.android.synthetic.main.fragment_letsbook.*
 import kotlinx.android.synthetic.main.fragment_letsbook.view.*
 import java.util.*
 import kotlin.collections.ArrayList
@@ -129,14 +130,18 @@ class LetsbookFragment: Fragment(), DatePickerDialog.OnDateSetListener {
 
     private fun readBooking(){
         fb.readDailyBooking(day,month,year,firm, object: FirebaseDatabaseHelper.DataStatusBooking{
-            override fun BookingisLoaded(bookings: ArrayList<Long>) {
+            override fun BookingisLoaded(nHour: ArrayList<Long>, bookings: ArrayList<Long>) {
+                if(isSearch && nHour.size.toLong() == firm.maxTurn){ // se raggiunto limite massimo di errore
+                    Toast.makeText(context!!, "Raggiunto limite massimo di ore giornaliere per il giorno selezionato",Toast.LENGTH_LONG).show()
+                    isSearch = false
+                }
                 if(isSearch){
                     // selezione dell'orario visibile
                     v!!.startHour.visibility = View.VISIBLE
                     v!!.book.visibility = View.VISIBLE
 
                     // spinner personalizzato
-                    val a = SpinnerAdapter(context!!, hoursArray, bookings,nPeople,firm.startMinute)
+                    val a = SpinnerAdapter(context!!,hoursArray,bookings,nHour,nPeople,firm.startMinute)
                     a.setDropDownViewResource(R.layout.spinner_item)
                     v!!.startHour.adapter = a
 
@@ -149,6 +154,18 @@ class LetsbookFragment: Fragment(), DatePickerDialog.OnDateSetListener {
                         }
                         else{
                             for (i in v!!.startHour.selectedItemPosition..v!!.durataH.selectedItemPosition + v!!.startHour.selectedItemPosition) {
+                                if(nHour.contains(i.toLong())){
+                                    isSearch = false
+                                    Toast.makeText(context!!,"Le ore selezionate le hai già prenotate precedentemente\nControlla le tue prenotazioni sul profilo",Toast.LENGTH_LONG).show()
+                                    break
+                                }
+                            }
+
+                            if(nHour.size+durataH.selectedItemPosition+1 > firm.maxTurn){
+                                isSearch = false
+                                Toast.makeText(context!!, "Sforato limite massimo di ore consentite\nLimite ore: ${firm.maxTurn}",Toast.LENGTH_LONG).show()
+                            }
+                            for (i in v!!.startHour.selectedItemPosition..v!!.durataH.selectedItemPosition + v!!.startHour.selectedItemPosition) {
                                 if(bookings[i]<nPeople){
                                     Toast.makeText(context!!,"Prenotazione non valida!\n Posti non sufficienti per l'orario selezionato",Toast.LENGTH_SHORT).show()
                                     isSearch = false
@@ -160,7 +177,7 @@ class LetsbookFragment: Fragment(), DatePickerDialog.OnDateSetListener {
                                 isSearch = false
                                 for (i in v!!.startHour.selectedItemPosition..v!!.durataH.selectedItemPosition + v!!.startHour.selectedItemPosition) {
                                     val r = Booking(day, month, year, i.toLong(), (v!!.npeople.selectedItemPosition+1).toLong())
-                                    FirebaseDatabase.getInstance().getReference("/bookings/${firm.id}/$id-$i-$year$month$day").setValue(r)
+                                    FirebaseDatabase.getInstance().getReference("/bookings/${firm.id}/$id-${isZero(i)}$i-$year${isZero(month.toInt())}$month${isZero(day.toInt())}$day").setValue(r)
                                 }
                                 Toast.makeText(context!!,"Prenotazione effettuata con successo!",Toast.LENGTH_SHORT).show()
                                 val i = Intent(activity, HomePageActivity::class.java)
@@ -172,5 +189,12 @@ class LetsbookFragment: Fragment(), DatePickerDialog.OnDateSetListener {
                 }
             }
         })
+    }
+
+    private fun isZero(i: Int): String{
+        return if(i < 10)
+            "0"
+        else
+            ""
     }
 }

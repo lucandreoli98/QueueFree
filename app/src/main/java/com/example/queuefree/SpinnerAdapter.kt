@@ -11,9 +11,9 @@ import kotlinx.android.synthetic.main.spinner_item.view.*
 import kotlin.math.min
 
 class SpinnerAdapter(ctx: Context, private val hours: List<Long>,
-                     private val booking: List<Long>, private val nPartecipanti: Int,
-                     private val minute: Long
-) :
+                     private val booking: List<Long>, private val nHour: ArrayList<Long>,
+                     private val nPartecipanti: Int,
+                     private val minute: Long) :
     ArrayAdapter<Long>(ctx, 0, hours) {
 
 
@@ -32,9 +32,11 @@ class SpinnerAdapter(ctx: Context, private val hours: List<Long>,
 
         for(i in booking.indices){
             if(position == i){
-                if(booking[i] >= nPartecipanti)
+                if(nHour.contains(i.toLong())){
+                    view.prova.setBackgroundColor(Color.YELLOW)
+                }
+                else if(booking[i] >= nPartecipanti)
                     view.prova.setBackgroundColor(Color.GREEN)
-
                 view.prova.text = completeTimeStamp(hours[i], minute)
             }
         }

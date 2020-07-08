@@ -23,7 +23,7 @@ class FirebaseDatabaseHelper () {
         fun DataisLoadedFirm(firm:Firm)
     }
     interface DataStatusBooking {
-        fun BookingisLoaded(bookings: ArrayList<Long>)
+        fun BookingisLoaded(nHour: ArrayList<Long>, bookings: ArrayList<Long>)
     }
 
     fun readUserFromDB(ds: DataStatus){
@@ -209,6 +209,22 @@ class FirebaseDatabaseHelper () {
                     for(i in 0..23)
                         bookingsFirm.add(firm.capienza)
 
+                var nHour: ArrayList<Long> = ArrayList()
+                nHour.clear()
+                if(snapshot.exists()) {
+                    for (firms in snapshot.children) {
+                        if (firm.id == firms.key) { // se c'è l'id dell'azienda
+                            for (users in firms.children) {
+                                val userBook = users.key.toString()
+                                if(id == userBook.substring(0,28) && yy == userBook.substring(32,36).toLong() &&
+                                   mm == userBook.substring(36,38).toLong() && dd == userBook.substring(38,40).toLong()){
+                                    nHour.add(userBook.substring(29,31).toLong())
+                                }
+                            }
+                        }
+                    }
+                }
+
                 if(snapshot.exists()){
                     for(firms in snapshot.children){
                         if(firm.id == firms.key){ // se c'è l'id dell'azienda
@@ -230,7 +246,7 @@ class FirebaseDatabaseHelper () {
                         }
                     }
                 }
-                ds.BookingisLoaded(bookingsFirm)
+                ds.BookingisLoaded(nHour, bookingsFirm)
             }
 
         })
