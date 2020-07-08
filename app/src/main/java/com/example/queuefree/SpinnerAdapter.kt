@@ -33,10 +33,10 @@ class SpinnerAdapter(ctx: Context, private val hours: List<Long>,
         for(i in booking.indices){
             if(position == i){
                 if(nHour.contains(i.toLong())){
-                    view.prova.setBackgroundColor(Color.YELLOW)
+                    view.moodImage.setImageResource(R.drawable.ic_baseline_lens_yellow)
                 }
                 else if(booking[i] >= nPartecipanti)
-                    view.prova.setBackgroundColor(Color.GREEN)
+                    view.moodImage.setImageResource(R.drawable.ic_baseline_lens_green)
                 view.prova.text = completeTimeStamp(hours[i], minute)
             }
         }

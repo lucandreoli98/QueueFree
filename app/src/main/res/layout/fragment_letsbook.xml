@@ -40,6 +40,7 @@
             android:id="@+id/startHo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
             android:layout_below="@+id/firmName"
             android:layout_marginTop="10dp"
             android:text="@string/openFirm"
@@ -53,6 +54,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/firmName"
             android:layout_toEndOf="@id/startHo"
+            android:layout_marginStart="2dp"
             android:layout_marginTop="10dp"
             android:text=""
             android:textColor="@color/white"
@@ -62,6 +64,7 @@
             android:id="@+id/endHo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
             android:layout_below="@+id/startHo"
             android:layout_marginTop="10dp"
             android:text="@string/closeFirm"
@@ -76,6 +79,7 @@
             android:layout_below="@+id/startHou"
             android:layout_alignStart="@+id/startHou"
             android:layout_marginTop="10dp"
+            android:layout_marginStart="2dp"
             android:text=""
             android:textColor="@color/white"
             android:textSize="25sp"
@@ -85,104 +89,161 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="310dp"
-        android:padding="10dp">
+        android:layout_marginTop="310dp">
 
-        <TextView
-            android:id="@+id/startH"
+        <ImageView
+            android:id="@+id/imageDay"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="25dp"
+            android:src="@drawable/ic_event_black"
             android:text="@string/quando"
             android:textColor="@color/black"
-            android:layout_marginTop="10dp"
-            android:textSize="25sp"/>
+            android:textSize="25sp" />
 
         <Button
             android:id="@+id/select_data"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/data"
-            android:layout_toEndOf="@+id/startH"
-            android:layout_marginStart="20dp"
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@+id/imageDay"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="13dp"
             android:background="@drawable/btn_musei"
-            android:textColor="@color/white"
-            android:layout_marginTop="3dp"
-            />
+            android:textAllCaps="false"
+            android:text="@string/seleziona_un_giorno"
+            android:padding="10dp"
+            android:textColor="@color/white" />
 
-
-
-        <Spinner
-            android:id="@+id/startHour"
+        <ImageView
+            android:id="@+id/imagePeople"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="10dp"
-            android:layout_toEndOf="@+id/select_data"
-            android:backgroundTint="@color/backgroundRed"
-            android:padding="7dp"
-            android:visibility="invisible"
-            />
+            android:layout_below="@+id/select_data"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="15dp"
+            android:src="@drawable/ic_people"
+            android:text="@string/imageperson"
+            android:textColor="@color/black" />
 
         <TextView
             android:id="@+id/npartecipanti"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/startH"
-            android:text="@string/peoples"
-            android:textColor="@color/black"
-            android:textSize="25sp"
+            android:layout_toEndOf="@+id/imagePeople"
+            android:layout_below="@+id/select_data"
+            android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
-            />
+            android:text="@string/nPeople"
+            android:textColor="@color/black"
+            android:textSize="25sp" />
 
         <Spinner
             android:id="@+id/npeople"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/select_data"
             android:layout_toEndOf="@+id/npartecipanti"
-            android:layout_below="@+id/startH"
-            android:layout_marginTop="10dp"
             android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:backgroundTint="@color/backgroundRed"
+            android:padding="7dp" />
+
+        <ImageView
+            android:id="@+id/imageHour"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/npartecipanti"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="15dp"
+            android:visibility="invisible"
+            android:src="@drawable/ic_clock"
+            android:text="@string/clock"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/oraInizio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/npartecipanti"
+            android:layout_toEndOf="@+id/imageHour"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:text="Ora inizio: "
+            android:textColor="@color/black"
+            android:textSize="25sp"
+            android:visibility="invisible" />
+
+        <Spinner
+            android:id="@+id/startHour"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/npartecipanti"
+            android:layout_toEndOf="@+id/oraInizio"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="1dp"
             android:backgroundTint="@color/backgroundRed"
             android:padding="7dp"
+            android:visibility="invisible" />
 
-            />
 
+        <ImageView
+            android:id="@+id/imageDuration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/imageHour"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="18dp"
+            android:src="@drawable/ic_clock_add"
+            android:text="@string/clock"
+            android:textColor="@color/black"
+            android:visibility="invisible" />
 
         <TextView
             android:id="@+id/durata"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/npeople"
+            android:layout_below="@+id/oraInizio"
+            android:layout_toEndOf="@+id/imageDuration"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
             android:text="@string/durata_prenotazione"
             android:textColor="@color/black"
             android:textSize="25sp"
-            android:layout_marginTop="10dp"
-        />
+            android:visibility="invisible" />
 
         <Spinner
             android:id="@+id/durataH"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toEndOf="@id/durata"
-            android:layout_below="@+id/npeople"
-            android:layout_marginTop="10dp"
+            android:layout_below="@+id/oraInizio"
             android:layout_marginStart="15dp"
+            android:layout_marginTop="10dp"
+            android:layout_toEndOf="@id/durata"
             android:backgroundTint="@color/backgroundRed"
             android:padding="7dp"
-
-            />
+            android:visibility="invisible" />
 
         <Button
             android:id="@+id/book"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@id/durata"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="60dp"
+            android:layout_marginEnd="60dp"
             android:background="@drawable/btn_musei"
             android:text="@string/book"
             android:textColor="@color/white"
             android:textSize="25sp"
-            android:layout_below="@id/durata"
-            android:visibility="invisible"
-            android:layout_marginTop="20dp" />
-
+            android:visibility="invisible" />
     </RelativeLayout>
 </FrameLayout>
