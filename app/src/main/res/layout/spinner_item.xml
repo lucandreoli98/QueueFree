@@ -1,12 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView
-    android:layout_height="match_parent"
-    android:layout_width="match_parent"
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/prova"
-    android:layout_centerInParent="true"
-    android:background="@color/red"
-    android:textSize="20sp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     android:padding="7dp"
-    android:textColor="@color/black" />
+    >
+    <ImageView
+        android:id="@+id/moodImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/isdisponible"
+        android:src="@drawable/ic_baseline_lens_red"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="3dp"
 
+        />
+    <TextView
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:id="@+id/prova"
+        android:layout_centerInParent="true"
+        android:background="@color/white"
+        android:textSize="20sp"
+        android:textColor="@color/black"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/moodImage"
+        app:layout_constraintBottom_toBottomOf="@+id/moodImage"
+        android:layout_marginStart="5dp"
+
+        />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
