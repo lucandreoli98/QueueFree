@@ -143,24 +143,30 @@ class LetsbookFragment: Fragment(), DatePickerDialog.OnDateSetListener {
                     v!!.book.setOnClickListener {
                         Log.e("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",bookings.toString())
                         isSearch = true
-                        for (i in v!!.startHour.selectedItemPosition..v!!.durataH.selectedItemPosition + v!!.startHour.selectedItemPosition) {
-                            if(bookings[i]<nPeople){
-                                Toast.makeText(context!!,"Prenotazione non valida!\n Spazio non sufficiente per l'orario selezionato",Toast.LENGTH_SHORT).show()
-                                isSearch = false
-                                break
-                            }
-                        }
-
-                        if(isSearch){
+                        if((v!!.startHour.selectedItemPosition + firm.startHour + v!!.durataH.selectedItemPosition+1) > firm.endHour){
                             isSearch = false
+                            Toast.makeText(context!!,"Prenotazione non valida!\nOrario di chiusura non rispettato",Toast.LENGTH_SHORT).show()
+                        }
+                        else{
                             for (i in v!!.startHour.selectedItemPosition..v!!.durataH.selectedItemPosition + v!!.startHour.selectedItemPosition) {
-                                val r = Booking(day, month, year, i.toLong(), (v!!.npeople.selectedItemPosition+1).toLong())
-                                FirebaseDatabase.getInstance().getReference("/bookings/${firm.id}/$id-$i-$year$month$day").setValue(r)
+                                if(bookings[i]<nPeople){
+                                    Toast.makeText(context!!,"Prenotazione non valida!\n Posti non sufficienti per l'orario selezionato",Toast.LENGTH_SHORT).show()
+                                    isSearch = false
+                                    break
+                                }
                             }
-                            Toast.makeText(context!!,"Prenotazione effettuata con successo!",Toast.LENGTH_SHORT).show()
-                            val i = Intent(activity, HomePageActivity::class.java)
-                            i.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
-                            startActivity(i)
+
+                            if(isSearch){
+                                isSearch = false
+                                for (i in v!!.startHour.selectedItemPosition..v!!.durataH.selectedItemPosition + v!!.startHour.selectedItemPosition) {
+                                    val r = Booking(day, month, year, i.toLong(), (v!!.npeople.selectedItemPosition+1).toLong())
+                                    FirebaseDatabase.getInstance().getReference("/bookings/${firm.id}/$id-$i-$year$month$day").setValue(r)
+                                }
+                                Toast.makeText(context!!,"Prenotazione effettuata con successo!",Toast.LENGTH_SHORT).show()
+                                val i = Intent(activity, HomePageActivity::class.java)
+                                i.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
+                                startActivity(i)
+                            }
                         }
                     }
                 }
