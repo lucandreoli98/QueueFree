@@ -1,7 +1,9 @@
 package com.example.queuefree
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
@@ -48,11 +50,17 @@ class HomePageActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
 
         when (id) {
             R.id.nav_profile -> startActivity(Intent(this, ProflileActivity::class.java))
-            R.id.nav_about -> startActivity(Intent(this, AboutActivity::class.java))
+            R.id.nav_about -> about()
             R.id.nav_logout -> signOut()
         }
 
         return true
+    }
+
+    fun about(){
+        val aboutDialogView = LayoutInflater.from(this).inflate(R.layout.activity_about, null)
+        val mBuilder = AlertDialog.Builder(this).setView(aboutDialogView)
+        mBuilder.show()
     }
 
     fun signOut(){

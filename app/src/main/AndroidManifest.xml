@@ -19,10 +19,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:allowBackup="true">
-        <activity
-            android:name=".AboutActivity"
-            android:theme="@style/DialogTheme">
-        </activity>
 
         <activity android:name=".LetsbookActivity" />
         <activity android:name=".FirmActivity" />
