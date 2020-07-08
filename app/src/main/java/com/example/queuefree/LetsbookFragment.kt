@@ -30,6 +30,7 @@ class LetsbookFragment: Fragment(), DatePickerDialog.OnDateSetListener {
     private var firm = Firm()
     private val id = FirebaseAuth.getInstance().currentUser!!.uid.trim { it <= ' ' }
     private val hoursArray: ArrayList<Long> = ArrayList()
+    private var isSearch = false
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -71,6 +72,7 @@ class LetsbookFragment: Fragment(), DatePickerDialog.OnDateSetListener {
                     override fun onItemSelected(p0: AdapterView<*>?, view: View?, position: Int, id: Long) {
                         nPeople = position+1 // posizione parte da 0
                         if(day != 0L && month != 0L && year != 0L) {
+                            isSearch = true
                             readBooking()
                         }
                     }
@@ -121,41 +123,45 @@ class LetsbookFragment: Fragment(), DatePickerDialog.OnDateSetListener {
         val date = dayOfMonth.toString() + " / " + (month + 1) + " / " + year
         v!!.select_data.text = date
 
+        isSearch = true
         readBooking() // lettura DB
     }
 
     private fun readBooking(){
         fb.readDailyBooking(day,month,year,firm, object: FirebaseDatabaseHelper.DataStatusBooking{
             override fun BookingisLoaded(bookings: ArrayList<Long>) {
-                // selezione dell'orario visibile
-                v!!.startHour.visibility = View.VISIBLE
-                v!!.book.visibility = View.VISIBLE
+                if(isSearch){
+                    // selezione dell'orario visibile
+                    v!!.startHour.visibility = View.VISIBLE
+                    v!!.book.visibility = View.VISIBLE
 
-                // spinner personalizzato
-                val a = SpinnerAdapter(context!!, hoursArray, bookings,nPeople,firm.startMinute)
-                a.setDropDownViewResource(R.layout.spinner_item)
-                v!!.startHour.adapter = a
+                    // spinner personalizzato
+                    val a = SpinnerAdapter(context!!, hoursArray, bookings,nPeople,firm.startMinute)
+                    a.setDropDownViewResource(R.layout.spinner_item)
+                    v!!.startHour.adapter = a
 
-                v!!.book.setOnClickListener {
-                    Log.e("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",bookings.toString())
-                    var ok = true
-                    for (i in v!!.startHour.selectedItemPosition..v!!.durataH.selectedItemPosition + v!!.startHour.selectedItemPosition) {
-                        if(bookings[i]<nPeople){
-                            Toast.makeText(context!!,"Prenotazione non valida!\n Spazio non sufficiente per l'orario selezionato",Toast.LENGTH_SHORT).show()
-                            ok = false
-                            break
-                        }
-                    }
-
-                    if(ok){
+                    v!!.book.setOnClickListener {
+                        Log.e("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",bookings.toString())
+                        isSearch = true
                         for (i in v!!.startHour.selectedItemPosition..v!!.durataH.selectedItemPosition + v!!.startHour.selectedItemPosition) {
-                            val r = Booking(day, month, year, i.toLong(), (v!!.npeople.selectedItemPosition+1).toLong())
-                            FirebaseDatabase.getInstance().getReference("/bookings/${firm.id}/$id-$i-$year$month$day").setValue(r)
+                            if(bookings[i]<nPeople){
+                                Toast.makeText(context!!,"Prenotazione non valida!\n Spazio non sufficiente per l'orario selezionato",Toast.LENGTH_SHORT).show()
+                                isSearch = false
+                                break
+                            }
                         }
-                        Toast.makeText(context!!,"Prenotazione effettuata con successo!",Toast.LENGTH_SHORT).show()
-                        val i = Intent(activity, HomePageActivity::class.java)
-                        i.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
-                        startActivity(i)
+
+                        if(isSearch){
+                            isSearch = false
+                            for (i in v!!.startHour.selectedItemPosition..v!!.durataH.selectedItemPosition + v!!.startHour.selectedItemPosition) {
+                                val r = Booking(day, month, year, i.toLong(), (v!!.npeople.selectedItemPosition+1).toLong())
+                                FirebaseDatabase.getInstance().getReference("/bookings/${firm.id}/$id-$i-$year$month$day").setValue(r)
+                            }
+                            Toast.makeText(context!!,"Prenotazione effettuata con successo!",Toast.LENGTH_SHORT).show()
+                            val i = Intent(activity, HomePageActivity::class.java)
+                            i.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
+                            startActivity(i)
+                        }
                     }
                 }
             }
