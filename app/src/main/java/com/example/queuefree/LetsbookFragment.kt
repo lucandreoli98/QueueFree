@@ -1,7 +1,9 @@
 package com.example.queuefree
 
 import android.app.DatePickerDialog
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +11,7 @@ import android.widget.AdapterView
 import androidx.fragment.app.Fragment
 import android.widget.ArrayAdapter
 import android.widget.DatePicker
+import android.widget.Toast
 
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
@@ -26,6 +29,8 @@ class LetsbookFragment: Fragment(), DatePickerDialog.OnDateSetListener {
     private var nPeople = 1
     private var firm = Firm()
     private val id = FirebaseAuth.getInstance().currentUser!!.uid.trim { it <= ' ' }
+    private val hoursArray: ArrayList<Long> = ArrayList()
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view: View = inflater.inflate(R.layout.fragment_letsbook, container, false)
@@ -45,8 +50,13 @@ class LetsbookFragment: Fragment(), DatePickerDialog.OnDateSetListener {
                     showDatePickerDialog() // apre il pannello del calendario sulla data di oggi
                 }
 
+                // Ore possibili da prenotare
+                for (i in firm.startHour until firm.endHour)
+                    hoursArray.add(i)
+
                 // numero di partecipanti
                 val partArray : ArrayList<String> = ArrayList()
+                Log.e("BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB",firm.maxPartecipants.toString())
                 for(i in 1..firm.maxPartecipants)
                     partArray.add(i.toString())
 
@@ -121,26 +131,32 @@ class LetsbookFragment: Fragment(), DatePickerDialog.OnDateSetListener {
                 v!!.startHour.visibility = View.VISIBLE
                 v!!.book.visibility = View.VISIBLE
 
-                // Ore possibili da prenotare
-                val hoursArray: ArrayList<Long> = ArrayList()
-                for (i in firm.startHour until firm.endHour)
-                    hoursArray.add(i)
-
                 // spinner personalizzato
                 val a = SpinnerAdapter(context!!, hoursArray, bookings,nPeople,firm.startMinute)
                 a.setDropDownViewResource(R.layout.spinner_item)
                 v!!.startHour.adapter = a
 
                 v!!.book.setOnClickListener {
+                    Log.e("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",bookings.toString())
+                    var ok = true
                     for (i in v!!.startHour.selectedItemPosition..v!!.durataH.selectedItemPosition + v!!.startHour.selectedItemPosition) {
-                        val r = Booking(day, month, year, i.toLong(), (v!!.npeople.selectedItemPosition+1).toLong())
-                        FirebaseDatabase.getInstance()
-                            .getReference("/bookings/${firm.id}/$id-$i-$year$month$day").setValue(r)
-
-
+                        if(bookings[i]<nPeople){
+                            Toast.makeText(context!!,"Prenotazione non valida!\n Spazio non sufficiente per l'orario selezionato",Toast.LENGTH_SHORT).show()
+                            ok = false
+                            break
+                        }
                     }
 
-                    //TODO: AGGIUNGERE IL CAMBIO ACTIVIY
+                    if(ok){
+                        for (i in v!!.startHour.selectedItemPosition..v!!.durataH.selectedItemPosition + v!!.startHour.selectedItemPosition) {
+                            val r = Booking(day, month, year, i.toLong(), (v!!.npeople.selectedItemPosition+1).toLong())
+                            FirebaseDatabase.getInstance().getReference("/bookings/${firm.id}/$id-$i-$year$month$day").setValue(r)
+                        }
+                        Toast.makeText(context!!,"Prenotazione effettuata con successo!",Toast.LENGTH_SHORT).show()
+                        val i = Intent(activity, HomePageActivity::class.java)
+                        i.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
+                        startActivity(i)
+                    }
                 }
             }
         })

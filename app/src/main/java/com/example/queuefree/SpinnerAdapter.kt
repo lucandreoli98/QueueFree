@@ -10,13 +10,11 @@ import android.widget.ArrayAdapter
 import kotlinx.android.synthetic.main.spinner_item.view.*
 import kotlin.math.min
 
-class SpinnerAdapter(ctx: Context, hours: List<Long>, booking: List<Long>, nPartecipanti: Int, minute: Long) :
+class SpinnerAdapter(ctx: Context, private val hours: List<Long>,
+                     private val booking: List<Long>, private val nPartecipanti: Int,
+                     private val minute: Long
+) :
     ArrayAdapter<Long>(ctx, 0, hours) {
-
-    private val hours = hours
-    private val booking = booking
-    private val nPartecipanti = nPartecipanti
-    private val minute = minute
 
 
     override fun getView(position: Int, recycledView: View?, parent: ViewGroup): View {
