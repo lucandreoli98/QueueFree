@@ -35,6 +35,7 @@ class PrenotazioneSpiagge : FragmentActivity(), OnMapReadyCallback,GoogleMap.OnM
             val intent = Intent(this,HomePageActivity::class.java)
             startActivity(intent)
 
+
         }
 
 
