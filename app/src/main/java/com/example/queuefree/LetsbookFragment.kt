@@ -148,11 +148,7 @@ class LetsbookFragment: Fragment(), DatePickerDialog.OnDateSetListener {
                     a.setDropDownViewResource(R.layout.spinner_item)
                     v!!.startHour.adapter = a
                     v!!.startHour.setSelection(lastPos)
-                    v!!.startHour.onItemClickListener = object: AdapterView.OnItemClickListener{
-                        override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                            lastPos = position
-                        }
-                    }
+                    v!!.startHour.onItemClickListener = AdapterView.OnItemClickListener { _, _, position, _ -> lastPos = position }
 
 
                     v!!.book.setOnClickListener {
