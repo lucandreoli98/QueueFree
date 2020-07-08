@@ -27,7 +27,8 @@
         <activity android:name=".LetsbookActivity" />
         <activity android:name=".FirmActivity" />
         <activity android:name=".ProflileActivity" />
-        <activity android:name=".PrenotazioneSpiagge" />
+        <activity android:name=".PrenotazioneSpiagge"
+                  android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".HomePageActivity"
                   android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".MainActivity">

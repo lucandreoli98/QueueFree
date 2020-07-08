@@ -6,7 +6,6 @@ import android.graphics.BitmapFactory
 import android.location.Geocoder
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.View
 import androidx.fragment.app.FragmentActivity
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -19,7 +18,7 @@ import com.google.android.gms.maps.model.MarkerOptions
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.custom_info_window.view.*
-import kotlinx.android.synthetic.main.fragment_show_profile.view.*
+import kotlinx.android.synthetic.main.maps_activity.*
 
 class PrenotazioneSpiagge : FragmentActivity(), OnMapReadyCallback,GoogleMap.OnMarkerClickListener{
 
@@ -32,6 +31,21 @@ class PrenotazioneSpiagge : FragmentActivity(), OnMapReadyCallback,GoogleMap.OnM
         setContentView(R.layout.maps_activity)
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
+        back_button.setOnClickListener {
+            val intent = Intent(this,HomePageActivity::class.java)
+            startActivity(intent)
+
+        }
+
+
+
+    }
+
+    override fun onBackPressed() {
+        val intent = Intent(this,HomePageActivity::class.java)
+        startActivity(intent)
+
+
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
