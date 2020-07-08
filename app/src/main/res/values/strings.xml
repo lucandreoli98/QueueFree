@@ -95,5 +95,8 @@
     <string name="quando">Quando:</string>
     <string name="data">Data</string>
     <string name="search">Cerca</string>
+    <string name="seleziona_un_giorno">Seleziona un giorno</string>
+    <string name="imageperson">ImagePerson</string>
+    <string name="nPeople">Numero partecipanti:</string>
 
 </resources>

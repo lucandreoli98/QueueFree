@@ -133,14 +133,12 @@ class LetsbookFragment: Fragment(), DatePickerDialog.OnDateSetListener {
             override fun BookingisLoaded(nHour: ArrayList<Long>, bookings: ArrayList<Long>) {
                 if(isSearch && nHour.size.toLong() == firm.maxTurn){ // se raggiunto limite massimo di errore
                     Toast.makeText(context!!, "Raggiunto limite massimo di ore giornaliere per il giorno selezionato",Toast.LENGTH_LONG).show()
-                    v!!.startHour.visibility = View.INVISIBLE
-                    v!!.book.visibility = View.INVISIBLE
+                    changeVisibilty(false)
                     isSearch = false
                 }
                 if(isSearch){
                     // selezione dell'orario visibile
-                    v!!.startHour.visibility = View.VISIBLE
-                    v!!.book.visibility = View.VISIBLE
+                    changeVisibilty(true)
 
                     // spinner personalizzato
                     val a = SpinnerAdapter(context!!,hoursArray,bookings,nHour,nPeople,firm.startMinute)
@@ -198,5 +196,29 @@ class LetsbookFragment: Fragment(), DatePickerDialog.OnDateSetListener {
             "0"
         else
             ""
+    }
+
+    private fun changeVisibilty(visible: Boolean){
+        if(visible){
+            v!!.oraInizio.visibility = View.VISIBLE
+            v!!.imageHour.visibility = View.VISIBLE
+            v!!.startHour.visibility = View.VISIBLE
+
+            v!!.imageDuration.visibility = View.VISIBLE
+            v!!.durata.visibility = View.VISIBLE
+            v!!.durataH.visibility = View.VISIBLE
+
+            v!!.book.visibility = View.VISIBLE
+        }else{
+            v!!.oraInizio.visibility = View.INVISIBLE
+            v!!.imageHour.visibility = View.INVISIBLE
+            v!!.startHour.visibility = View.INVISIBLE
+
+            v!!.imageDuration.visibility = View.INVISIBLE
+            v!!.durata.visibility = View.INVISIBLE
+            v!!.durataH.visibility = View.INVISIBLE
+
+            v!!.book.visibility = View.INVISIBLE
+        }
     }
 }
