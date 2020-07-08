@@ -32,6 +32,7 @@ class LetsbookFragment: Fragment(), DatePickerDialog.OnDateSetListener {
     private val id = FirebaseAuth.getInstance().currentUser!!.uid.trim { it <= ' ' }
     private val hoursArray: ArrayList<Long> = ArrayList()
     private var isSearch = false
+    private var lastPos = 0
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -74,6 +75,7 @@ class LetsbookFragment: Fragment(), DatePickerDialog.OnDateSetListener {
                         nPeople = position+1 // posizione parte da 0
                         if(day != 0L && month != 0L && year != 0L) {
                             isSearch = true
+
                             readBooking()
                         }
                     }
@@ -125,6 +127,7 @@ class LetsbookFragment: Fragment(), DatePickerDialog.OnDateSetListener {
         v!!.select_data.text = date
 
         isSearch = true
+
         readBooking() // lettura DB
     }
 
@@ -144,6 +147,13 @@ class LetsbookFragment: Fragment(), DatePickerDialog.OnDateSetListener {
                     val a = SpinnerAdapter(context!!,hoursArray,bookings,nHour,nPeople,firm.startMinute)
                     a.setDropDownViewResource(R.layout.spinner_item)
                     v!!.startHour.adapter = a
+                    v!!.startHour.setSelection(lastPos)
+                    v!!.startHour.onItemClickListener = object: AdapterView.OnItemClickListener{
+                        override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                            lastPos = position
+                        }
+                    }
+
 
                     v!!.book.setOnClickListener {
                         Log.e("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",bookings.toString())
