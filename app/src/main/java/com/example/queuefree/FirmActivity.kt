@@ -22,4 +22,9 @@ class FirmActivity : AppCompatActivity() {
 
 
     }
+
+    override fun onBackPressed() {
+        val intent = Intent(this,FirmActivity::class.java)
+        startActivity(intent)
+    }
 }
