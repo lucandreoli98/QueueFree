@@ -229,7 +229,6 @@ class LoginFragment : Fragment() {
                         FirebaseDatabase.getInstance().getReference("/users").orderByChild("email").equalTo(account.email!!).addListenerForSingleValueEvent(object : ValueEventListener {
                             override fun onDataChange(snapshot: DataSnapshot) {
                                 if(!snapshot.exists()){
-                                    Log.e("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA","ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZz")
                                     val u = User(account.givenName!!, account.familyName!!, account.email!!, 0, 0, 0)
                                     val id = FirebaseAuth.getInstance().currentUser!!.uid.trim { it <= ' ' }
                                     FirebaseDatabase.getInstance().getReference("/users/$id").setValue(u)
@@ -238,7 +237,6 @@ class LoginFragment : Fragment() {
                             }
                             override fun onCancelled(error: DatabaseError) {}
                         })
-                        Log.e("ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ","ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZz")
 
                         val i=Intent(activity, HomePageActivity::class.java)
                         i.flags=Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
