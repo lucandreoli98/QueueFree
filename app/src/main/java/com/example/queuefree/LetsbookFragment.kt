@@ -1,7 +1,9 @@
 package com.example.queuefree
 
 import android.app.DatePickerDialog
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +11,7 @@ import android.widget.AdapterView
 import androidx.fragment.app.Fragment
 import android.widget.ArrayAdapter
 import android.widget.DatePicker
+import android.widget.Toast
 
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
@@ -26,6 +29,9 @@ class LetsbookFragment: Fragment(), DatePickerDialog.OnDateSetListener {
     private var nPeople = 1
     private var firm = Firm()
     private val id = FirebaseAuth.getInstance().currentUser!!.uid.trim { it <= ' ' }
+    private val hoursArray: ArrayList<Long> = ArrayList()
+    private var isSearch = false
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view: View = inflater.inflate(R.layout.fragment_letsbook, container, false)
@@ -45,8 +51,13 @@ class LetsbookFragment: Fragment(), DatePickerDialog.OnDateSetListener {
                     showDatePickerDialog() // apre il pannello del calendario sulla data di oggi
                 }
 
+                // Ore possibili da prenotare
+                for (i in firm.startHour until firm.endHour)
+                    hoursArray.add(i)
+
                 // numero di partecipanti
                 val partArray : ArrayList<String> = ArrayList()
+                Log.e("BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB",firm.maxPartecipants.toString())
                 for(i in 1..firm.maxPartecipants)
                     partArray.add(i.toString())
 
@@ -61,6 +72,7 @@ class LetsbookFragment: Fragment(), DatePickerDialog.OnDateSetListener {
                     override fun onItemSelected(p0: AdapterView<*>?, view: View?, position: Int, id: Long) {
                         nPeople = position+1 // posizione parte da 0
                         if(day != 0L && month != 0L && year != 0L) {
+                            isSearch = true
                             readBooking()
                         }
                     }
@@ -111,36 +123,52 @@ class LetsbookFragment: Fragment(), DatePickerDialog.OnDateSetListener {
         val date = dayOfMonth.toString() + " / " + (month + 1) + " / " + year
         v!!.select_data.text = date
 
+        isSearch = true
         readBooking() // lettura DB
     }
 
     private fun readBooking(){
         fb.readDailyBooking(day,month,year,firm, object: FirebaseDatabaseHelper.DataStatusBooking{
             override fun BookingisLoaded(bookings: ArrayList<Long>) {
-                // selezione dell'orario visibile
-                v!!.startHour.visibility = View.VISIBLE
-                v!!.book.visibility = View.VISIBLE
+                if(isSearch){
+                    // selezione dell'orario visibile
+                    v!!.startHour.visibility = View.VISIBLE
+                    v!!.book.visibility = View.VISIBLE
 
-                // Ore possibili da prenotare
-                val hoursArray: ArrayList<Long> = ArrayList()
-                for (i in firm.startHour until firm.endHour)
-                    hoursArray.add(i)
+                    // spinner personalizzato
+                    val a = SpinnerAdapter(context!!, hoursArray, bookings,nPeople,firm.startMinute)
+                    a.setDropDownViewResource(R.layout.spinner_item)
+                    v!!.startHour.adapter = a
 
-                // spinner personalizzato
-                val a = SpinnerAdapter(context!!, hoursArray, bookings,nPeople,firm.startMinute)
-                a.setDropDownViewResource(R.layout.spinner_item)
-                v!!.startHour.adapter = a
+                    v!!.book.setOnClickListener {
+                        Log.e("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",bookings.toString())
+                        isSearch = true
+                        if((v!!.startHour.selectedItemPosition + firm.startHour + v!!.durataH.selectedItemPosition+1) > firm.endHour){
+                            isSearch = false
+                            Toast.makeText(context!!,"Prenotazione non valida!\nOrario di chiusura non rispettato",Toast.LENGTH_SHORT).show()
+                        }
+                        else{
+                            for (i in v!!.startHour.selectedItemPosition..v!!.durataH.selectedItemPosition + v!!.startHour.selectedItemPosition) {
+                                if(bookings[i]<nPeople){
+                                    Toast.makeText(context!!,"Prenotazione non valida!\n Posti non sufficienti per l'orario selezionato",Toast.LENGTH_SHORT).show()
+                                    isSearch = false
+                                    break
+                                }
+                            }
 
-                v!!.book.setOnClickListener {
-                    for (i in v!!.startHour.selectedItemPosition..v!!.durataH.selectedItemPosition + v!!.startHour.selectedItemPosition) {
-                        val r = Booking(day, month, year, i.toLong(), (v!!.npeople.selectedItemPosition+1).toLong())
-                        FirebaseDatabase.getInstance()
-                            .getReference("/bookings/${firm.id}/$id-$i-$year$month$day").setValue(r)
-
-
+                            if(isSearch){
+                                isSearch = false
+                                for (i in v!!.startHour.selectedItemPosition..v!!.durataH.selectedItemPosition + v!!.startHour.selectedItemPosition) {
+                                    val r = Booking(day, month, year, i.toLong(), (v!!.npeople.selectedItemPosition+1).toLong())
+                                    FirebaseDatabase.getInstance().getReference("/bookings/${firm.id}/$id-$i-$year$month$day").setValue(r)
+                                }
+                                Toast.makeText(context!!,"Prenotazione effettuata con successo!",Toast.LENGTH_SHORT).show()
+                                val i = Intent(activity, HomePageActivity::class.java)
+                                i.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
+                                startActivity(i)
+                            }
+                        }
                     }
-
-                    //TODO: AGGIUNGERE IL CAMBIO ACTIVIY
                 }
             }
         })

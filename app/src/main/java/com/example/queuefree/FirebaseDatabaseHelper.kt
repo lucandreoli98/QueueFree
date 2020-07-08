@@ -13,7 +13,6 @@ class FirebaseDatabaseHelper () {
     var referencefirm: DatabaseReference = database.getReference("firm")
     var referenceBooking: DatabaseReference = database.getReference("bookings")
     var user = User()
-    var firm= Firm()
     var bookings: ArrayList<Booking> = ArrayList()
     var bookingsFirm: ArrayList<Long> = ArrayList()
 
@@ -80,7 +79,8 @@ class FirebaseDatabaseHelper () {
                                     "startMinute"->f.startMinute= field.value as Long
                                     "capienza"->f.capienza= field.value as Long
                                     "descrizione"->f.descrizione= field.value as String
-                                    "maxTurn"->firm.maxTurn=field.value as Long
+                                    "maxTurn"->f.maxTurn=field.value as Long
+                                    "maxPartecipants"->f.maxPartecipants=field.value as Long
                                 }
                             }
                             ds.DataisLoadedFirm(f)
@@ -116,7 +116,8 @@ class FirebaseDatabaseHelper () {
                                     "startMinute"->f.startMinute= field.value as Long
                                     "capienza"->f.capienza= field.value as Long
                                     "descrizione"->f.descrizione= field.value as String
-                                    "maxTurn"->firm.maxTurn=field.value as Long
+                                    "maxTurn"->f.maxTurn=field.value as Long
+                                    "maxPartecipants"->f.maxPartecipants=field.value as Long
                                 }
                             }
                             ds.DataisLoadedFirm(f)
@@ -132,25 +133,27 @@ class FirebaseDatabaseHelper () {
                 if (p0.exists())
                     for (uDB in p0.children) { // per tutti gli utente dentro la tabella user
                         if(id == uDB.key){
+                            val f=Firm()
                             for(field in uDB.children) {
                                 when(field.key) {
+                                    "nomeazienda" -> f.nomeazienza = field.value as String
+                                    "email" -> f.email = field.value as String
+                                    "password" -> f.password = field.value as String
+                                    "categoria" -> f.categoria= field.value as String
+                                    "location" -> f.location = field.value as String
+                                    "startHour"->f.startHour= field.value as Long
+                                    "endHour"->f.endHour= field.value as Long
+                                    "endMinute"->f.endMinute= field.value as Long
+                                    "startMinute"->f.startMinute= field.value as Long
+                                    "capienza"->f.capienza= field.value as Long
+                                    "descrizione"->f.descrizione= field.value as String
+                                    "maxTurn"->f.maxTurn=field.value as Long
+                                    "maxPartecipants"->f.maxPartecipants=field.value as Long
 
-                                    "nomeazienda" -> firm.nomeazienza = field.value as String
-                                    "email" -> firm.email = field.value as String
-                                    "password" -> firm.password = field.value as String
-                                    "categoria" -> firm.categoria= field.value as String
-                                    "location" -> firm.location = field.value as String
-                                    "startHour"->firm.startHour= field.value as Long
-                                    "endHour"->firm.endHour= field.value as Long
-                                    "endMinute"->firm.endMinute= field.value as Long
-                                    "startMinute"->firm.startMinute= field.value as Long
-                                    "capienza"->firm.capienza= field.value as Long
-                                    "descrizione"->firm.descrizione= field.value as String
-                                    "maxTurn"->firm.maxTurn=field.value as Long
 
                                 }
                             }
-                            ds.DataisLoadedFirm(firm)
+                            ds.DataisLoadedFirm(f)
                         }
                     }
             }
