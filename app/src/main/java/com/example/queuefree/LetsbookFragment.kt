@@ -133,6 +133,8 @@ class LetsbookFragment: Fragment(), DatePickerDialog.OnDateSetListener {
             override fun BookingisLoaded(nHour: ArrayList<Long>, bookings: ArrayList<Long>) {
                 if(isSearch && nHour.size.toLong() == firm.maxTurn){ // se raggiunto limite massimo di errore
                     Toast.makeText(context!!, "Raggiunto limite massimo di ore giornaliere per il giorno selezionato",Toast.LENGTH_LONG).show()
+                    v!!.startHour.visibility = View.INVISIBLE
+                    v!!.book.visibility = View.INVISIBLE
                     isSearch = false
                 }
                 if(isSearch){
