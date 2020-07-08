@@ -15,7 +15,9 @@
     android:gravity="center"
     android:textColor="@color/red"
     android:textSize="30sp"
-    android:textStyle="bold" />
+    android:textStyle="bold"
+        android:text=""
+        />
 
     <ImageView
         android:id="@+id/info_firm"

@@ -2,9 +2,11 @@ package com.example.queuefree
 
 import android.app.AlertDialog
 import android.content.Intent
+import android.graphics.BitmapFactory
 import android.location.Geocoder
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.View
 import androidx.fragment.app.FragmentActivity
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -14,11 +16,16 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.custom_info_window.view.*
+import kotlinx.android.synthetic.main.fragment_show_profile.view.*
 
 class PrenotazioneSpiagge : FragmentActivity(), OnMapReadyCallback,GoogleMap.OnMarkerClickListener{
 
     lateinit var map: GoogleMap
+     var database :FirebaseDatabase= FirebaseDatabase.getInstance()
+    lateinit var fr:Firm
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,6 +43,7 @@ class PrenotazioneSpiagge : FragmentActivity(), OnMapReadyCallback,GoogleMap.OnM
 
         FirebaseDatabaseHelper().readFirmsandtakeAdress(object : FirebaseDatabaseHelper.DataStatusFirm {
             override fun DataisLoadedFirm(firm: Firm){
+
 
                 geo.getFromLocationName(firm.location,1)
 
@@ -72,10 +80,22 @@ class PrenotazioneSpiagge : FragmentActivity(), OnMapReadyCallback,GoogleMap.OnM
         val mBuilder = AlertDialog.Builder(this).setView(passDialogView)
         val alertDialog = mBuilder.show()
 
-        if (p0 != null) {
-            passDialogView.titlefirm.text = p0.title
 
-        }
+        FirebaseDatabaseHelper().readFirmsfromEmail(p0!!.snippet,object : FirebaseDatabaseHelper.DataStatusFirm{
+            override fun DataisLoadedFirm(firm: Firm) {
+                passDialogView.titlefirm.text=firm.nomeazienza
+                FirebaseStorage.getInstance().reference.child("pics").child(firm.id).getBytes(4096*4096).addOnSuccessListener { bytes ->
+                    val bitmap= BitmapFactory.decodeByteArray(bytes,0,bytes.size)
+                    passDialogView.info_firm.setImageBitmap(bitmap)
+
+                }
+
+            }
+
+        })
+
+
+
 
         passDialogView.prenota.setOnClickListener {
             val intent = Intent(this,LetsbookActivity::class.java)
