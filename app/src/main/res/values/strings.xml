@@ -99,5 +99,7 @@
     <string name="seleziona_un_giorno">Seleziona un giorno</string>
     <string name="imageperson">ImagePerson</string>
     <string name="nPeople">Numero partecipanti:</string>
+    <string name="days_">Giorni:</string>
+    <string name="days">days</string>
 
 </resources>

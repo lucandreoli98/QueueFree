@@ -15,5 +15,6 @@ class Firm(
     var capienza: Long = 0,
     var descrizione: String = "",
     var maxTurn: Long = 0,
-    var maxPartecipants: Long = 0
+    var maxPartecipants: Long = 0,
+    var giorni: String = "Lun-Mar-Mer-Gio-Ven-Sab-Dom"
 )

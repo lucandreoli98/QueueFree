@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="15dp"
+    android:background="@color/backgroundRed">
+
+    <CheckBox
+        android:id="@+id/luncheck"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Lunedì"
+        android:textSize="20sp"
+        android:textColor="@color/white"
+        android:onClick="onCheckboxClicked"
+        />
+    <CheckBox
+        android:id="@+id/marcheck"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Martedì"
+        android:textSize="20sp"
+        android:textColor="@color/white"
+        android:layout_marginTop="7dp"
+        android:onClick="onCheckboxClicked"
+
+        />
+    <CheckBox
+        android:id="@+id/mercheck"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Mercoledì"
+        android:textSize="20sp"
+        android:textColor="@color/white"
+        android:layout_marginTop="7dp"
+        android:onClick="onCheckboxClicked"
+
+
+        />
+    <CheckBox
+        android:id="@+id/giocheck"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Giovedì"
+        android:textSize="20sp"
+        android:textColor="@color/white"
+        android:layout_marginTop="7dp"
+        android:onClick="onCheckboxClicked"
+
+        />
+    <CheckBox
+        android:id="@+id/vencheck"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Venerdì"
+        android:textSize="20sp"
+        android:textColor="@color/white"
+        android:layout_marginTop="7dp"
+        android:onClick="onCheckboxClicked"
+
+        />
+    <CheckBox
+        android:id="@+id/sabcheck"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sabato"
+        android:textSize="20sp"
+        android:textColor="@color/white"
+        android:layout_marginTop="7dp"
+        android:onClick="onCheckboxClicked"
+
+        />
+    <CheckBox
+        android:id="@+id/domcheck"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Domenica"
+        android:textSize="20sp"
+        android:textColor="@color/white"
+        android:layout_marginTop="7dp"
+        android:onClick="onCheckboxClicked"
+
+        />
+
+</LinearLayout>

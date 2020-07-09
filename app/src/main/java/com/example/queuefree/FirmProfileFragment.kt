@@ -18,6 +18,7 @@ import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
+import kotlinx.android.synthetic.main.ask_days.view.*
 import kotlinx.android.synthetic.main.ask_how_take_picture.view.*
 import kotlinx.android.synthetic.main.confirm_password.view.*
 import kotlinx.android.synthetic.main.fragment_firm_profile.view.*
@@ -72,6 +73,7 @@ class FirmProfileFragment: Fragment() {
                 view.FasciaTextView.text = f.maxTurn.toString()
                 view.openNumberText.text = completeTimeStamp(f.startHour, f.startMinute)
                 view.closeNumberText.text = completeTimeStamp(f.endHour, f.endMinute)
+                view.giorniOpen.text = f.giorni
 
                 view.openNumberEditText.text = completeTimeStamp(f.startHour, f.startMinute)
                 view.closeNumberEditText.text = completeTimeStamp(f.endHour, f.endMinute)
@@ -87,6 +89,16 @@ class FirmProfileFragment: Fragment() {
                     } else {
                         updateProfile(f)
                     }
+                }
+
+                view.giorniOpen.setOnClickListener {
+                    val openDaysDialogView =
+                        LayoutInflater.from(context).inflate(R.layout.ask_days, null)
+                    val mBuilder = AlertDialog.Builder(context).setView(openDaysDialogView)
+                    val alertOpenDialog = mBuilder.show()
+
+                    openDaysDialogView.luncheck.isChecked
+
                 }
 
 
@@ -108,14 +120,15 @@ class FirmProfileFragment: Fragment() {
                     val alertOpenDialog = mBuilder.show()
 
                     openHourDialogView.timePicker.setIs24HourView(true)
-                    openHourDialogView.timePicker.setOnTimeChangedListener { timePicker, hour, minute ->
+                    openHourDialogView.timePicker.setOnTimeChangedListener { _, hour, minute ->
 
                         houropentime = hour
                         minuteopentime = minute
 
                     }
                     openHourDialogView.okTimerButton.setOnClickListener {
-                        openNumberEditText.setText(completeTimeStamp(houropentime.toLong(), minuteopentime.toLong()))
+                        openNumberEditText.text =
+                            completeTimeStamp(houropentime.toLong(), minuteopentime.toLong())
                         alertOpenDialog.dismiss()
                     }
                     openHourDialogView.cancTimerButton.setOnClickListener {
@@ -132,16 +145,15 @@ class FirmProfileFragment: Fragment() {
                     val alertOpenDialog = mBuilder.show()
 
                     openHourDialogView.timePicker.setIs24HourView(true)
-                    openHourDialogView.timePicker.setOnTimeChangedListener { timePicker, hour, minute ->
+                    openHourDialogView.timePicker.setOnTimeChangedListener { _, hour, minute ->
 
                         hourclosetime = hour
                         minuteclosetime = minute
 
                     }
                     openHourDialogView.okTimerButton.setOnClickListener {
-                        closeNumberEditText.setText(
+                        closeNumberEditText.text =
                             completeTimeStamp(hourclosetime.toLong(), minuteclosetime.toLong())
-                        )
                         alertOpenDialog.dismiss()
                     }
                     openHourDialogView.cancTimerButton.setOnClickListener {
@@ -254,6 +266,8 @@ class FirmProfileFragment: Fragment() {
         close.visibility= View.VISIBLE
         FasciaEditText.visibility=View.VISIBLE
         maxGruppoEditText.visibility = View.VISIBLE
+        giorniOpen.isClickable = true
+
 
         openNumberText.visibility=View.INVISIBLE
         closeNumberText.visibility=View.INVISIBLE
@@ -275,6 +289,7 @@ class FirmProfileFragment: Fragment() {
         totalPeopleTextView.visibility=View.VISIBLE
         FasciaTextView.visibility=View.VISIBLE
         maxGruppoTextView.visibility = View.VISIBLE
+        giorniOpen.isClickable = false
 
         // editText invisibili
         openNumberEditText.visibility=View.INVISIBLE
