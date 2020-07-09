@@ -291,7 +291,7 @@
             android:layout_below="@+id/closeText"
             android:layout_alignBaseline="@+id/personView"
             android:layout_marginStart="10dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="20dp"
             android:layout_toEndOf="@+id/totalPeopleText"
             android:text=""
             android:textColor="@color/black"
@@ -317,7 +317,7 @@
             android:layout_below="@+id/totalPeopleText"
             android:layout_marginTop="30dp"
             android:layout_marginStart="10dp"
-            android:text="Numero di turni al giorno"
+            android:text="Numero di turni al giorno:"
             android:textColor="@color/black"
             android:textSize="20sp" />
         
@@ -327,7 +327,7 @@
             android:layout_height="wrap_content"
             android:layout_toEndOf="@+id/durataText"
             android:layout_below="@+id/totalPeopleText" 
-            android:layout_marginTop="28dp"
+            android:layout_marginTop="20dp"
             android:layout_marginStart="10dp"
             android:inputType="number"
             android:visibility="invisible"
