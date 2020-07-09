@@ -111,48 +111,7 @@
                 android:layout_toEndOf="@+id/locationView"
                 android:text="@string/posizioneText"
                 android:textColor="@color/black"
-                android:textSize="20sp"
-                />
-
-            <ImageView
-                android:id="@+id/imagedays"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/locationText"
-                android:layout_alignParentStart="true"
-                android:layout_marginTop="18dp"
-                android:layout_marginStart="10dp"
-                android:src="@drawable/ic_baseline_days"
-                android:contentDescription="@string/days" />
-
-            <TextView
-                android:id="@+id/giorniDiapertura"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/locationText"
-                android:textColor="@color/black"
-                android:textSize="20sp"
-                android:layout_toEndOf="@+id/imagedays"
-                android:layout_alignBaseline="@+id/imagedays"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="16dp"
-                android:text="@string/days_"
-
-            />
-
-            <TextView
-                android:id="@+id/giorniOpen"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/locationText"
-                android:textColor="@color/black"
-                android:textSize="20sp"
-                android:layout_toEndOf="@+id/giorniDiapertura"
-                android:layout_alignBaseline="@+id/imagedays"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="16dp"
-                android:clickable="false"
-                />
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/locationTextView"
@@ -171,21 +130,46 @@
                 android:id="@+id/imageGiorni"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/maxGruppo"
+                android:layout_below="@+id/locationView"
                 android:layout_alignParentStart="true"
-                android:layout_marginTop="18dp"
+                android:layout_marginTop="35dp"
                 android:layout_marginStart="10dp"
-                android:src="@drawable/ic_birth"/>
+                android:src="@drawable/ic_work"/>
 
+            <TextView
+                android:id="@+id/giornoText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/locationText"
+                android:layout_toEndOf="@+id/imageGiorni"
+                android:layout_alignBaseline="@+id/imageGiorni"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="30dp"
+                android:text="Giorni: "
+                android:textColor="@color/black"
+                android:textSize="20sp"/>
+
+            <TextView
+                android:id="@+id/giornoTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/locationText"
+                android:layout_toEndOf="@id/giornoText"
+                android:layout_alignBaseline="@+id/imageGiorni"
+                android:layout_marginTop="30dp"
+                android:layout_marginStart="5dp"
+                android:text=""
+                android:textSize="20sp"
+                android:textColor="@color/black"/>
 
             <ImageView
                 android:id="@+id/clockView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/giorniDiapertura"
+                android:layout_below="@+id/imageGiorni"
                 android:layout_alignParentStart="true"
                 android:layout_marginStart="10dp"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="35dp"
                 android:contentDescription="@string/clock"
                 android:src="@drawable/ic_clock" />
 
@@ -193,10 +177,10 @@
                 android:id="@+id/openText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/giorniDiapertura"
+                android:layout_below="@+id/giornoText"
                 android:layout_alignBaseline="@+id/clockView"
                 android:layout_marginStart="10dp"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="30dp"
                 android:layout_toEndOf="@+id/clockView"
                 android:text="@string/openFirm"
                 android:textColor="@color/black"
@@ -206,7 +190,7 @@
                 android:id="@+id/openNumberText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/locationText"
+                android:layout_below="@+id/giornoText"
                 android:layout_alignBaseline="@+id/clockView"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="30dp"
@@ -220,7 +204,7 @@
                 android:id="@+id/openNumberEditText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/locationText"
+                android:layout_below="@+id/giornoText"
                 android:layout_alignBaseline="@+id/clockView"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="30dp"
@@ -229,6 +213,7 @@
                 android:textColor="@color/black"
                 android:textSize="20sp"
                 android:visibility="invisible"/>
+
 
             <TextView
                 android:id="@+id/closeText"
@@ -274,9 +259,9 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_alignStart="@+id/openNumberEditText"
-                android:layout_below="@+id/giorniDiapertura"
+                android:layout_below="@+id/giornoText"
                 android:layout_marginStart="60dp"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="33dp"
                 android:background="@drawable/bg_round_red"
                 android:src="@drawable/ic_baseline_keyboard_arrow_down_24"
                 android:visibility="invisible">
@@ -284,7 +269,7 @@
             </ImageButton>
 
             <ImageButton
-                 android:id="@+id/close"
+                android:id="@+id/close"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_alignStart="@+id/closeNumberEditText"
