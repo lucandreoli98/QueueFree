@@ -16,6 +16,8 @@ class FirebaseDatabaseHelper () {
     var bookings: ArrayList<Booking> = ArrayList()
     var bookingsFirm: ArrayList<Long> = ArrayList()
 
+
+
     interface DataStatus {
         fun DataIsLoaded(user: User)
     }
@@ -24,6 +26,10 @@ class FirebaseDatabaseHelper () {
     }
     interface DataStatusBooking {
         fun BookingisLoaded(nHour: ArrayList<Long>, bookings: ArrayList<Long>)
+    }
+    interface DataBookingUser {
+        fun BookingUserisLoaded(books:ArrayList<Booking>)
+
     }
 
     fun readUserFromDB(ds: DataStatus){
@@ -166,8 +172,10 @@ class FirebaseDatabaseHelper () {
     }
 
     // Lettura delle prenotazioni in base alla mail dell'azienda
-    fun readBookingFromEmail(emailFirm: String, ds: DataStatusBooking){
-        bookings.clear()
+    fun readBookingUser( iduser:String,ds:DataBookingUser){
+
+        var bk=ArrayList<Booking>()
+
         referenceBooking.addValueEventListener(object: ValueEventListener{
             override fun onCancelled(error: DatabaseError) {
             }
@@ -175,22 +183,30 @@ class FirebaseDatabaseHelper () {
             override fun onDataChange(snapshot: DataSnapshot) {
                 if(snapshot.exists()){
                     for(booking in snapshot.children){
-                        if(emailFirm == booking.key){
-                            bookings.add(Booking())
+
                             for(book in booking.children){
-                                when(book.key){
-                                    "dd" -> bookings[bookings.size-1].dd = book.value as Long
-                                    "mm" -> bookings[bookings.size-1].mm = book.value as Long
-                                    "yy" -> bookings[bookings.size-1].yy = book.value as Long
-                                    "nOre" -> bookings[bookings.size-1].nOre = book.value as Long
-                                    "nPartecipanti" -> bookings[bookings.size-1].nPartecipanti = book.value as Long
+                                val id=book.key!!.split("-")
+                                Log.d("PRENOTAZIONI: ", "${id.get(0).trim()}")
+                                if (id.get(0).trim() == iduser) {
+                                    val b=Booking()
+                                    for (field in book.children) {
+                                        when (field.key) {
+                                            "dd" -> b.dd = field.value as Long
+                                            "mm" -> b.mm = field.value as Long
+                                            "yy" -> b.yy = field.value as Long
+                                            "nore" -> b.nOre = field.value as Long
+                                            "npartecipanti" -> b.nPartecipanti = field.value as Long
+                                        }
+
+                                    }
+                                    bk.add(b)
                                 }
                             }
+
                         }
+                    ds.BookingUserisLoaded(bk)
                     }
                 }
-                //ds.BookingisLoaded(bookings)
-            }
 
         })
     }

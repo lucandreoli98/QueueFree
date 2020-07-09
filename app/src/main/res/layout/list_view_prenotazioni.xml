@@ -17,4 +17,12 @@
 
     </TextView>
 
+    <TextView
+        android:id="@+id/partecip"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@+id/data_ora">
+
+    </TextView>
+
 </LinearLayout>
