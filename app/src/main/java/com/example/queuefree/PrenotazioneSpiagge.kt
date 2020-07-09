@@ -104,11 +104,8 @@ class PrenotazioneSpiagge : FragmentActivity(), OnMapReadyCallback,GoogleMap.OnM
                 FirebaseStorage.getInstance().reference.child("pics").child(firm.id).getBytes(4096*4096).addOnSuccessListener { bytes ->
                     val bitmap= BitmapFactory.decodeByteArray(bytes,0,bytes.size)
                     passDialogView.info_firm.setImageBitmap(bitmap)
-
                 }
-
             }
-
         })
 
         passDialogView.prenota.setOnClickListener {
