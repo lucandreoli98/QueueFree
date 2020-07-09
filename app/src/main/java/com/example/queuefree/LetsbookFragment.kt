@@ -7,15 +7,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
-import androidx.fragment.app.Fragment
 import android.widget.ArrayAdapter
 import android.widget.DatePicker
 import android.widget.Toast
-
+import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.fragment_letsbook.*
 import kotlinx.android.synthetic.main.fragment_letsbook.view.*
+import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -31,6 +31,7 @@ class LetsbookFragment: Fragment(), DatePickerDialog.OnDateSetListener {
     private val id = FirebaseAuth.getInstance().currentUser!!.uid.trim { it <= ' ' }
     private val hoursArray: ArrayList<Long> = ArrayList()
     private var isSearch = false
+    private var dayOfWeek: String?=null
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -121,6 +122,8 @@ class LetsbookFragment: Fragment(), DatePickerDialog.OnDateSetListener {
         this.year = year.toLong()
         val date = dayOfMonth.toString() + " / " + (month + 1) + " / " + year
         v!!.select_data.text = date
+
+        dayOfWeek = SimpleDateFormat("EEEE").format(Date(year, month, dayOfMonth - 1))
 
         isSearch = true
         readBooking() // lettura DB
