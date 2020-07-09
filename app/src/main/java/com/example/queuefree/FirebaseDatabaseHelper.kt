@@ -87,6 +87,7 @@ class FirebaseDatabaseHelper () {
                                     "descrizione"->f.descrizione= field.value as String
                                     "maxTurn"->f.maxTurn=field.value as Long
                                     "maxPartecipants"->f.maxPartecipants=field.value as Long
+                                    "giorni" -> f.giorni = field.value as String
                                 }
                             }
                             ds.DataisLoadedFirm(f)
@@ -124,6 +125,7 @@ class FirebaseDatabaseHelper () {
                                     "descrizione"->f.descrizione= field.value as String
                                     "maxTurn"->f.maxTurn=field.value as Long
                                     "maxPartecipants"->f.maxPartecipants=field.value as Long
+                                    "giorni" -> f.giorni = field.value as String
                                 }
                             }
                             ds.DataisLoadedFirm(f)
@@ -142,6 +144,7 @@ class FirebaseDatabaseHelper () {
                             val f=Firm()
                             for(field in uDB.children) {
                                 when(field.key) {
+                                    "id" -> f.id = field.value as String
                                     "nomeazienza" -> f.nomeazienza = field.value as String
                                     "email" -> f.email = field.value as String
                                     "password" -> f.password = field.value as String
@@ -155,8 +158,7 @@ class FirebaseDatabaseHelper () {
                                     "descrizione"->f.descrizione= field.value as String
                                     "maxTurn"->f.maxTurn=field.value as Long
                                     "maxPartecipants"->f.maxPartecipants=field.value as Long
-
-
+                                    "giorni" -> f.giorni = field.value as String
                                 }
                             }
                             ds.DataisLoadedFirm(f)

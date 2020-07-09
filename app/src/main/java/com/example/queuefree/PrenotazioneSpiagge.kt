@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory
 import android.location.Geocoder
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.widget.Toast
 import androidx.fragment.app.FragmentActivity
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -99,23 +100,17 @@ class PrenotazioneSpiagge : FragmentActivity(), OnMapReadyCallback,GoogleMap.OnM
         FirebaseDatabaseHelper().readFirmsfromEmail(p0!!.snippet,object : FirebaseDatabaseHelper.DataStatusFirm{
             override fun DataisLoadedFirm(firm: Firm) {
                 passDialogView.titlefirm.text=firm.nomeazienza
+                passDialogView.descrizione.text = firm.descrizione
                 FirebaseStorage.getInstance().reference.child("pics").child(firm.id).getBytes(4096*4096).addOnSuccessListener { bytes ->
                     val bitmap= BitmapFactory.decodeByteArray(bytes,0,bytes.size)
                     passDialogView.info_firm.setImageBitmap(bitmap)
-
                 }
-
             }
-
         })
-
-
-
 
         passDialogView.prenota.setOnClickListener {
             val intent = Intent(this,LetsbookActivity::class.java)
-            if (p0 != null)
-                intent.putExtra("email", p0.snippet)
+            intent.putExtra("email", p0.snippet)
 
             alertDialog.dismiss()
             startActivity(intent)
