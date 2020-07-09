@@ -1,86 +1,117 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:padding="15dp"
     android:background="@color/backgroundRed">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Seleziona i giorni lavorativi"
+        android:textColor="@color/white"
+        android:textSize="25sp"
+        android:textStyle="bold"/>
     <CheckBox
         android:id="@+id/luncheck"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+
         android:text="Lunedì"
         android:textSize="20sp"
-        android:textColor="@color/white"
-        android:onClick="onCheckboxClicked"
-        />
+        android:textColor="@color/white" />
+
     <CheckBox
         android:id="@+id/marcheck"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Martedì"
         android:textSize="20sp"
         android:textColor="@color/white"
-        android:layout_marginTop="7dp"
-        android:onClick="onCheckboxClicked"
+        android:layout_marginTop="7dp" />
 
-        />
     <CheckBox
         android:id="@+id/mercheck"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Mercoledì"
         android:textSize="20sp"
         android:textColor="@color/white"
-        android:layout_marginTop="7dp"
-        android:onClick="onCheckboxClicked"
+        android:layout_marginTop="7dp" />
 
-
-        />
     <CheckBox
         android:id="@+id/giocheck"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Giovedì"
         android:textSize="20sp"
         android:textColor="@color/white"
-        android:layout_marginTop="7dp"
-        android:onClick="onCheckboxClicked"
+        android:layout_marginTop="7dp" />
 
-        />
     <CheckBox
         android:id="@+id/vencheck"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Venerdì"
         android:textSize="20sp"
         android:textColor="@color/white"
-        android:layout_marginTop="7dp"
-        android:onClick="onCheckboxClicked"
+        android:layout_marginTop="7dp" />
 
-        />
     <CheckBox
         android:id="@+id/sabcheck"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Sabato"
         android:textSize="20sp"
         android:textColor="@color/white"
-        android:layout_marginTop="7dp"
-        android:onClick="onCheckboxClicked"
+        android:layout_marginTop="7dp" />
 
-        />
     <CheckBox
         android:id="@+id/domcheck"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Domenica"
         android:textSize="20sp"
         android:textColor="@color/white"
-        android:layout_marginTop="7dp"
-        android:onClick="onCheckboxClicked"
+        android:layout_marginTop="7dp" />
 
-        />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp">
 
+        <Button
+            android:id="@+id/cancDayButton"
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="20dp"
+            android:padding="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/btn_profile"
+            android:text="@string/cancelPassButton"
+            android:textSize="20sp"
+            android:textAllCaps="false"
+            android:textColor="@color/red"/>
+
+        <Button
+            android:id="@+id/okDayButton"
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="20dp"
+            android:padding="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/btn_profile"
+            android:text="@string/confirm"
+            android:textSize="20sp"
+            android:textAllCaps="false"
+            android:textColor="@color/red"/>
+
+    </RelativeLayout>
 </LinearLayout>

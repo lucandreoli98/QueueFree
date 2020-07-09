@@ -81,6 +81,7 @@ class FirebaseDatabaseHelper () {
                                     "descrizione"->f.descrizione= field.value as String
                                     "maxTurn"->f.maxTurn=field.value as Long
                                     "maxPartecipants"->f.maxPartecipants=field.value as Long
+                                    "giorni" -> f.giorni = field.value as String
                                 }
                             }
                             ds.DataisLoadedFirm(f)
@@ -118,6 +119,7 @@ class FirebaseDatabaseHelper () {
                                     "descrizione"->f.descrizione= field.value as String
                                     "maxTurn"->f.maxTurn=field.value as Long
                                     "maxPartecipants"->f.maxPartecipants=field.value as Long
+                                    "giorni" -> f.giorni = field.value as String
                                 }
                             }
                             ds.DataisLoadedFirm(f)
@@ -149,8 +151,7 @@ class FirebaseDatabaseHelper () {
                                     "descrizione"->f.descrizione= field.value as String
                                     "maxTurn"->f.maxTurn=field.value as Long
                                     "maxPartecipants"->f.maxPartecipants=field.value as Long
-
-
+                                    "giorni" -> f.giorni = field.value as String
                                 }
                             }
                             ds.DataisLoadedFirm(f)

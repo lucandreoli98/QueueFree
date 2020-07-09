@@ -46,6 +46,7 @@ class FirmProfileFragment: Fragment() {
     private var hourclosetime=0
     private lateinit var imageUri: Uri
     private var vista:View? = null
+    private var giorni = ""
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -73,7 +74,9 @@ class FirmProfileFragment: Fragment() {
                 view.FasciaTextView.text = f.maxTurn.toString()
                 view.openNumberText.text = completeTimeStamp(f.startHour, f.startMinute)
                 view.closeNumberText.text = completeTimeStamp(f.endHour, f.endMinute)
-                view.giorniOpen.text = f.giorni
+                view.giornoTextView.text = f.giorni
+                Toast.makeText(context!!,f.giorni,Toast.LENGTH_LONG).show()
+                giorni = f.giorni
 
                 view.openNumberEditText.text = completeTimeStamp(f.startHour, f.startMinute)
                 view.closeNumberEditText.text = completeTimeStamp(f.endHour, f.endMinute)
@@ -91,16 +94,46 @@ class FirmProfileFragment: Fragment() {
                     }
                 }
 
-                view.giorniOpen.setOnClickListener {
-                    val openDaysDialogView =
-                        LayoutInflater.from(context).inflate(R.layout.ask_days, null)
-                    val mBuilder = AlertDialog.Builder(context).setView(openDaysDialogView)
-                    val alertOpenDialog = mBuilder.show()
+                view.giornoTextView.setOnClickListener {
+                    if(view.giornoTextView.isClickable) {
+                        view.giornoTextView.isClickable = false
 
-                    openDaysDialogView.luncheck.isChecked
+                        val openDaysDialogView = LayoutInflater.from(context).inflate(R.layout.ask_days, null)
+                        val mBuilder = AlertDialog.Builder(context).setView(openDaysDialogView)
+                        val alertOpenDialog = mBuilder.show()
 
+                        openDaysDialogView.okDayButton.setOnClickListener {
+                            view.giornoTextView.isClickable = true
+                            alertOpenDialog.dismiss()
+
+                            giorni = ""
+                            if(openDaysDialogView.luncheck.isChecked)
+                                giorni += "Lun-"
+                            if(openDaysDialogView.marcheck.isChecked)
+                                giorni += "Mar-"
+                            if(openDaysDialogView.mercheck.isChecked)
+                                giorni += "Mer-"
+                            if(openDaysDialogView.giocheck.isChecked)
+                                giorni += "Gio-"
+                            if(openDaysDialogView.vencheck.isChecked)
+                                giorni += "Ven-"
+                            if(openDaysDialogView.sabcheck.isChecked)
+                                giorni += "Sab-"
+                            if(openDaysDialogView.domcheck.isChecked)
+                                giorni += "Dom-"
+
+                            giorni = giorni.substring(0,giorni.length-1)
+                            view.giornoTextView.text = giorni
+                        }
+
+                        openDaysDialogView.cancDayButton.setOnClickListener {
+                            view.giornoTextView.isClickable = true
+                            alertOpenDialog.dismiss()
+                        }
+                    }
                 }
 
+                view.giornoTextView.isClickable = false
 
                 // modifica della password dell'utente
                 view.pwd_edit.setOnClickListener {
@@ -266,7 +299,7 @@ class FirmProfileFragment: Fragment() {
         close.visibility= View.VISIBLE
         FasciaEditText.visibility=View.VISIBLE
         maxGruppoEditText.visibility = View.VISIBLE
-        giorniOpen.isClickable = true
+        giornoTextView.isClickable = true
 
 
         openNumberText.visibility=View.INVISIBLE
@@ -289,7 +322,7 @@ class FirmProfileFragment: Fragment() {
         totalPeopleTextView.visibility=View.VISIBLE
         FasciaTextView.visibility=View.VISIBLE
         maxGruppoTextView.visibility = View.VISIBLE
-        giorniOpen.isClickable = false
+        giornoTextView.isClickable = false
 
         // editText invisibili
         openNumberEditText.visibility=View.INVISIBLE
@@ -305,6 +338,7 @@ class FirmProfileFragment: Fragment() {
         closeNumberText.text=completeTimeStamp(firm.endHour,firm.endMinute)
         FasciaTextView.text=firm.maxTurn.toString()
         maxGruppoTextView.text = firm.maxPartecipants.toString()
+        giornoTextView.text = firm.giorni
 
         // parte invisibile
         edit_firm.text = resources.getString(R.string.editProfileButton)
@@ -379,23 +413,15 @@ class FirmProfileFragment: Fragment() {
                                 alertDialog.dismiss()
                                 val email = emailTextViewFirm.text.toString().trim()
 
-                                this.firm = Firm(currentUser!!.uid,firm.nomeazienza, firm.email, firm.password, firm.categoria,firm.location,firm.startHour,firm.startMinute,firm.endHour,firm.endMinute,tot.toLong(),firm.descrizione,turno,maxGruppo.toLong())
+                                this.firm = Firm(currentUser!!.uid,firm.nomeazienza, firm.email, firm.password, firm.categoria,firm.location,firm.startHour,firm.startMinute,firm.endHour,firm.endMinute,tot.toLong(),firm.descrizione,turno,maxGruppo.toLong(),giorni)
 
                                 cUser.updateEmail(email).addOnCompleteListener { task2 ->
                                     if (task2.isSuccessful) {
-                                        Toast.makeText(
-                                            activity,
-                                            "Update del profilo avvenuto con successo",
-                                            Toast.LENGTH_LONG
-                                        ).show()
+                                        Toast.makeText(activity, "Update del profilo avvenuto con successo", Toast.LENGTH_LONG).show()
                                         firmDB.child(id).setValue(this.firm)
                                         updateLayout(this.firm)
                                     } else {
-                                        Toast.makeText(
-                                            activity,
-                                            "ERRORE NELL'UPDATE",
-                                            Toast.LENGTH_LONG
-                                        ).show()
+                                        Toast.makeText(activity, "ERRORE NELL'UPDATE", Toast.LENGTH_LONG).show()
                                     }
                                 }
 
