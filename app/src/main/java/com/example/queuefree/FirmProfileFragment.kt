@@ -14,27 +14,22 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import com.facebook.login.LoginManager
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.ask_how_take_picture.view.*
 import kotlinx.android.synthetic.main.confirm_password.view.*
-import kotlinx.android.synthetic.main.fragment_firm_profile.*
 import kotlinx.android.synthetic.main.fragment_firm_profile.view.*
-import kotlinx.android.synthetic.main.fragment_firm_profile.view.emailTextViewFirm
-import kotlinx.android.synthetic.main.fragment_register_firm.view.*
+import kotlinx.android.synthetic.main.fragment_firm_showprofile.*
+import kotlinx.android.synthetic.main.fragment_firm_showprofile.view.*
+import kotlinx.android.synthetic.main.fragment_firm_showprofile.view.emailTextViewFirm
 import kotlinx.android.synthetic.main.fragment_show_profile.*
-import kotlinx.android.synthetic.main.fragment_show_profile.view.*
 import kotlinx.android.synthetic.main.time_picker_layout.view.*
 import kotlinx.android.synthetic.main.update_password.view.*
 import java.io.ByteArrayOutputStream
 
 class FirmProfileFragment: Fragment() {
-
 
     private lateinit var firm: Firm
     private val currentUser = FirebaseAuth.getInstance().currentUser
@@ -44,21 +39,16 @@ class FirmProfileFragment: Fragment() {
     private val fb: FirebaseDatabaseHelper = FirebaseDatabaseHelper()
     private val RIC = 1234
     private val AGC = 5678
-    var minuteopentime=0
-    var houropentime=0
-    var minuteclosetime=0
-    var hourclosetime=0
-
-
+    private var minuteopentime=0
+    private var houropentime=0
+    private var minuteclosetime=0
+    private var hourclosetime=0
     private lateinit var imageUri: Uri
     private var vista:View? = null
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-
-        return inflater.inflate(R.layout.fragment_firm_profile, container, false)
-
-
+        return inflater.inflate(R.layout.fragment_firm_showprofile, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -69,23 +59,25 @@ class FirmProfileFragment: Fragment() {
         fb.readFirmFromDB(object : FirebaseDatabaseHelper.DataStatusFirm {
             override fun DataisLoadedFirm(f: Firm) {
 
-                houropentime=f.startHour.toInt()
-                hourclosetime=f.endHour.toInt()
-                minuteclosetime=f.endMinute.toInt()
-                minuteopentime=f.startMinute.toInt()
-                view.nameFirmText.text = f.nomeazienza
+                houropentime = f.startHour.toInt()
+                hourclosetime = f.endHour.toInt()
+                minuteclosetime = f.endMinute.toInt()
+                minuteopentime = f.startMinute.toInt()
+
+                view.firm_name_text.text = f.nomeazienza
                 view.emailTextViewFirm.text = f.email
                 view.locationTextView.text = f.location
                 view.totalPeopleTextView.text = f.capienza.toString()
-                view.FasciaTextView.text=f.maxTurn.toString()
-                view.openNumberText.text=completeTimeStamp(f.startHour,f.startMinute)
-                view.closeNumberText.text=completeTimeStamp(f.endHour,f.endMinute)
+                view.maxGruppoTextView.text = f.maxPartecipants.toString()
+                view.FasciaTextView.text = f.maxTurn.toString()
+                view.openNumberText.text = completeTimeStamp(f.startHour, f.startMinute)
+                view.closeNumberText.text = completeTimeStamp(f.endHour, f.endMinute)
 
-                view.openNumberEditText.setText(completeTimeStamp(f.startHour,f.startMinute))
-                view.closeNumberEditText.setText(completeTimeStamp(f.endHour,f.endMinute))
+                view.openNumberEditText.text = completeTimeStamp(f.startHour, f.startMinute)
+                view.closeNumberEditText.text = completeTimeStamp(f.endHour, f.endMinute)
                 view.totalPeopledEditText.setText(f.capienza.toString())
                 view.FasciaEditText.setText(f.maxTurn.toString())
-
+                view.maxGruppoEditText.setText(f.maxPartecipants.toString())
 
 
                 // modifica del profilo generale
@@ -98,11 +90,10 @@ class FirmProfileFragment: Fragment() {
                 }
 
 
-
                 // modifica della password dell'utente
                 view.pwd_edit.setOnClickListener {
                     // Se e' impostato su modifica password
-                    if (view.pwd_edit.text =="Password") {
+                    if (view.pwd_edit.text == "Password") {
                         editPassword()
                     } else { // se e' impostato su annulla
                         updateLayout(f)
@@ -111,19 +102,20 @@ class FirmProfileFragment: Fragment() {
                 }
 
                 view.open.setOnClickListener {
-                    val openHourDialogView = LayoutInflater.from(context).inflate(R.layout.time_picker_layout, null)
+                    val openHourDialogView =
+                        LayoutInflater.from(context).inflate(R.layout.time_picker_layout, null)
                     val mBuilder = AlertDialog.Builder(context).setView(openHourDialogView)
                     val alertOpenDialog = mBuilder.show()
 
                     openHourDialogView.timePicker.setIs24HourView(true)
                     openHourDialogView.timePicker.setOnTimeChangedListener { timePicker, hour, minute ->
 
-                        houropentime=hour
-                        minuteopentime=minute
+                        houropentime = hour
+                        minuteopentime = minute
 
                     }
                     openHourDialogView.okTimerButton.setOnClickListener {
-                        openNumberEditText.setText(completeTimeStamp(houropentime.toLong(),minuteopentime.toLong()))
+                        openNumberEditText.setText(completeTimeStamp(houropentime.toLong(), minuteopentime.toLong()))
                         alertOpenDialog.dismiss()
                     }
                     openHourDialogView.cancTimerButton.setOnClickListener {
@@ -134,41 +126,33 @@ class FirmProfileFragment: Fragment() {
                 }
 
                 view.close.setOnClickListener {
-                    val openHourDialogView = LayoutInflater.from(context).inflate(R.layout.time_picker_layout, null)
+                    val openHourDialogView =
+                        LayoutInflater.from(context).inflate(R.layout.time_picker_layout, null)
                     val mBuilder = AlertDialog.Builder(context).setView(openHourDialogView)
                     val alertOpenDialog = mBuilder.show()
 
                     openHourDialogView.timePicker.setIs24HourView(true)
                     openHourDialogView.timePicker.setOnTimeChangedListener { timePicker, hour, minute ->
 
-                        hourclosetime=hour
-                        minuteclosetime=minute
+                        hourclosetime = hour
+                        minuteclosetime = minute
 
                     }
                     openHourDialogView.okTimerButton.setOnClickListener {
-                        closeNumberEditText.setText(completeTimeStamp(hourclosetime.toLong(),minuteclosetime.toLong())
+                        closeNumberEditText.setText(
+                            completeTimeStamp(hourclosetime.toLong(), minuteclosetime.toLong())
                         )
                         alertOpenDialog.dismiss()
                     }
                     openHourDialogView.cancTimerButton.setOnClickListener {
-
                         alertOpenDialog.dismiss()
                     }
-
                 }
-
-
-
-
-
-
             }
-
-
         })
 
         view.progress_bar_firm.visibility=View.VISIBLE
-        FirebaseStorage.getInstance().reference.child("pics").child(id).getBytes(1024*1024).addOnSuccessListener { bytes ->
+        FirebaseStorage.getInstance().reference.child("pics").child(id).getBytes(4096*4096).addOnSuccessListener { bytes ->
             val bitmap= BitmapFactory.decodeByteArray(bytes,0,bytes.size)
             view.imageProfileFirm.setImageBitmap(bitmap)
             view.progress_bar_firm.visibility=View.INVISIBLE
@@ -194,91 +178,73 @@ class FirmProfileFragment: Fragment() {
                 startActivityForResult(Intent(Intent.ACTION_GET_CONTENT).setType("image/*"), AGC)
             }
         }
-
-
     }
 
+    fun editPassword() {
+        val newPassDialogView =
+            LayoutInflater.from(context).inflate(R.layout.update_password, null)
+        val mBuilder = AlertDialog.Builder(context).setView(newPassDialogView)
+        val alertDPasswordDialog = mBuilder.show()
 
+        newPassDialogView.okNewPassButton.setOnClickListener {
+            var ok = true
+            val email = newPassDialogView.emailForPass.text.toString()
+            val oldPassString = newPassDialogView.oldPassword.text.toString()
+            val newPasswordString = newPassDialogView.newPassword.text.toString()
 
+            if (ok && email.isEmpty()) {
+                newPassDialogView.emailForPass.error =
+                    resources.getString(R.string.emailEmpty)
+                newPassDialogView.emailForPass.requestFocus()
+                ok = false
+            }
+            if (ok && oldPassString.isEmpty()) {
+                newPassDialogView.oldPassword.error =
+                    resources.getString(R.string.passEmpty)
+                newPassDialogView.oldPassword.requestFocus()
+                ok = false
+            }
+            if (ok && newPasswordString.isEmpty()) {
+                newPassDialogView.newPassword.error =
+                    resources.getString(R.string.passEmpty)
+                newPassDialogView.newPassword.requestFocus()
+                ok = false
+            }
+            if (ok && newPasswordString != newPassDialogView.confirmNewPassword.text.toString()) {
+                newPassDialogView.confirmNewPassword.error =
+                    resources.getString(R.string.confpassDifferent)
+                ok = false
+            }
 
+            if (ok) {
+                currentUser.let { cUser ->
+                    val credential = EmailAuthProvider.getCredential(email, oldPassString)
 
-
-
-            fun editPassword() {
-                val newPassDialogView =
-                    LayoutInflater.from(context).inflate(R.layout.update_password, null)
-                val mBuilder = AlertDialog.Builder(context).setView(newPassDialogView)
-                val alertDPasswordDialog = mBuilder.show()
-
-                newPassDialogView.okNewPassButton.setOnClickListener {
-                    var ok = true
-                    val email = newPassDialogView.emailForPass.text.toString()
-                    val oldPassString = newPassDialogView.oldPassword.text.toString()
-                    val newPasswordString = newPassDialogView.newPassword.text.toString()
-
-                    if (ok && email.isEmpty()) {
-                        newPassDialogView.emailForPass.error =
-                            resources.getString(R.string.emailEmpty)
-                        newPassDialogView.emailForPass.requestFocus()
-                        ok = false
-                    }
-                    if (ok && oldPassString.isEmpty()) {
-                        newPassDialogView.oldPassword.error =
-                            resources.getString(R.string.passEmpty)
-                        newPassDialogView.oldPassword.requestFocus()
-                        ok = false
-                    }
-                    if (ok && newPasswordString.isEmpty()) {
-                        newPassDialogView.newPassword.error =
-                            resources.getString(R.string.passEmpty)
-                        newPassDialogView.newPassword.requestFocus()
-                        ok = false
-                    }
-                    if (ok && newPasswordString != newPassDialogView.confirmNewPassword.text.toString()) {
-                        newPassDialogView.confirmNewPassword.error =
-                            resources.getString(R.string.confpassDifferent)
-                        ok = false
-                    }
-
-                    if (ok) {
-                        currentUser.let { cUser ->
-                            val credential = EmailAuthProvider.getCredential(email, oldPassString)
-
-                            cUser!!.reauthenticate(credential).addOnCompleteListener { task ->
-                                if (task.isSuccessful) {
-                                    cUser.updatePassword(newPasswordString)
-                                        .addOnCompleteListener { task2 ->
-                                            if (task2.isSuccessful) {
-                                                alertDPasswordDialog.dismiss()
-                                                Toast.makeText(
-                                                    activity,
-                                                    "Update della password avvenuto con successo",
-                                                    Toast.LENGTH_LONG
-                                                ).show()
-                                            } else {
-                                                Toast.makeText(
-                                                    activity,
-                                                    task2.exception.toString(),
-                                                    Toast.LENGTH_LONG
-                                                ).show()
-                                            }
-                                        }
-
-                                } else {
-                                    newPassDialogView.oldPassword.error = "Password o email errata"
+                    cUser!!.reauthenticate(credential).addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            cUser.updatePassword(newPasswordString).addOnCompleteListener { task2 ->
+                                    if (task2.isSuccessful) {
+                                        alertDPasswordDialog.dismiss()
+                                        Toast.makeText(activity, "Update della password avvenuto con successo", Toast.LENGTH_LONG).show()
+                                    } else {
+                                        Toast.makeText(activity, task2.exception.toString(), Toast.LENGTH_LONG).show()
+                                    }
                                 }
-                            }
+
+                        } else {
+                            newPassDialogView.oldPassword.error = "Password o email errata"
                         }
                     }
                 }
-
-                newPassDialogView.cancelButton.setOnClickListener {
-                    alertDPasswordDialog.dismiss()
-                }
             }
+        }
+
+        newPassDialogView.cancelButton.setOnClickListener {
+            alertDPasswordDialog.dismiss()
+        }
+    }
 
     fun changeVisibility() {
-
 
         // editText visibili
         openNumberEditText.visibility = View.VISIBLE
@@ -287,13 +253,13 @@ class FirmProfileFragment: Fragment() {
         open.visibility= View.VISIBLE
         close.visibility= View.VISIBLE
         FasciaEditText.visibility=View.VISIBLE
-
-
+        maxGruppoEditText.visibility = View.VISIBLE
 
         openNumberText.visibility=View.INVISIBLE
         closeNumberText.visibility=View.INVISIBLE
         totalPeopleTextView.visibility=View.INVISIBLE
         FasciaTextView.visibility=View.INVISIBLE
+        maxGruppoTextView.visibility = View.INVISIBLE
 
 
         pwd_edit.text = "Annulla"
@@ -303,48 +269,40 @@ class FirmProfileFragment: Fragment() {
 
     fun updateLayout(firm: Firm) {
 
-
         // textView visibili
         openNumberText.visibility=View.VISIBLE
         closeNumberText.visibility=View.VISIBLE
         totalPeopleTextView.visibility=View.VISIBLE
         FasciaTextView.visibility=View.VISIBLE
+        maxGruppoTextView.visibility = View.VISIBLE
 
-
-                // editText invisibili
+        // editText invisibili
         openNumberEditText.visibility=View.INVISIBLE
         closeNumberEditText.visibility=View.INVISIBLE
         totalPeopledEditText.visibility=View.INVISIBLE
         open.visibility=View.INVISIBLE
         close.visibility=View.INVISIBLE
         FasciaEditText.visibility=View.INVISIBLE
-
+        maxGruppoEditText.visibility = View.INVISIBLE
 
         openNumberText.text = completeTimeStamp(firm.startHour,firm.startMinute)
         totalPeopleTextView.text=firm.capienza.toString()
         closeNumberText.text=completeTimeStamp(firm.endHour,firm.endMinute)
         FasciaTextView.text=firm.maxTurn.toString()
-
-
+        maxGruppoTextView.text = firm.maxPartecipants.toString()
 
         // parte invisibile
-
         edit_firm.text = resources.getString(R.string.editProfileButton)
         pwd_edit.text = resources.getString(R.string.Pwd_firm)
     }
-
-
-
-
-
-
 
     fun updateProfile(firm:Firm) {
         // estrazionde dei dati dai editText
         val open = openNumberEditText.text.toString().trim()
         val close = closeNumberEditText.text.toString().trim()
         val tot = totalPeopledEditText.text.toString().trim()
-        val turno=FasciaEditText.text.toString().trim().toLong()
+        val turno = FasciaEditText.text.toString().trim().toLong()
+        val maxGruppo = maxGruppoEditText.text.toString().trim()
 
         var ok: Boolean = true
 
@@ -370,14 +328,16 @@ class FirmProfileFragment: Fragment() {
             FasciaEditText.requestFocus()
             ok = false
         }
+        if(ok && maxGruppo.isEmpty()){
+            maxGruppoEditText.error = "Vuoto" //TODO: MESSAGGIO ERRORE CORRETTO
+            maxGruppoEditText.requestFocus()
+            ok = false
+        }
         else if(turno>hourclosetime-houropentime){
             FasciaEditText.error ="il campo Numero di turni non può essere maggiore dell'orario lavorativo"
             FasciaEditText.requestFocus()
             ok = false
-
         }
-
-
 
         // se non ci sono campi vuoti
         if(ok){
@@ -404,7 +364,7 @@ class FirmProfileFragment: Fragment() {
                                 alertDialog.dismiss()
                                 val email = emailTextViewFirm.text.toString().trim()
 
-                                this.firm = Firm(currentUser!!.uid,firm.nomeazienza, firm.email, firm.password, firm.categoria,firm.location,firm.startHour,firm.startMinute,firm.endHour,firm.endMinute,tot.toLong(),firm.descrizione,turno,firm.maxPartecipants)
+                                this.firm = Firm(currentUser!!.uid,firm.nomeazienza, firm.email, firm.password, firm.categoria,firm.location,firm.startHour,firm.startMinute,firm.endHour,firm.endMinute,tot.toLong(),firm.descrizione,turno,maxGruppo.toLong())
 
                                 cUser.updateEmail(email).addOnCompleteListener { task2 ->
                                     if (task2.isSuccessful) {
@@ -440,12 +400,6 @@ class FirmProfileFragment: Fragment() {
 
         }
     }
-
-
-
-
-
-
 
     fun completeTimeStamp(hour :Long,minute: Long):String{
         return if(hour<10){
@@ -484,7 +438,6 @@ class FirmProfileFragment: Fragment() {
                             vista!!.progress_bar_firm.visibility = View.INVISIBLE
                             vista!!.imageProfileFirm.setImageBitmap(imageBitmap)
                         }
-
                     }
                 } else {
                     Log.e("UPLOAD", "ERROR: ${uploadTask.result.error?.message}")
@@ -502,35 +455,5 @@ class FirmProfileFragment: Fragment() {
                     Log.e("UPLOAD FROM GALLERY", it.message)
                 }
         }
-
     }
-
-
-
-
-
-
-
 }
-
-
-
-
-
-
-
-
-    /*private fun signOut(){
-        fireBase!!.signOut()
-
-        LoginManager.getInstance().logOut()
-
-        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).build()
-
-        val googleSignInClient = GoogleSignIn.getClient(context!!, gso)
-        googleSignInClient.signOut()
-
-        val i= Intent(context!!, MainActivity::class.java)
-        i.flags= Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
-        startActivity(i)
-    }*/
