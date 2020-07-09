@@ -21,6 +21,7 @@ import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.ask_days.view.*
 import kotlinx.android.synthetic.main.ask_how_take_picture.view.*
 import kotlinx.android.synthetic.main.confirm_password.view.*
+import kotlinx.android.synthetic.main.descrizione_firm.view.*
 import kotlinx.android.synthetic.main.fragment_firm_profile.view.*
 import kotlinx.android.synthetic.main.fragment_firm_showprofile.*
 import kotlinx.android.synthetic.main.fragment_firm_showprofile.view.*
@@ -75,7 +76,6 @@ class FirmProfileFragment: Fragment() {
                 view.openNumberText.text = completeTimeStamp(f.startHour, f.startMinute)
                 view.closeNumberText.text = completeTimeStamp(f.endHour, f.endMinute)
                 view.giornoTextView.text = f.giorni
-                Toast.makeText(context!!,f.giorni,Toast.LENGTH_LONG).show()
                 giorni = f.giorni
 
                 view.openNumberEditText.text = completeTimeStamp(f.startHour, f.startMinute)
@@ -132,8 +132,48 @@ class FirmProfileFragment: Fragment() {
                         }
                     }
                 }
-
                 view.giornoTextView.isClickable = false
+
+                view.descrButton.setOnClickListener {
+                    val descrDialogView = LayoutInflater.from(context).inflate(R.layout.descrizione_firm, null)
+                    val mBuilder = AlertDialog.Builder(context).setView(descrDialogView)
+                    val alertOpenDialog = mBuilder.show()
+                    descrDialogView.descrTextView.text = f.descrizione
+                    descrDialogView.descrEditText.setText(f.descrizione)
+
+                    descrDialogView.editDescr.setOnClickListener {
+                        if(descrDialogView.descrTextView.visibility == View.VISIBLE) {
+                            // cambia visibilita'
+                            descrDialogView.descrTextView.visibility = View.INVISIBLE
+                            descrDialogView.descrEditText.visibility = View.VISIBLE
+                        }else{
+                            val descrizione = descrDialogView.descrEditText.text.toString().trim()
+                            var isEmpty = false
+
+                            if(descrizione.isEmpty()){
+                                descrDialogView.descrEditText.error = "Inserisci una descrizione"
+                                descrDialogView.descrEditText.requestFocus()
+                                isEmpty = true
+                            }
+
+                            if(!isEmpty){
+                                f.descrizione = descrizione
+                                firmDB.child(id).setValue(f)
+                                alertOpenDialog.dismiss()
+
+                                Toast.makeText(activity, "Update della descrizione avvenuta con successo", Toast.LENGTH_LONG).show()
+
+                            }
+
+                        }
+
+                    }
+                    descrDialogView.cancDescr.setOnClickListener {
+                        alertOpenDialog.dismiss()
+                    }
+                }
+
+
 
                 // modifica della password dell'utente
                 view.pwd_edit.setOnClickListener {
