@@ -13,10 +13,6 @@ class FirebaseDatabaseHelper () {
     var referencefirm: DatabaseReference = database.getReference("firm")
     var referenceBooking: DatabaseReference = database.getReference("bookings")
     var user = User()
-    var bookings: ArrayList<Booking> = ArrayList()
-    var bookingsFirm: ArrayList<Long> = ArrayList()
-
-
 
     interface DataStatus {
         fun DataIsLoaded(user: User)
@@ -28,7 +24,7 @@ class FirebaseDatabaseHelper () {
         fun BookingisLoaded(nHour: ArrayList<Long>, bookings: ArrayList<Long>)
     }
     interface DataBookingUser {
-        fun BookingUserisLoaded(books:ArrayList<Booking>)
+        fun BookingUserisLoaded(books:ArrayList<Booking>,firmMap: HashMap<String,Firm>)
 
     }
 
@@ -175,8 +171,41 @@ class FirebaseDatabaseHelper () {
 
     // Lettura delle prenotazioni in base alla mail dell'azienda
     fun readBookingUser( iduser:String,ds:DataBookingUser){
+        var bookings = ArrayList<Booking>()
+        var firmMap = HashMap<String, Firm>()
 
-        var bk=ArrayList<Booking>()
+        referencefirm.addValueEventListener(object : ValueEventListener {
+            override fun onCancelled(error: DatabaseError) {
+            }
+
+            override fun onDataChange(p0: DataSnapshot) {
+                if (p0.exists())
+                    for (uDB in p0.children) { // per tutti gli utente dentro la tabella user
+                        val firmID = uDB.key
+                        val firm = Firm()
+                        for (field in uDB.children) {
+                            when (field.key) {
+                                "id" -> firm.id = field.value as String
+                                "nomeazienza" -> firm.nomeazienza = field.value as String
+                                "email" -> firm.email = field.value as String
+                                "password" -> firm.password = field.value as String
+                                "categoria" -> firm.categoria = field.value as String
+                                "location" -> firm.location = field.value as String
+                                "startHour" -> firm.startHour = field.value as Long
+                                "endHour" -> firm.endHour = field.value as Long
+                                "endMinute" -> firm.endMinute = field.value as Long
+                                "startMinute" -> firm.startMinute = field.value as Long
+                                "capienza" -> firm.capienza = field.value as Long
+                                "descrizione" -> firm.descrizione = field.value as String
+                                "maxTurn" -> firm.maxTurn = field.value as Long
+                                "maxPartecipants" -> firm.maxPartecipants = field.value as Long
+                                "giorni" -> firm.giorni = field.value as String
+                            }
+                        }
+                        firmMap[firmID!!] = firm
+                    }
+            }
+        })
 
         referenceBooking.addValueEventListener(object: ValueEventListener{
             override fun onCancelled(error: DatabaseError) {
@@ -185,30 +214,29 @@ class FirebaseDatabaseHelper () {
             override fun onDataChange(snapshot: DataSnapshot) {
                 if(snapshot.exists()){
                     for(booking in snapshot.children){
-
-                            for(book in booking.children){
-                                val id=book.key!!.split("-")
-                                Log.d("PRENOTAZIONI: ", "${id.get(0).trim()}")
-                                if (id.get(0).trim() == iduser) {
-                                    val b=Booking()
-                                    for (field in book.children) {
-                                        when (field.key) {
-                                            "dd" -> b.dd = field.value as Long
-                                            "mm" -> b.mm = field.value as Long
-                                            "yy" -> b.yy = field.value as Long
-                                            "nore" -> b.nOre = field.value as Long
-                                            "npartecipanti" -> b.nPartecipanti = field.value as Long
-                                        }
-
+                        for(book in booking.children){
+                            val id=book.key!!.split("-")
+                            Log.d("PRENOTAZIONI: ", id[0].trim())
+                            if (id[0].trim() == iduser) {
+                                val booking=Booking()
+                                for (field in book.children) {
+                                    when (field.key) {
+                                        "firmID" -> booking.firmID = field.value as String
+                                        "dd" -> booking.dd = field.value as Long
+                                        "mm" -> booking.mm = field.value as Long
+                                        "yy" -> booking.yy = field.value as Long
+                                        "nore" -> booking.nOre = field.value as Long
+                                        "npartecipanti" -> booking.nPartecipanti = field.value as Long
                                     }
-                                    bk.add(b)
-                                }
-                            }
 
+                                }
+                                bookings.add(booking)
+                            }
                         }
-                    ds.BookingUserisLoaded(bk)
                     }
+                    ds.BookingUserisLoaded(bookings,firmMap)
                 }
+            }
 
         })
     }
@@ -218,7 +246,7 @@ class FirebaseDatabaseHelper () {
             override fun onCancelled(error: DatabaseError) {
             }
             override fun onDataChange(snapshot: DataSnapshot) {
-                bookingsFirm.clear()
+                var bookingsFirm = ArrayList<Long>()
 
                 if((firm.endHour - firm.startHour)>0)
                     for(i in 0 until (firm.endHour - firm.startHour))
@@ -227,7 +255,7 @@ class FirebaseDatabaseHelper () {
                     for(i in 0..23)
                         bookingsFirm.add(firm.capienza)
 
-                var nHour: ArrayList<Long> = ArrayList()
+                var nHour = ArrayList<Long>()
                 nHour.clear()
                 if(snapshot.exists()) {
                     for (firms in snapshot.children) {
