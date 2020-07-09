@@ -90,11 +90,35 @@
         android:layout_marginStart="3dp"
         android:textSize="17sp"/>
 
+    <TextView
+        android:id="@+id/notRegistredFirmText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/notRegistredText"
+        android:layout_alignStart="@+id/passLoginEditText"
+        android:textSize="17sp"
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="40dp"
+        android:text="@string/hai_un_azienda"
+        android:textColor="@color/white" />
+
+    <TextView
+        android:id="@+id/signUpFirmTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/notRegistredText"
+        android:layout_toEndOf="@+id/notRegistredFirmText"
+        android:layout_alignBaseline="@+id/notRegistredFirmText"
+        android:text="@string/registralazienda"
+        android:textColor="@color/simileGolf"
+        android:layout_marginStart="3dp"
+        android:textSize="17sp"/>
+
     <Button
         android:id="@+id/loginButtonlogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/notRegistredText"
+        android:layout_below="@+id/notRegistredFirmText"
         android:layout_alignStart="@+id/passLoginEditText"
         android:layout_alignParentEnd="true"
         android:layout_marginTop="25dp"

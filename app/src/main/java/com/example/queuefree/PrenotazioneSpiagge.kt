@@ -57,9 +57,8 @@ class PrenotazioneSpiagge : FragmentActivity(), OnMapReadyCallback,GoogleMap.OnM
 
         val geo = Geocoder(this)
 
-        FirebaseDatabaseHelper().readFirmsandtakeAdress(object : FirebaseDatabaseHelper.DataStatusFirm {
+        FirebaseDatabaseHelper().readFirmsByCategory(object : FirebaseDatabaseHelper.DataStatusFirm {
             override fun DataisLoadedFirm(firm: Firm){
-
 
                 geo.getFromLocationName(firm.location,1)
 

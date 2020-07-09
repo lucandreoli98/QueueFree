@@ -30,11 +30,6 @@ class RegisterFragment: Fragment(), OnDateSetListener {
 
         fireBase = FirebaseAuth.getInstance()
 
-        view.firmRegisterClickable.setOnClickListener() {
-            fragmentManager!!.beginTransaction().replace(R.id.login_fragment, FirmRegisterFragment())
-                .commit()
-        }
-
         view.register_show_calendar.setOnClickListener {
             showDatePickerDialog() // apre il pannello del calendario sulla data di oggi
         }

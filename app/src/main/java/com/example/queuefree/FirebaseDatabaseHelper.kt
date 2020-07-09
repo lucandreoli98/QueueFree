@@ -59,7 +59,7 @@ class FirebaseDatabaseHelper () {
         })
     }
 
-    fun readFirmsandtakeAdress(ds: DataStatusFirm, cat: String) {
+    fun readFirmsByCategory(ds: DataStatusFirm, cat: String) {
         referencefirm.addValueEventListener(object : ValueEventListener {
             override fun onCancelled(p0: DatabaseError) {
                 Log.e("OnCancelled", p0.toException().toString())

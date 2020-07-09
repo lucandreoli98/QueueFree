@@ -111,43 +111,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/confpassRegisterEditText"
-        android:textColor="@color/backgroundRed"
+        android:textColor="@color/black"
         android:layout_marginTop="20dp"
         android:background="@drawable/btn_rounded"
         android:text="@string/insertdate"
         android:layout_marginEnd="70dp"
         android:layout_marginStart="70dp"/>
 
-    <TextView
-        android:id="@+id/firmRegister"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/register_show_calendar"
-        android:layout_alignStart="@+id/register_show_calendar"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="10dp"
-        android:text="@string/hai_un_azienda"
-        android:textColor="@color/white"
-        android:textSize="17sp" />
-
-    <TextView
-        android:id="@+id/firmRegisterClickable"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/register_show_calendar"
-        android:layout_toEndOf="@id/firmRegister"
-        android:layout_marginTop="10dp"
-        android:text="@string/registralazienda"
-        android:textColor="@color/simileGolf"
-        android:textSize="17sp"
-        />
-
     <Button
         android:id="@+id/submitButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/register_show_calendar"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="30dp"
         android:layout_marginEnd="60dp"
         android:layout_marginStart="60dp"
         android:background="@drawable/btn_rounded"

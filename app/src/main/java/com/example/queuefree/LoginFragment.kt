@@ -46,8 +46,11 @@ class LoginFragment : Fragment() {
 
         // Se viene cliccato il testo "REGISTRATI"
         view.signUpTextView.setOnClickListener {
-            fragmentManager!!.beginTransaction().replace(R.id.login_fragment, RegisterFragment())
-                .commit()
+            fragmentManager!!.beginTransaction().replace(R.id.login_fragment, RegisterFragment()).addToBackStack(null).commit()
+        }
+
+        view.signUpFirmTextView.setOnClickListener {
+            fragmentManager!!.beginTransaction().replace(R.id.login_fragment, FirmRegisterFragment()).addToBackStack(null).commit()
         }
 
         // Se viene cliccato il tasto di login

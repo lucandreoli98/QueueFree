@@ -6,7 +6,7 @@
     <string name="emailEditText">Email</string>
     <string name="passwordEditText">Password</string>
     <string name="confpasswordEditText">Conferma Password</string>
-    <string name="notRegistred">Non sei registrato?</string>
+    <string name="notRegistred">Non sei registrato? </string>
     <string name="registred">REGISTRATI</string>
     <string name="name">Nome</string>
     <string name="surname">Cognome</string>
@@ -25,7 +25,7 @@
     <string name="immagine">Immagine</string>
     <string name="facebook">Facebook</string>
     <string name="google">Google</string>
-    <string name="hai_un_azienda">Hai un azienda?</string>
+    <string name="hai_un_azienda">Hai un azienda? </string>
     <string name="registralazienda">REGISTRALA</string>
     <string name="nome_dell_azienda">Nome dell\'azienda</string>
     <string name="dove_si_trova">Dove si trova?</string>
@@ -104,5 +104,6 @@
     <string name="turni_giorno">Numero di turni al giorno</string>
     <string name="descrizione">Descrizione:</string>
     <string name="visualizza">Visualizza</string>
+    <string name="registra_azienda">REGISTRA AZIENDA</string>
 
 </resources>
