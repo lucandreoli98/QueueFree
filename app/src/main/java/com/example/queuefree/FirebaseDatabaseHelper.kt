@@ -1,18 +1,17 @@
 package com.example.queuefree
 
 import android.util.Log
-import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 
-class FirebaseDatabaseHelper () {
+class FirebaseDatabaseHelper{
 
-    var database : FirebaseDatabase = FirebaseDatabase.getInstance()
-    val id = FirebaseAuth.getInstance().currentUser!!.uid.trim { it <= ' ' }
-    var referenceuser: DatabaseReference = database.getReference("users")
-    var referencefirm: DatabaseReference = database.getReference("firm")
-    var referenceBooking: DatabaseReference = database.getReference("bookings")
-    var user = User()
+    private var database : FirebaseDatabase = FirebaseDatabase.getInstance()
+    private val id = FirebaseAuth.getInstance().currentUser!!.uid.trim { it <= ' ' }
+    private var referenceuser: DatabaseReference = database.getReference("users")
+    private var referencefirm: DatabaseReference = database.getReference("firm")
+    private var referenceBooking: DatabaseReference = database.getReference("bookings")
+    private var user = User()
 
     interface DataStatus {
         fun DataIsLoaded(user: User)
@@ -171,8 +170,8 @@ class FirebaseDatabaseHelper () {
 
     // Lettura delle prenotazioni in base alla mail dell'azienda
     fun readBookingUser( iduser:String,ds:DataBookingUser){
-        var bookings = ArrayList<Booking>()
-        var firmMap = HashMap<String, Firm>()
+        val bookings = ArrayList<Booking>()
+        val firmMap = HashMap<String, Firm>()
 
         referencefirm.addValueEventListener(object : ValueEventListener {
             override fun onCancelled(error: DatabaseError) {
@@ -218,19 +217,19 @@ class FirebaseDatabaseHelper () {
                             val id=book.key!!.split("-")
                             Log.d("PRENOTAZIONI: ", id[0].trim())
                             if (id[0].trim() == iduser) {
-                                val booking=Booking()
+                                val userBooking = Booking()
                                 for (field in book.children) {
                                     when (field.key) {
-                                        "firmID" -> booking.firmID = field.value as String
-                                        "dd" -> booking.dd = field.value as Long
-                                        "mm" -> booking.mm = field.value as Long
-                                        "yy" -> booking.yy = field.value as Long
-                                        "nore" -> booking.nOre = field.value as Long
-                                        "npartecipanti" -> booking.nPartecipanti = field.value as Long
+                                        "firmID" -> userBooking.firmID = field.value as String
+                                        "dd" -> userBooking.dd = field.value as Long
+                                        "mm" -> userBooking.mm = field.value as Long
+                                        "yy" -> userBooking.yy = field.value as Long
+                                        "nore" -> userBooking.nOre = field.value as Long
+                                        "npartecipanti" -> userBooking.nPartecipanti = field.value as Long
                                     }
 
                                 }
-                                bookings.add(booking)
+                                bookings.add(userBooking)
                             }
                         }
                     }
@@ -246,7 +245,7 @@ class FirebaseDatabaseHelper () {
             override fun onCancelled(error: DatabaseError) {
             }
             override fun onDataChange(snapshot: DataSnapshot) {
-                var bookingsFirm = ArrayList<Long>()
+                val bookingsFirm = ArrayList<Long>()
 
                 if((firm.endHour - firm.startHour)>0)
                     for(i in 0 until (firm.endHour - firm.startHour))
@@ -255,7 +254,7 @@ class FirebaseDatabaseHelper () {
                     for(i in 0..23)
                         bookingsFirm.add(firm.capienza)
 
-                var nHour = ArrayList<Long>()
+                val nHour = ArrayList<Long>()
                 nHour.clear()
                 if(snapshot.exists()) {
                     for (firms in snapshot.children) {
