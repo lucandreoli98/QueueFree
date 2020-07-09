@@ -169,7 +169,7 @@
                 android:layout_below="@+id/imageGiorni"
                 android:layout_alignParentStart="true"
                 android:layout_marginStart="10dp"
-                android:layout_marginTop="35dp"
+                android:layout_marginTop="18dp"
                 android:contentDescription="@string/clock"
                 android:src="@drawable/ic_clock" />
 
@@ -180,7 +180,7 @@
                 android:layout_below="@+id/giornoText"
                 android:layout_alignBaseline="@+id/clockView"
                 android:layout_marginStart="10dp"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="15dp"
                 android:layout_toEndOf="@+id/clockView"
                 android:text="@string/openFirm"
                 android:textColor="@color/black"
@@ -193,7 +193,7 @@
                 android:layout_below="@+id/giornoText"
                 android:layout_alignBaseline="@+id/clockView"
                 android:layout_marginStart="10dp"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="15dp"
                 android:layout_toEndOf="@+id/openText"
                 android:text=""
                 android:textColor="@color/black"
@@ -207,7 +207,7 @@
                 android:layout_below="@+id/giornoText"
                 android:layout_alignBaseline="@+id/clockView"
                 android:layout_marginStart="10dp"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="15dp"
                 android:layout_toEndOf="@+id/openText"
                 android:text=""
                 android:textColor="@color/black"
@@ -261,7 +261,7 @@
                 android:layout_alignStart="@+id/openNumberEditText"
                 android:layout_below="@+id/giornoText"
                 android:layout_marginStart="60dp"
-                android:layout_marginTop="33dp"
+                android:layout_marginTop="18dp"
                 android:background="@drawable/bg_round_red"
                 android:src="@drawable/ic_baseline_keyboard_arrow_down_24"
                 android:visibility="invisible">
@@ -391,7 +391,7 @@
                 android:layout_below="@+id/maxGruppoTextView"
                 android:layout_marginTop="15dp"
                 android:layout_marginStart="10dp"
-                android:text="Numero di turni al giorno"
+                android:text="@string/turni_giorno"
                 android:textColor="@color/black"
                 android:textSize="20sp" />
 
@@ -420,12 +420,48 @@
                 android:textSize="20sp"
                 android:text=""/>
 
+            <ImageView
+                android:id="@+id/imageDescrizione"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/fasciaView"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="18dp"
+                android:layout_marginStart="10dp"
+                android:src="@drawable/ic_update"/>
+
+            <TextView
+                android:id="@+id/descrText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/imageDescrizione"
+                android:layout_below="@+id/durataText"
+                android:layout_marginTop="15dp"
+                android:layout_marginStart="10dp"
+                android:text="@string/descrizione"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
+
+            <Button
+                android:id="@+id/descrButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/descrText"
+                android:layout_below="@+id/durataText"
+                android:layout_marginTop="5dp"
+                android:layout_marginStart="10dp"
+                android:text="@string/visualizza"
+                android:textAllCaps="false"
+                android:textColor="@color/red"
+                android:textSize="15sp"
+                android:background="@drawable/btn_profile"
+                android:padding="10dp"/>
 
             <Button
                 android:id="@+id/edit_firm"
                 android:layout_width="140dp"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/durataText"
+                android:layout_below="@+id/descrButton"
                 android:layout_alignParentStart="true"
                 android:layout_marginTop="20dp"
                 android:layout_marginStart="30dp"
@@ -442,7 +478,7 @@
                 android:id="@+id/pwd_edit"
                 android:layout_width="140dp"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/durataText"
+                android:layout_below="@+id/descrButton"
                 android:layout_alignParentEnd="true"
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="30dp"
