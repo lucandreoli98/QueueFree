@@ -234,6 +234,7 @@ class FirebaseDatabaseHelper{
                             }
                         }
                         bookingUser.add(BookingUser(firm,bookings))
+                        Log.d("PRENOTAZIONI", firm.nomeazienza)
                     }
                     ds.BookingUserisLoaded(bookingUser)
                 }
