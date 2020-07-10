@@ -23,7 +23,7 @@ class FirebaseDatabaseHelper{
         fun BookingisLoaded(nHour: ArrayList<Long>, bookings: ArrayList<Long>)
     }
     interface DataBookingUser {
-        fun BookingUserisLoaded(bookings: ArrayList<BookingUser>)
+        fun BookingUserisLoaded(bookingUser: ArrayList<BookingUser>)
 
     }
 
