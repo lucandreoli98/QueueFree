@@ -23,7 +23,7 @@ class FirebaseDatabaseHelper{
         fun BookingisLoaded(nHour: ArrayList<Long>, bookings: ArrayList<Long>)
     }
     interface DataBookingUser {
-        fun BookingUserisLoaded(books:ArrayList<Booking>,firmMap: HashMap<String,Firm>)
+        fun BookingUserisLoaded(bookings: ArrayList<BookingUser>)
 
     }
 
@@ -169,42 +169,10 @@ class FirebaseDatabaseHelper{
     }
 
     // Lettura delle prenotazioni in base alla mail dell'azienda
-    fun readBookingUser( iduser:String,ds:DataBookingUser){
+    fun readBookingUser(iduser:String, ds:DataBookingUser){
+        val bookingUser = ArrayList<BookingUser>()
         val bookings = ArrayList<Booking>()
-        val firmMap = HashMap<String, Firm>()
-
-        referencefirm.addValueEventListener(object : ValueEventListener {
-            override fun onCancelled(error: DatabaseError) {
-            }
-
-            override fun onDataChange(p0: DataSnapshot) {
-                if (p0.exists())
-                    for (uDB in p0.children) { // per tutti gli utente dentro la tabella user
-                        val firmID = uDB.key
-                        val firm = Firm()
-                        for (field in uDB.children) {
-                            when (field.key) {
-                                "id" -> firm.id = field.value as String
-                                "nomeazienza" -> firm.nomeazienza = field.value as String
-                                "email" -> firm.email = field.value as String
-                                "password" -> firm.password = field.value as String
-                                "categoria" -> firm.categoria = field.value as String
-                                "location" -> firm.location = field.value as String
-                                "startHour" -> firm.startHour = field.value as Long
-                                "endHour" -> firm.endHour = field.value as Long
-                                "endMinute" -> firm.endMinute = field.value as Long
-                                "startMinute" -> firm.startMinute = field.value as Long
-                                "capienza" -> firm.capienza = field.value as Long
-                                "descrizione" -> firm.descrizione = field.value as String
-                                "maxTurn" -> firm.maxTurn = field.value as Long
-                                "maxPartecipants" -> firm.maxPartecipants = field.value as Long
-                                "giorni" -> firm.giorni = field.value as String
-                            }
-                        }
-                        firmMap[firmID!!] = firm
-                    }
-            }
-        })
+        var firm = Firm()
 
         referenceBooking.addValueEventListener(object: ValueEventListener{
             override fun onCancelled(error: DatabaseError) {
@@ -212,28 +180,62 @@ class FirebaseDatabaseHelper{
 
             override fun onDataChange(snapshot: DataSnapshot) {
                 if(snapshot.exists()){
-                    for(booking in snapshot.children){
-                        for(book in booking.children){
+                    for(firms in snapshot.children){ // in questo punto id azienda
+                        val idFirm = firms.key
+                        bookings.clear()
+                        for(book in firms.children){
                             val id=book.key!!.split("-")
                             Log.d("PRENOTAZIONI: ", id[0].trim())
-                            if (id[0].trim() == iduser) {
-                                val userBooking = Booking()
+                            if (id[0].trim() == iduser) { // in questo punto hai la prenotazione nell'azienda
+                                bookings.add(Booking())
+                                // dati azienda
+                                referencefirm.addValueEventListener(object : ValueEventListener {
+                                    override fun onCancelled(error: DatabaseError) {
+                                    }
+
+                                    override fun onDataChange(p0: DataSnapshot) {
+                                        if (p0.exists())
+                                            for (uDB in p0.children) {
+                                                if(idFirm == uDB.key){
+                                                    firm = Firm()
+                                                    for (field in uDB.children) {
+                                                        when (field.key) {
+                                                            "id" -> firm.id = field.value as String
+                                                            "nomeazienza" -> firm.nomeazienza = field.value as String
+                                                            "email" -> firm.email = field.value as String
+                                                            "password" -> firm.password = field.value as String
+                                                            "categoria" -> firm.categoria = field.value as String
+                                                            "location" -> firm.location = field.value as String
+                                                            "startHour" -> firm.startHour = field.value as Long
+                                                            "endHour" -> firm.endHour = field.value as Long
+                                                            "endMinute" -> firm.endMinute = field.value as Long
+                                                            "startMinute" -> firm.startMinute = field.value as Long
+                                                            "capienza" -> firm.capienza = field.value as Long
+                                                            "descrizione" -> firm.descrizione = field.value as String
+                                                            "maxTurn" -> firm.maxTurn = field.value as Long
+                                                            "maxPartecipants" -> firm.maxPartecipants = field.value as Long
+                                                            "giorni" -> firm.giorni = field.value as String
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                    }
+                                })
                                 for (field in book.children) {
                                     when (field.key) {
-                                        "firmID" -> userBooking.firmID = field.value as String
-                                        "dd" -> userBooking.dd = field.value as Long
-                                        "mm" -> userBooking.mm = field.value as Long
-                                        "yy" -> userBooking.yy = field.value as Long
-                                        "nore" -> userBooking.nOre = field.value as Long
-                                        "npartecipanti" -> userBooking.nPartecipanti = field.value as Long
+                                        "dd" -> bookings[bookings.size-1].dd = field.value as Long
+                                        "mm" -> bookings[bookings.size-1].mm = field.value as Long
+                                        "yy" -> bookings[bookings.size-1].yy = field.value as Long
+                                        "nore" -> bookings[bookings.size-1].nOre = field.value as Long
+                                        "npartecipanti" -> bookings[bookings.size-1].nPartecipanti = field.value as Long
                                     }
 
                                 }
-                                bookings.add(userBooking)
                             }
                         }
+                        bookingUser.add(BookingUser(firm,bookings))
                     }
-                    ds.BookingUserisLoaded(bookings,firmMap)
+                    ds.BookingUserisLoaded(bookingUser)
                 }
             }
 
