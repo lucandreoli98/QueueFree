@@ -169,7 +169,7 @@ class FirebaseDatabaseHelper{
     }
 
     // Lettura delle prenotazioni in base alla mail dell'azienda
-    fun readBookingUser(iduser:String, ds:DataBookingUser){
+    fun readBookingUser(ds:DataBookingUser){
         val bookingUser = ArrayList<BookingUser>()
         val bookings = ArrayList<Booking>()
         var firm = Firm()
@@ -184,9 +184,8 @@ class FirebaseDatabaseHelper{
                         val idFirm = firms.key
                         bookings.clear()
                         for(book in firms.children){
-                            val id=book.key!!.split("-")
-                            Log.d("PRENOTAZIONI: ", id[0].trim())
-                            if (id[0].trim() == iduser) { // in questo punto hai la prenotazione nell'azienda
+                            val idRead=book.key!!.split("-")
+                            if (idRead[0].trim() == id) { // in questo punto hai la prenotazione nell'azienda
                                 bookings.add(Booking())
                                 // dati azienda
                                 referencefirm.addValueEventListener(object : ValueEventListener {
