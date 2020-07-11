@@ -1,13 +1,11 @@
 package com.example.queuefree
 
-import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.prenotazioni_utente.view.*
 
 class PrenotazioniFragment: Fragment() {
@@ -23,9 +21,9 @@ class PrenotazioniFragment: Fragment() {
             override fun dataisLoadedFirm(firms: HashMap<String, Firm>) {
 
                 database.readBookingUser(firms, object: FirebaseDatabaseHelper.DataBookingUser{
-                    override fun BookingUserisLoaded(bookings:  ArrayList<BookingUser>) {
-                        Log.d("DATI ARRIVATI", bookings[0].firm.nomeazienza)
-                        for (Bu in bookings) {
+                    override fun BookingUserisLoaded(bookingUser:  ArrayList<BookingUser>) {
+                        //Log.d("DATI ARRIVATI", bookingUser[0].firm.nomeazienza)
+                        for (Bu in bookingUser) {
                             val adapter = context?.let {
                                 BookAdapter(it, R.layout.list_view_prenotazioni, Bu.bookings, Bu.firm)
                             }
