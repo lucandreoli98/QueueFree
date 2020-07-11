@@ -24,10 +24,10 @@ class BookAdapter(context: Context, resource: Int, objects: ArrayList<Booking>,p
             var nore=getItem(position)!!.nOre
             var part="Partecipanti: ${getItem(position)!!.nPartecipanti}"
             var name = firm.nomeazienza
-            Toast.makeText(mcontext, firm.nomeazienza,Toast.LENGTH_LONG).show()
+            //Toast.makeText(mcontext, firm.nomeazienza,Toast.LENGTH_LONG).show()
             var book=Booking(getItem(position)!!.dd,getItem(position)!!.mm,getItem(position)!!.yy,getItem(position)!!.nOre,getItem(position)!!.nPartecipanti)
-            var inflater=LayoutInflater.from(mcontext)
-            val convertView=inflater.inflate(mresources,parent,false)
+            var inflater= LayoutInflater.from(mcontext)
+            val convertView= inflater.inflate(mresources,parent,false)
             convertView.data_ora.setText(data)
             convertView.partecip.setText(part)
             convertView.name_firm.setText(name)

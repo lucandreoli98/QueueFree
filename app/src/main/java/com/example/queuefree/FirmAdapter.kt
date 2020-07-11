@@ -12,7 +12,7 @@ class FirmAdapter(fm : FragmentManager) : FragmentPagerAdapter(fm) {
                 FirmProfileFragment()
             }
             1 -> {
-                PrenotazioniFragment()
+                FirmPrenotazioneFragment()
             }
             else -> FirmProfileFragment()
         }

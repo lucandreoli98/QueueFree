@@ -34,7 +34,6 @@ class FirmFragment : Fragment() {
             }
 
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
-
             }
 
             override fun onPageSelected(position: Int) {

@@ -1,5 +1,6 @@
 package com.example.queuefree
 
+import android.content.Context
 import android.media.Image
 import android.os.Bundle
 import android.view.LayoutInflater

@@ -22,7 +22,6 @@ import kotlinx.android.synthetic.main.ask_days.view.*
 import kotlinx.android.synthetic.main.ask_how_take_picture.view.*
 import kotlinx.android.synthetic.main.confirm_password.view.*
 import kotlinx.android.synthetic.main.descrizione_firm.view.*
-import kotlinx.android.synthetic.main.fragment_firm_profile.view.*
 import kotlinx.android.synthetic.main.fragment_firm_showprofile.*
 import kotlinx.android.synthetic.main.fragment_firm_showprofile.view.*
 import kotlinx.android.synthetic.main.fragment_firm_showprofile.view.emailTextViewFirm
@@ -57,7 +56,6 @@ class FirmProfileFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         vista=view
-
 
         fb.readFirmFromDB(object : FirebaseDatabaseHelper.DataStatusFirm {
             override fun DataisLoadedFirm(f: Firm) {
