@@ -26,7 +26,7 @@ class PrenotazioniFragment: Fragment() {
                         val totalbu = ArrayList<Booking>()
                         val totalFirm = ArrayList<Firm>()
                         for (bu in bookingUser) {
-                            Log.e("AAAAAAAAAAAAAAAAAAAAAAAAAAAAa",bu.firm.nomeazienza)
+                            Log.e("AAAAAAAAAAAAAAAAAAAAAAAAAAa",bu.firm.nomeazienza)
 
                             for(b in bu.bookings){
                                 Log.e("AAAAAAAAAAAAAAAAAAAAAAAAAAAAa","AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAZ")
