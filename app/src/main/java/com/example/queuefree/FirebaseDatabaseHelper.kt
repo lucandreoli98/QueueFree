@@ -296,9 +296,6 @@ class FirebaseDatabaseHelper{
                                         "npartecipanti" -> bookings[bookings.size-1].nPartecipanti = field.value as Long
                                     }
                                 }
-                                Log.d("ID AZIENDA", firmID.key)
-                                Log.d("AZIENDA", firms[firmID.key]!!.nomeazienza)
-                                Log.d("PRENOTAZIONEEEEE", bookings[bookings.size-1].dd.toString())
                                 bookingUser.add(BookingUser(firms[firmID.key]!!,bookings))
                             }
                         }

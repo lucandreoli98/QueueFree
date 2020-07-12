@@ -1,5 +1,6 @@
 package com.example.queuefree
 
+import android.app.Application
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -22,7 +23,7 @@ class PrenotazioniFragment: Fragment() {
 
                 database.readBookingUser(firms, object: FirebaseDatabaseHelper.DataBookingUser{
                     override fun BookingUserisLoaded(bookingUser:  ArrayList<BookingUser>) {
-                        //Log.d("DATI ARRIVATI", bookingUser[0].firm.nomeazienza)
+                        Log.d("DATI ARRIVATI", bookingUser[0].firm.nomeazienza)
                         for (Bu in bookingUser) {
                             val adapter = context?.let {
                                 BookAdapter(it, R.layout.list_view_prenotazioni, Bu.bookings, Bu.firm)
@@ -36,4 +37,4 @@ class PrenotazioniFragment: Fragment() {
 
         return view
     }
-    }
+}
