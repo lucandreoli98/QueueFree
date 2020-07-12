@@ -46,20 +46,23 @@ class PrenotazioniFragment: Fragment() {
                                     startd = totalbu[i].dd
                                     startm = totalbu[i].mm
                                     starty = totalbu[i].yy
+                                    startfirm =  totalFirm[i].nomeazienza
                                     totalbucompact.add(totalbu[i])
                                     totalfirmcompact.add(totalFirm[i])
-                                    durate.add(difila)
+                                    if(difila!=0L){
+                                        durate.add(difila)
+                                        Log.d("BOOK:", "${totalFirm[i].nomeazienza} ${totalbu[i].dd} ${totalbu[i].mm} ${totalbu[i].yy} ${totalbu[i].nPartecipanti} ${totalbu[i].nOre+totalFirm[i].startHour}-${totalbu[i].nOre+totalFirm[i].startHour+durate[durate.size-1]}")
+                                    }
                                     difila=0
-                                    Log.d("BOOK:", "${count+1} ${totalbu[i].nOre}")
-                                    Log.d("BOOK:", "${totalFirm[i].nomeazienza} ${totalbu[i].dd} ${totalbu[i].mm} ${totalbu[i].yy} ${totalbu[i].nPartecipanti} ${totalbu[i].nOre+totalFirm[i].startHour}-${totalbu[i].nOre+totalFirm[i].startHour+durate[i]}")
                                 }else{
                                     difila++
-                                    Log.d("BOOK:", difila.toString())
 
                                 }
+
                                 count = totalbu[i].nOre
 
                             }
+                            Log.d("AAAAAA",durate.toString())
                             val adapter =  BookAdapter(context!!, R.layout.list_view_prenotazioni, totalbu, totalFirm, durate)
 
                             view.itemslistView.adapter = adapter
