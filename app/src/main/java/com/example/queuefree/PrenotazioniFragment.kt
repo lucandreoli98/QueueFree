@@ -36,34 +36,33 @@ class PrenotazioniFragment: Fragment() {
                             var starty = 0L
                             var count = 0L
                             var difila = 0L
+                            var startParte = 0L
                             var startfirm = ""
-                            var totalbucompact = ArrayList<Booking>()
-                            var totalfirmcompact = ArrayList<Firm>()
-                            var durate = ArrayList<Long>()
+                            val totalbucompact = ArrayList<Booking>()
+                            val totalfirmcompact = ArrayList<Firm>()
+                            val durate = ArrayList<Long>()
 
                             for(i in 0 until totalbu.size){
-                                if(totalbu[i].dd != startd || totalbu[i].mm != startm || totalbu[i].yy != starty || startfirm != totalFirm[i].nomeazienza || totalbu[i].nOre != (count+1)){
+                                if(totalbu[i].dd != startd || totalbu[i].mm != startm || totalbu[i].yy != starty || totalbu[i].nPartecipanti != startParte || startfirm != totalFirm[i].nomeazienza || totalbu[i].nOre != (count+1)){
                                     startd = totalbu[i].dd
                                     startm = totalbu[i].mm
                                     starty = totalbu[i].yy
+                                    startParte = totalbu[i].nPartecipanti
                                     startfirm =  totalFirm[i].nomeazienza
                                     totalbucompact.add(totalbu[i])
                                     totalfirmcompact.add(totalFirm[i])
-                                    if(difila!=0L){
+                                    if(difila!=0L)
                                         durate.add(difila)
-                                        Log.d("BOOK:", "${totalFirm[i].nomeazienza} ${totalbu[i].dd} ${totalbu[i].mm} ${totalbu[i].yy} ${totalbu[i].nPartecipanti} ${totalbu[i].nOre+totalFirm[i].startHour}-${totalbu[i].nOre+totalFirm[i].startHour+durate[durate.size-1]}")
-                                    }
-                                    difila=0
-                                }else{
+
+                                    difila=1
+                                }else
                                     difila++
 
-                                }
-
                                 count = totalbu[i].nOre
-
                             }
+                            durate.add(difila)
                             Log.d("AAAAAA",durate.toString())
-                            val adapter =  BookAdapter(context!!, R.layout.list_view_prenotazioni, totalbu, totalFirm, durate)
+                            val adapter =  BookAdapter(context!!, R.layout.list_view_prenotazioni, totalbucompact, totalfirmcompact, durate)
 
                             view.itemslistView.adapter = adapter
                         }
