@@ -39,6 +39,7 @@ class ReminderBookings :Service() {
                 val day=calendar.get(Calendar.DAY_OF_MONTH)
                 val month=calendar.get(Calendar.MONTH)+1
                 val year=calendar.get(Calendar.YEAR)
+                var i=1
 
                 val currentDate = Date(Date().year,Date().month,Date().day)
                 database.readAllFirmFromDB(object:FirebaseDatabaseHelper.DataStatusHashFirm{
@@ -46,16 +47,20 @@ class ReminderBookings :Service() {
                         database.readBookingUser(firms,object:FirebaseDatabaseHelper.DataBookingUser{
                             override fun BookingUserisLoaded(bookingUser: ArrayList<BookingUser>) {
                                 for (BookingsFirm in bookingUser){
-                                    for(Bookings in BookingsFirm.bookings){
+                                    for(Bookings in BookingsFirm.bookings) {
+                                        Log.d("NOTIFICA", "${BookingsFirm.firm.nomeazienza} : ${Bookings.dd}/${Bookings.mm}/${Bookings.yy}, current date : $day/$month/$year")
+                                        if (Bookings.dd.toInt() == day) {
+                                            if (Bookings.mm.toInt() == month){
+                                                if (Bookings.yy.toInt() == year) {
+                                                    val starthour = BookingsFirm.firm.startHour + Bookings.nOre
+                                                     val time =completeTimeStamp(starthour,BookingsFirm.firm.startMinute)
+                                                    sendNotification("${BookingsFirm.firm.nomeazienza}:la prenotazione inizia alle $time ricorda porco dio!!",i)
+                                                    i++
 
-
-                                        Log.d("NOTIFICA","${BookingsFirm.firm.nomeazienza} : ${Bookings.dd}/${Bookings.mm}/${Bookings.yy}, current date : $day/$month/$year")
-                                        if(Bookings.dd.toInt()==day || Bookings.mm.toInt()==month || Bookings.yy.toInt()==year){
-                                            sendNotification(BookingsFirm.firm.nomeazienza)
-
+                                                }
                                         }
-                                        else
-                                            sendNotification("Non ci sono prenotazioni")
+                                    }
+
                                     }
                                 }
                             }
@@ -84,7 +89,7 @@ class ReminderBookings :Service() {
     }
 
 
-    private fun sendNotification(text: String) {
+    private fun sendNotification(text: String, i:Int) {
         // create the intent for the notification
         val notificationIntent = Intent(this, MainActivity::class.java)
             .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
@@ -96,14 +101,12 @@ class ReminderBookings :Service() {
 
         // create the variables for the notification
         val icon: Int = R.drawable.ic_alarm_24
-        val tickerText: CharSequence = "Oggi hai il seguente evento prenotato"
-        val contentTitle = getText(R.string.app_name)
+        val contentTitle = getText(R.string.notify)
         val contentText: CharSequence = text
 
         // create the notification and set its data
         val notification: Notification = Notification.Builder(this)
             .setSmallIcon(icon)
-            .setTicker(tickerText)
             .setContentTitle(contentTitle)
             .setContentText(contentText)
             .setContentIntent(pendingIntent)
@@ -113,7 +116,21 @@ class ReminderBookings :Service() {
         // display the notification
         val manager =
             getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        val NOTIFICATION_ID = 1
+        val NOTIFICATION_ID = i
         manager.notify(NOTIFICATION_ID, notification)
+    }
+
+    fun completeTimeStamp(hour :Long,minute: Long):String{
+        return if(hour<10){
+            if(minute<10){
+                "0${hour}:0${minute}"
+            } else {
+                "0${hour}:${minute}"
+            }
+        } else if(minute<10){
+            "${hour}:0${minute}"
+        } else {
+            "${hour}:${minute}"
+        }
     }
 }
