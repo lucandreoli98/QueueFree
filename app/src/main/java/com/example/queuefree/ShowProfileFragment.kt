@@ -199,20 +199,12 @@ class ShowProfileFragment: Fragment(), DatePickerDialog.OnDateSetListener {
 
                                 cUser.updateEmail(email).addOnCompleteListener { task2 ->
                                     if (task2.isSuccessful) {
-                                        Toast.makeText(
-                                            activity,
-                                            "Update del profilo avvenuto con successo",
-                                            Toast.LENGTH_LONG
-                                        ).show()
+                                        Toast.makeText(activity, "Update del profilo avvenuto con successo", Toast.LENGTH_LONG).show()
                                         usersDB.child(id).setValue(newUser)
                                         user = newUser
                                         updateLayout(newUser)
                                     } else {
-                                        Toast.makeText(
-                                            activity,
-                                            "ERRORE NELL'UPDATE",
-                                            Toast.LENGTH_LONG
-                                        ).show()
+                                        Toast.makeText(activity, "ERRORE NELL'UPDATE", Toast.LENGTH_LONG).show()
                                     }
                                 }
 

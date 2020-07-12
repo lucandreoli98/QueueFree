@@ -20,15 +20,15 @@ class BookAdapter(context: Context, resource: Int, objects: ArrayList<Booking>, 
 
         // contiene Firm e ArrayList di Booking
         val data="${getItem(position)!!.dd}/${getItem(position)!!.mm}/${getItem(position)!!.yy}"
-        val part="Partecipanti: ${getItem(position)!!.nPartecipanti}"
+        val part= getItem(position)!!.nPartecipanti.toString()
         val name = firm[position].nomeazienza
         var book=Booking(getItem(position)!!.dd,getItem(position)!!.mm,getItem(position)!!.yy,getItem(position)!!.nOre,getItem(position)!!.nPartecipanti)
 
 
-        convertView.data_ora.text = data
-        convertView.partecip.text = part
-        convertView.name_firm.text = name
-        convertView.dur.text = "${firm[position].startHour+getItem(position)!!.nOre}-${durate[position]+firm[position].startHour+getItem(position)!!.nOre}"
+        convertView.dataTicket.text = data
+        convertView.partecipantiTicket.text = part
+        convertView.firmNameTicket.text = name
+        convertView.orarioTicket.text = "${firm[position].startHour+getItem(position)!!.nOre}:${firm[position].startMinute}-${durate[position]+firm[position].startHour+getItem(position)!!.nOre}:${firm[position].startMinute}0"
 
         return convertView
     }
