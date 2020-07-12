@@ -217,7 +217,6 @@ class FirebaseDatabaseHelper{
                                         "npartecipanti" -> booking.nPartecipanti = data.value as Long
                                     }
                                 }
-                                Log.d("PRENOTAZIONI: ", "${booking.dd} ${booking.mm} ${booking.yy} ${booking.nPartecipanti}")
                                 if(booking.dd == dd && booking.mm == mm && booking.yy == yy)
                                     bookingsFirm[booking.nOre.toInt()] -=  booking.nPartecipanti
                             }
@@ -237,7 +236,6 @@ class FirebaseDatabaseHelper{
                 if (p0.exists()){
                     for(firms in p0.children) {
                         f[firms.key!!] = Firm()
-                        Log.d("AZIENDA ID", firms.key!!)
                         for(field in firms.children){
                             when(field.key) {
                                 "id" -> f[firms.key!!]!!.id = field.value as String

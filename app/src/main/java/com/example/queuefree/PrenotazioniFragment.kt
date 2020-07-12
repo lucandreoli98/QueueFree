@@ -61,7 +61,6 @@ class PrenotazioniFragment: Fragment() {
                                 count = totalbu[i].nOre
                             }
                             durate.add(difila)
-                            Log.d("AAAAAA",durate.toString())
                             val adapter =  BookAdapter(context!!, R.layout.list_view_prenotazioni, totalbucompact, totalfirmcompact, durate)
 
                             view.itemslistView.adapter = adapter
