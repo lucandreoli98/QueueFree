@@ -22,13 +22,21 @@ class PrenotazioniFragment: Fragment() {
 
                 database.readBookingUser(firms, object: FirebaseDatabaseHelper.DataBookingUser{
                     override fun BookingUserisLoaded(bookingUser:  ArrayList<BookingUser>) {
-                        //Log.d("DATI ARRIVATI", bookingUser[0].firm.nomeazienza)
-                        for (Bu in bookingUser) {
-                            val adapter = context?.let {
-                                BookAdapter(it, R.layout.list_view_prenotazioni, Bu.bookings, Bu.firm)
+
+                        val totalbu = ArrayList<Booking>()
+                        val totalFirm = ArrayList<Firm>()
+                        for (bu in bookingUser) {
+                            Log.e("AAAAAAAAAAAAAAAAAAAAAAAAAAAAa",bu.firm.nomeazienza)
+
+                            for(b in bu.bookings){
+                                Log.e("AAAAAAAAAAAAAAAAAAAAAAAAAAAAa","AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAZ")
+                                totalbu.add(b)
+                                totalFirm.add(bu.firm)
                             }
-                            view.itemslistView.adapter = adapter
                         }
+                        val adapter =  BookAdapter(context!!, R.layout.list_view_prenotazioni, totalbu, totalFirm)
+
+                        view.itemslistView.adapter = adapter
                     }
                 })
             }
