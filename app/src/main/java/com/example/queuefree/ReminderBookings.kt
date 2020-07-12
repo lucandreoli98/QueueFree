@@ -41,7 +41,7 @@ class ReminderBookings :Service() {
                 val year=calendar.get(Calendar.YEAR)
                 var i=1
 
-                val currentDate = Date(Date().year,Date().month,Date().day)
+
                 database.readAllFirmFromDB(object:FirebaseDatabaseHelper.DataStatusHashFirm{
                     override fun dataisLoadedFirm(firms: HashMap<String, Firm>) {
                         database.readBookingUser(firms,object:FirebaseDatabaseHelper.DataBookingUser{
@@ -54,7 +54,7 @@ class ReminderBookings :Service() {
                                                 if (Bookings.yy.toInt() == year) {
                                                     val starthour = BookingsFirm.firm.startHour + Bookings.nOre
                                                      val time =completeTimeStamp(starthour,BookingsFirm.firm.startMinute)
-                                                    sendNotification("${BookingsFirm.firm.nomeazienza}:la prenotazione inizia alle $time ricorda porco dio!!",i)
+                                                    sendNotification("${BookingsFirm.firm.nomeazienza}:la prenotazione inizia alle $time",i)
                                                     i++
 
                                                 }
