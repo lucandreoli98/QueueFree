@@ -1,23 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:paddingBottom="80dp">
     <TextView
         android:id="@+id/prenotazioni_mie"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:textAlignment="center"
         android:text="Le mie prenotazioni"
-        android:textSize="30dp"
+        android:textSize="30sp"
         android:textStyle="bold">
-
     </TextView>
     <ListView
         android:id="@+id/itemslistView"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
     </ListView>
-
-
-
 </LinearLayout>
