@@ -17,31 +17,31 @@ class PrenotazioniFragment: Fragment() {
         val view = inflater.inflate(R.layout.prenotazioni_utente, container, false)
         val resources=R.layout.list_view_prenotazioni
 
-        database.readAllFirmFromDB(object : FirebaseDatabaseHelper.DataStatusHashFirm{
-            override fun dataisLoadedFirm(firms: HashMap<String, Firm>) {
+            database.readAllFirmFromDB(object : FirebaseDatabaseHelper.DataStatusHashFirm{
+                override fun dataisLoadedFirm(firms: HashMap<String, Firm>) {
 
-                database.readBookingUser(firms, object: FirebaseDatabaseHelper.DataBookingUser{
-                    override fun BookingUserisLoaded(bookingUser:  ArrayList<BookingUser>) {
+                    database.readBookingUser(firms, object: FirebaseDatabaseHelper.DataBookingUser{
+                        override fun BookingUserisLoaded(bookingUser:  ArrayList<BookingUser>) {
+                            if(context != null){
+                                val totalbu = ArrayList<Booking>()
+                                val totalFirm = ArrayList<Firm>()
+                                for (bu in bookingUser) {
+                                    Log.e("AAAAAAAAAAAAAAAAAAAAAAAAAAa",bu.firm.nomeazienza)
 
-                        val totalbu = ArrayList<Booking>()
-                        val totalFirm = ArrayList<Firm>()
-                        for (bu in bookingUser) {
-                            Log.e("AAAAAAAAAAAAAAAAAAAAAAAAAAa",bu.firm.nomeazienza)
+                                    for(b in bu.bookings){
+                                        Log.e("AAAAAAAAAAAAAAAAAAAAAAAAAAAAa","AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAZ")
+                                        totalbu.add(b)
+                                        totalFirm.add(bu.firm)
+                                    }
+                                }
+                                val adapter =  BookAdapter(context!!, R.layout.list_view_prenotazioni, totalbu, totalFirm)
 
-                            for(b in bu.bookings){
-                                Log.e("AAAAAAAAAAAAAAAAAAAAAAAAAAAAa","AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAZ")
-                                totalbu.add(b)
-                                totalFirm.add(bu.firm)
+                                view.itemslistView.adapter = adapter
                             }
                         }
-                        val adapter =  BookAdapter(context!!, R.layout.list_view_prenotazioni, totalbu, totalFirm)
-
-                        view.itemslistView.adapter = adapter
-                    }
-                })
-            }
-        })
-
+                    })
+                }
+            })
         return view
     }
 }
