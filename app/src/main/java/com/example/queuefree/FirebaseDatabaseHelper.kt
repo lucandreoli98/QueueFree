@@ -22,7 +22,6 @@ class FirebaseDatabaseHelper{
     interface DataStatusHashFirm {
         fun dataisLoadedFirm(firms: HashMap<String,Firm>)
     }
-
     interface DataStatusBooking {
         fun BookingisLoaded(nHour: ArrayList<Long>, bookings: ArrayList<Long>)
     }
@@ -30,7 +29,7 @@ class FirebaseDatabaseHelper{
         fun BookingUserisLoaded(bookingUser: ArrayList<BookingUser>)
     }
     interface DataBookingFirm {
-        fun bookingFirmisLoaded()
+        fun bookingFirmisLoaded(bookings: ArrayList<Booking>, bookingsHour: ArrayList<Long>)
     }
 
     fun readUserFromDB(ds: DataStatus){
@@ -174,44 +173,6 @@ class FirebaseDatabaseHelper{
 
     }
 
-    fun readFirmFromID(idFirm: String, ds: DataStatusFirm){
-        referencefirm.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(p0: DataSnapshot) {
-                if (p0.exists())
-                    for (uDB in p0.children) { // per tutti gli utente dentro la tabella user
-                        if(idFirm == uDB.key){
-                            val f=Firm()
-                            for(field in uDB.children) {
-                                when(field.key) {
-                                    "id" -> f.id = field.value as String
-                                    "nomeazienza" -> f.nomeazienza = field.value as String
-                                    "email" -> f.email = field.value as String
-                                    "password" -> f.password = field.value as String
-                                    "categoria" -> f.categoria= field.value as String
-                                    "location" -> f.location = field.value as String
-                                    "startHour"->f.startHour= field.value as Long
-                                    "endHour"->f.endHour= field.value as Long
-                                    "endMinute"->f.endMinute= field.value as Long
-                                    "startMinute"->f.startMinute= field.value as Long
-                                    "capienza"->f.capienza= field.value as Long
-                                    "descrizione"->f.descrizione= field.value as String
-                                    "maxTurn"->f.maxTurn=field.value as Long
-                                    "maxPartecipants"->f.maxPartecipants=field.value as Long
-                                    "giorni" -> f.giorni = field.value as String
-                                }
-                            }
-                            ds.DataisLoadedFirm(f)
-                        }
-                    }
-            }
-
-            override fun onCancelled(p0: DatabaseError) {
-                Log.e("OnCancelled", p0.toException().toString())
-            }
-        })
-
-    }
-
     fun readDailyBooking(dd: Long, mm: Long, yy: Long, firm: Firm, ds: DataStatusBooking){
         referenceBooking.addValueEventListener(object: ValueEventListener{
             override fun onCancelled(error: DatabaseError) {
@@ -269,31 +230,6 @@ class FirebaseDatabaseHelper{
         })
     }
 
-    /*
-    Raggruppare tutto in ore e mostrare:
-    8 - 9 : 10 partec
-    9 - 10: 11 partec
-    10 - 11: 2 patec
-    ecc...
-
-    Se si clicca su un'orario dice i nomi di chi ha prenotato
-     */
-    fun readBookingFirm(day: Long, month: Long, year: Long, ds: DataBookingFirm){
-        referenceBooking.addValueEventListener(object: ValueEventListener{
-            override fun onCancelled(error: DatabaseError) {
-            }
-            override fun onDataChange(snapshot: DataSnapshot) {
-                if(snapshot.exists()){
-                    for(firms in snapshot.children){ // in questo punto id azienda
-                        if(id == firms.key){
-
-                        }
-                    }
-                }
-            }
-        })
-    }
-
     fun readAllFirmFromDB(ds: DataStatusHashFirm){
         referencefirm.addValueEventListener(object : ValueEventListener {
             val f = HashMap<String,Firm>()
@@ -301,7 +237,7 @@ class FirebaseDatabaseHelper{
                 if (p0.exists()){
                     for(firms in p0.children) {
                         f[firms.key!!] = Firm()
-                        Log.d("AZIENDA ID", firms.key)
+                        Log.d("AZIENDA ID", firms.key!!)
                         for(field in firms.children){
                             when(field.key) {
                                 "id" -> f[firms.key!!]!!.id = field.value as String
@@ -368,6 +304,46 @@ class FirebaseDatabaseHelper{
                         }
                     }
                     ds.BookingUserisLoaded(bookingUser)
+                }
+            }
+        })
+    }
+
+    fun readBookingFirm(day: Long, month: Long, year: Long, firm: Firm, ds: DataBookingFirm){
+        var bookingsHour = ArrayList<Long>()
+        var bookings = ArrayList<Booking>()
+
+        if((firm.endHour - firm.startHour)>0)
+            for(i in 0 until (firm.endHour - firm.startHour))
+                bookingsHour.add(0)
+        else
+            for(i in 0..23)
+                bookingsHour.add(firm.capienza)
+
+        referenceBooking.addValueEventListener(object: ValueEventListener{
+            override fun onCancelled(error: DatabaseError) {
+            }
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if(snapshot.exists()){
+                    for(firms in snapshot.children){ // in questo punto id azienda
+                        if(id == firms.key){
+                            for(userBooks in firms.children){
+                                val ora = userBooks.key.toString().substring(29,31).toInt()
+                                bookings.add(Booking())
+                                for(field in userBooks.children){
+                                    when (field.key) {
+                                        "dd" -> bookings[bookings.size-1].dd = field.value as Long
+                                        "mm" -> bookings[bookings.size-1].mm = field.value as Long
+                                        "yy" -> bookings[bookings.size-1].yy = field.value as Long
+                                        "nore" -> bookings[bookings.size-1].nOre = field.value as Long
+                                        "npartecipanti" -> bookings[bookings.size-1].nPartecipanti = field.value as Long
+                                    }
+                                }
+                                bookingsHour[ora] += bookings[bookings.size-1].nPartecipanti
+                            }
+                        }
+                    }
+                    ds.bookingFirmisLoaded(bookings,bookingsHour)
                 }
             }
         })

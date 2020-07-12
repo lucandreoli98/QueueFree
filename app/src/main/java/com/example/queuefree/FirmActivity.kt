@@ -1,5 +1,6 @@
 package com.example.queuefree
 
+import android.app.Application
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -19,11 +20,6 @@ class FirmActivity : AppCompatActivity() {
         setContentView(R.layout.activity_firm_profile)
 
         supportFragmentManager.beginTransaction().replace(R.id.fragment_firm, FirmFragment()).commit()
-    }
-
-    override fun onBackPressed() {
-        val intent = Intent(this,FirmActivity::class.java)
-        startActivity(intent)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

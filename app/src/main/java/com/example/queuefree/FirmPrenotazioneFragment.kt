@@ -1,17 +1,15 @@
 package com.example.queuefree
 
 import android.app.DatePickerDialog
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.DatePicker
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.fragment_firm_prenotazione.view.*
-import kotlinx.android.synthetic.main.fragment_show_profile.*
 import java.util.*
+import kotlin.collections.ArrayList
 
 class FirmPrenotazioneFragment: Fragment(), DatePickerDialog.OnDateSetListener {
 
@@ -46,5 +44,21 @@ class FirmPrenotazioneFragment: Fragment(), DatePickerDialog.OnDateSetListener {
         this.year = year.toLong()
 
         vista!!.dataShowButton.visibility = View.INVISIBLE
+
+        downloadBooking()
+    }
+
+    private fun downloadBooking(){
+        val fb = FirebaseDatabaseHelper()
+
+        fb.readFirmFromDB(object: FirebaseDatabaseHelper.DataStatusFirm{
+            override fun DataisLoadedFirm(firm: Firm) {
+                fb.readBookingFirm(day,month,year,firm,object : FirebaseDatabaseHelper.DataBookingFirm{
+                    override fun bookingFirmisLoaded(bookings: ArrayList<Booking>, bookingsHour: ArrayList<Long>) {
+
+                    }
+                })
+            }
+        })
     }
 }
