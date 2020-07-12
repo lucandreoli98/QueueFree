@@ -44,4 +44,4 @@ class PrenotazioniFragment: Fragment() {
 
         return view
     }
-    }
+}
