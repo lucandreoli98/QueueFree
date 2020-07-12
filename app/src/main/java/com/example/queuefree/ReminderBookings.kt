@@ -35,6 +35,10 @@ class ReminderBookings :Service() {
     private fun startTimer() {
         val task: TimerTask = object : TimerTask() {
             override fun run() {
+                val calendar=Calendar.getInstance()
+                val day=calendar.get(Calendar.DAY_OF_MONTH)
+                val month=calendar.get(Calendar.MONTH)+1
+                val year=calendar.get(Calendar.YEAR)
 
                 val currentDate = Date(Date().year,Date().month,Date().day)
                 database.readAllFirmFromDB(object:FirebaseDatabaseHelper.DataStatusHashFirm{
@@ -43,10 +47,10 @@ class ReminderBookings :Service() {
                             override fun BookingUserisLoaded(bookingUser: ArrayList<BookingUser>) {
                                 for (BookingsFirm in bookingUser){
                                     for(Bookings in BookingsFirm.bookings){
-                                        val date=Date(Bookings.yy.toInt(),Bookings.mm.toInt(),Bookings.dd.toInt())
 
-                                        Log.d("NOTIFICA","${BookingsFirm.firm.nomeazienza} : ${Bookings.dd}/${Bookings.mm}/${Bookings.yy}, current date : ${currentDate.time}")
-                                        if(date.day==currentDate.day || date.month==currentDate.month || date.year==currentDate.year){
+
+                                        Log.d("NOTIFICA","${BookingsFirm.firm.nomeazienza} : ${Bookings.dd}/${Bookings.mm}/${Bookings.yy}, current date : $day/$month/$year")
+                                        if(Bookings.dd.toInt()==day || Bookings.mm.toInt()==month || Bookings.yy.toInt()==year){
                                             sendNotification(BookingsFirm.firm.nomeazienza)
 
                                         }
