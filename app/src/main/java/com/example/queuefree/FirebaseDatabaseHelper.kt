@@ -272,7 +272,6 @@ class FirebaseDatabaseHelper{
     // Lettura delle prenotazioni in base alla mail dell'azienda
     fun readBookingUser(firms: HashMap<String,Firm>, ds: DataBookingUser){
         val bookingUser = ArrayList<BookingUser>() // tutte le prenotazioni effettuate
-        val bookings = ArrayList<Booking>() // prenotazioni per la singola azienda
 
         referenceBooking.addValueEventListener(object: ValueEventListener{
             override fun onCancelled(error: DatabaseError) {
@@ -281,23 +280,25 @@ class FirebaseDatabaseHelper{
             override fun onDataChange(snapshot: DataSnapshot) {
                 if(snapshot.exists()){
                     for(firmID in snapshot.children){ // in questo punto id azienda
-                        bookings.clear()
+                        val booking = ArrayList<Booking>() // prenotazioni per la singola azienda
                         for(book in firmID.children){
                             val idRead=book.key!!.split("-")
                             if (idRead[0].trim() == id) { // in questo punto hai la prenotazione nell'azienda
                                 // dati azienda
-                                bookings.add(Booking())
+                                booking.add(Booking())
                                 for (field in book.children) {
                                     when (field.key) {
-                                        "dd" -> bookings[bookings.size-1].dd = field.value as Long
-                                        "mm" -> bookings[bookings.size-1].mm = field.value as Long
-                                        "yy" -> bookings[bookings.size-1].yy = field.value as Long
-                                        "nore" -> bookings[bookings.size-1].nOre = field.value as Long
-                                        "npartecipanti" -> bookings[bookings.size-1].nPartecipanti = field.value as Long
+                                        "dd" -> booking[booking.size-1].dd = field.value as Long
+                                        "mm" -> booking[booking.size-1].mm = field.value as Long
+                                        "yy" -> booking[booking.size-1].yy = field.value as Long
+                                        "nore" -> booking[booking.size-1].nOre = field.value as Long
+                                        "npartecipanti" -> booking[booking.size-1].nPartecipanti = field.value as Long
                                     }
                                 }
-                                bookingUser.add(BookingUser(firms[firmID.key]!!,bookings))
                             }
+                        }
+                        if(booking.size > 0) {
+                            bookingUser.add(BookingUser(firms[firmID.key]!!, booking))
                         }
                     }
                     ds.BookingUserisLoaded(bookingUser)
