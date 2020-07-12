@@ -197,7 +197,7 @@ class LetsbookFragment: Fragment(), DatePickerDialog.OnDateSetListener {
                                 isSearch = false
                                 for (i in v!!.startHour.selectedItemPosition..v!!.durataH.selectedItemPosition + v!!.startHour.selectedItemPosition) {
                                     val r = Booking(day, month, year, i.toLong(), (v!!.npeople.selectedItemPosition+1).toLong())
-                                    FirebaseDatabase.getInstance().getReference("/bookings/${firm.id}/$id-${isZero(i)}$i-$year${isZero(month.toInt())}$month${isZero(day.toInt())}$day").setValue(r)
+                                    FirebaseDatabase.getInstance().getReference("/bookings/${firm.id}/$id-$year${isZero(month.toInt())}$month${isZero(day.toInt())}$day-${isZero(i)}$i").setValue(r)
                                 }
                                 Toast.makeText(context!!,"Prenotazione effettuata con successo!",Toast.LENGTH_SHORT).show()
                                 val i = Intent(activity, HomePageActivity::class.java)

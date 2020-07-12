@@ -194,9 +194,9 @@ class FirebaseDatabaseHelper{
                         if (firm.id == firms.key) { // se c'è l'id dell'azienda
                             for (users in firms.children) {
                                 val userBook = users.key.toString()
-                                if(id == userBook.substring(0,28) && yy == userBook.substring(32,36).toLong() &&
-                                   mm == userBook.substring(36,38).toLong() && dd == userBook.substring(38,40).toLong()){
-                                    nHour.add(userBook.substring(29,31).toLong())
+                                if(id == userBook.substring(0,28) && yy == userBook.substring(29,33).toLong() &&
+                                   mm == userBook.substring(33,35).toLong() && dd == userBook.substring(35,37).toLong()){
+                                    nHour.add(userBook.substring(38,40).toLong())
                                 }
                             }
                         }
@@ -326,7 +326,7 @@ class FirebaseDatabaseHelper{
                     for(firms in snapshot.children){ // in questo punto id azienda
                         if(id == firms.key){
                             for(userBooks in firms.children){
-                                val ora = userBooks.key.toString().substring(29,31).toInt()
+                                val ora = userBooks.key.toString().substring(38,40).toInt()
                                 bookings.add(Booking())
                                 for(field in userBooks.children){
                                     when (field.key) {
