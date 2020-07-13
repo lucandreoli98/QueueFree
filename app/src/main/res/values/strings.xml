@@ -108,5 +108,6 @@
     <string name="visualizza">Visualizza</string>
     <string name="registra_azienda">REGISTRA AZIENDA</string>
     <string name="conferma">conferma</string>
+    <string name="giorni_di_apertura">Giorni:</string>
 
 </resources>

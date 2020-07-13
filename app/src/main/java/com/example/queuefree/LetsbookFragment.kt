@@ -48,7 +48,7 @@ class LetsbookFragment: Fragment(), DatePickerDialog.OnDateSetListener {
                 view.firmName.text=firm.nomeazienza
                 view.startHou.text = completeTimeStamp(firm.startHour,firm.startMinute)
                 view.endHou.text = completeTimeStamp(firm.endHour,firm.endMinute)
-
+                view.opendayslist.text = firm.giorni
                 // Data del giorno da prenotare
                 view.select_data.setOnClickListener {
                     showDatePickerDialog() // apre il pannello del calendario sulla data di oggi

@@ -7,11 +7,13 @@
     <TextView
         android:id="@+id/prenotazioni_mie"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
         android:textAlignment="center"
         android:text="Prenotazioni"
         android:textSize="30sp"
-        android:textColor="@color/black"
+        android:padding="15dp"
+        android:background="@color/backgroundRed"
+        android:textColor="@color/white"
         android:textStyle="bold">
 
     </TextView>
