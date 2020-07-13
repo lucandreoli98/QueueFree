@@ -20,7 +20,8 @@
         android:roundIcon="@drawable/queue_free_logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
+        <service android:name=".ReminderBookings"></service>
+        <service android:name=".FinishTurnReminder"></service>
         <activity android:name=".LetsbookActivity" />
         <activity android:name=".FirmActivity" />
         <activity android:name=".ProflileActivity" />
