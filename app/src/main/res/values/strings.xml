@@ -107,5 +107,6 @@
     <string name="descrizione">Descrizione:</string>
     <string name="visualizza">Visualizza</string>
     <string name="registra_azienda">REGISTRA AZIENDA</string>
+    <string name="conferma">conferma</string>
 
 </resources>

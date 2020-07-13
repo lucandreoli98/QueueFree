@@ -1,5 +1,6 @@
 package com.example.queuefree
 
+import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.content.Intent
 import android.os.Bundle
@@ -13,6 +14,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
+import kotlinx.android.synthetic.main.biglietto_della_fiumara.view.*
 import kotlinx.android.synthetic.main.fragment_letsbook.*
 import kotlinx.android.synthetic.main.fragment_letsbook.view.*
 import java.text.SimpleDateFormat
@@ -195,14 +197,30 @@ class LetsbookFragment: Fragment(), DatePickerDialog.OnDateSetListener {
 
                             if(isSearch){
                                 isSearch = false
-                                for (i in v!!.startHour.selectedItemPosition..v!!.durataH.selectedItemPosition + v!!.startHour.selectedItemPosition) {
-                                    val r = Booking(day, month, year, i.toLong(), (v!!.npeople.selectedItemPosition+1).toLong())
-                                    FirebaseDatabase.getInstance().getReference("/bookings/${firm.id}/$id-$year${isZero(month.toInt())}$month${isZero(day.toInt())}$day-${isZero(i)}$i").setValue(r)
+
+                                val confirmDialogView = LayoutInflater.from(context!!).inflate(R.layout.biglietto_della_fiumara, null)
+                                val mBuilder = AlertDialog.Builder(context!!).setView(confirmDialogView)
+                                val alertDialog = mBuilder.show()
+
+                                confirmDialogView.firmNameTicket.text = firm.nomeazienza
+                                confirmDialogView.dataTicket.text = "${day}/${month}/${year}"
+                                confirmDialogView.orarioTicket.text = "${completeTimeStamp(firm.startHour+v!!.startHour.selectedItemPosition,firm.startMinute)} - ${completeTimeStamp(durataH.selectedItemPosition + firm.startHour + v!!.startHour.selectedItemPosition +1 ,firm.startMinute)}"
+                                confirmDialogView.partecipantiTicket.text = (v!!.npeople.selectedItemPosition+1).toString()
+                                confirmDialogView.via_prenot.text = firm.location
+                                confirmDialogView.annulla.setOnClickListener {
+                                    alertDialog.dismiss()
                                 }
-                                Toast.makeText(context!!,"Prenotazione effettuata con successo!",Toast.LENGTH_SHORT).show()
-                                val i = Intent(activity, HomePageActivity::class.java)
-                                i.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
-                                startActivity(i)
+                                confirmDialogView.conferma.setOnClickListener {
+                                    for (i in v!!.startHour.selectedItemPosition..v!!.durataH.selectedItemPosition + v!!.startHour.selectedItemPosition) {
+                                        val r = Booking(day, month, year, i.toLong(), (v!!.npeople.selectedItemPosition+1).toLong())
+                                        FirebaseDatabase.getInstance().getReference("/bookings/${firm.id}/$id-$year${isZero(month.toInt())}$month${isZero(day.toInt())}$day-${isZero(i)}$i").setValue(r)
+                                    }
+
+                                    Toast.makeText(context!!,"Prenotazione effettuata con successo!",Toast.LENGTH_SHORT).show()
+                                    val i = Intent(activity, HomePageActivity::class.java)
+                                    i.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
+                                    startActivity(i)
+                                }
                             }
                         }
                     }

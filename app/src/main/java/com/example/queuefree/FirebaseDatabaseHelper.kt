@@ -181,6 +181,7 @@ class FirebaseDatabaseHelper{
             }
             override fun onDataChange(snapshot: DataSnapshot) {
                 val bookingsFirm = ArrayList<Long>()
+                bookingsFirm.clear()
 
                 if((firm.endHour - firm.startHour)>0)
                     for(i in 0 until (firm.endHour - firm.startHour))
@@ -272,6 +273,7 @@ class FirebaseDatabaseHelper{
     // Lettura delle prenotazioni in base alla mail dell'azienda
     fun readBookingUser(firms: HashMap<String,Firm>, ds: DataBookingUser){
         val bookingUser = ArrayList<BookingUser>() // tutte le prenotazioni effettuate
+        bookingUser.clear()
 
         referenceBooking.addValueEventListener(object: ValueEventListener{
             override fun onCancelled(error: DatabaseError) {
@@ -281,6 +283,7 @@ class FirebaseDatabaseHelper{
                 if(snapshot.exists()){
                     for(firmID in snapshot.children){ // in questo punto id azienda
                         val booking = ArrayList<Booking>() // prenotazioni per la singola azienda
+                        booking.clear()
                         for(book in firmID.children){
                             val idRead=book.key!!.split("-")
                             if (idRead[0].trim() == id) { // in questo punto hai la prenotazione nell'azienda

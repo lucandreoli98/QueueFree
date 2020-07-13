@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/backgroundRed"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <RelativeLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="270dp"
+        >
+
+        <TextView
+            android:id="@+id/firmNameTicket"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textSize="40sp"
+            android:layout_centerHorizontal="true"
+            android:textStyle="bold"
+            android:text=""/>
+
+        <ImageView
+            android:layout_marginTop="60dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentBottom="true"
+            app:srcCompat="@drawable/ticket_icon"
+            android:contentDescription=""
+            android:layout_marginBottom="10dp"/>
+
+
+
+        <ImageView
+            android:id="@+id/imageCalendar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/firmNameTicket"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="47dp"
+            android:src="@drawable/ic_event_black" />
+
+        <TextView
+            android:id="@+id/dataTicket"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/firmNameTicket"
+            android:layout_toEndOf="@+id/imageCalendar"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="47dp"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:text="" />
+
+        <ImageView
+            android:id="@+id/imageHourTicket"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/dataTicket"
+            android:layout_alignStart="@+id/imageCalendar"
+            android:layout_marginTop="8dp"
+            android:src="@drawable/ic_clock" />
+
+        <TextView
+            android:id="@+id/orarioTicket"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/dataTicket"
+            android:layout_toEndOf="@+id/imageHourTicket"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="5dp"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:text=""/>
+
+        <ImageView
+            android:id="@+id/imagePartecipantiTicket"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/dataTicket"
+            android:layout_toEndOf="@+id/orarioTicket"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="10dp"
+            android:src="@drawable/ic_people" />
+
+        <TextView
+            android:id="@+id/partecipantiTicket"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/imagePartecipantiTicket"
+            android:layout_alignBaseline="@+id/orarioTicket"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="8dp"
+            android:text=""
+            android:textSize="20sp"
+            android:textColor="@color/black" />
+
+        <ImageView
+            android:id="@+id/imageposition"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/imageHourTicket"
+            android:layout_alignStart="@+id/imageCalendar"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="0dp"
+            android:src="@drawable/ic_location"
+            />
+
+        <TextView
+            android:id="@+id/via_prenot"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/imageposition"
+            android:layout_alignBaseline="@+id/imageposition"
+            android:layout_below="@+id/imageHourTicket"
+            android:layout_marginStart="8dp"
+            android:ems="10"
+            android:text=""
+            android:layout_marginTop="5dp"
+            android:textSize="20sp"
+            android:textColor="@color/black" />
+
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="20dp"
+        >
+        <Button
+            android:id="@+id/annulla"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btn_rounded"
+            android:text="@string/annulla"
+            android:layout_centerVertical="true"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp"
+            android:textSize="17sp"
+            android:layout_marginStart="20dp"
+            android:textColor="@color/red"/>
+        <Button
+            android:id="@+id/conferma"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btn_rounded"
+            android:text="@string/conferma"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="20dp"
+            android:layout_alignParentEnd="true"
+            android:textSize="17sp"
+            android:textColor="@color/red"/>
+    </RelativeLayout>
+
+</LinearLayout>

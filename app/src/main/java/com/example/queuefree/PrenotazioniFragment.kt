@@ -23,7 +23,9 @@ class PrenotazioniFragment: Fragment() {
                     override fun BookingUserisLoaded(bookingUser:  ArrayList<BookingUser>) {
                         if(context != null){
                             val totalbu = ArrayList<Booking>()
+                            totalbu.clear()
                             val totalFirm = ArrayList<Firm>()
+                            totalFirm.clear()
 
                             for (bu in bookingUser)
                                 for(b in bu.bookings){
@@ -39,7 +41,9 @@ class PrenotazioniFragment: Fragment() {
                             var startParte = 0L
                             var startfirm = ""
                             val totalbucompact = ArrayList<Booking>()
+                            totalbucompact.clear()
                             val totalfirmcompact = ArrayList<Firm>()
+                            totalfirmcompact.clear()
                             val durate = ArrayList<Long>()
 
                             for(i in 0 until totalbu.size){
