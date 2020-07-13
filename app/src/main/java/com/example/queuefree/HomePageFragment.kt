@@ -36,7 +36,8 @@ class HomePageFragment : Fragment(), DatePickerDialog.OnDateSetListener {// , Na
                     passDialogView = LayoutInflater.from(context).inflate(R.layout.askbirthday, null)
                     val mBuilder = AlertDialog.Builder(context).setView(passDialogView)
                     val alertDialog = mBuilder.show()
-                    alertDialog.setCanceledOnTouchOutside(false);
+                    alertDialog.setCancelable(false)
+
                     passDialogView!!.register_show_calendar.setOnClickListener {
                         showDatePickerDialog() // apre il pannello del calendario sulla data di oggi
                     }

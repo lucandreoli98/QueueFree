@@ -1,10 +1,11 @@
 package com.example.queuefree
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import androidx.core.view.updateLayoutParams
 import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.prenotazioni_utente.view.*
 
@@ -15,6 +16,8 @@ class PrenotazioniFragment: Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
         val view = inflater.inflate(R.layout.prenotazioni_utente, container, false)
+
+        val ft = fragmentManager!!.beginTransaction()
 
         database.readAllFirmFromDB(object : FirebaseDatabaseHelper.DataStatusHashFirm{
             override fun dataisLoadedFirm(firms: HashMap<String, Firm>) {
@@ -68,6 +71,17 @@ class PrenotazioniFragment: Fragment() {
                             val adapter =  BookAdapter(context!!, R.layout.list_view_prenotazioni, totalbucompact, totalfirmcompact, durate)
 
                             view.itemslistView.adapter = adapter
+
+                            view.itemslistView.setOnItemClickListener{ parent: AdapterView<*>?, _: View?, position: Int, _: Long ->
+                                val bundle = Bundle()
+                                bundle.putSerializable("firm", totalfirmcompact[position])
+                                bundle.putSerializable("book", parent!!.getItemAtPosition(position) as Booking)
+                                bundle.putLong("durata", durate[position])
+
+                                val fragment = InfoTicket()
+                                fragment.arguments = bundle
+                                fragmentManager!!.beginTransaction().replace(R.id.profileContainer, fragment).commit()
+                            }
                         }
                     }
                 })

@@ -1,5 +1,7 @@
 package com.example.queuefree
 
+import java.io.Serializable
+
 class Firm(
     // campi da aggiungere giorni: Lun,Mar,Mer,Gio,Ven,Sab,Dom
     var id:String = "",
@@ -17,4 +19,4 @@ class Firm(
     var maxTurn: Long = 0,
     var maxPartecipants: Long = 0,
     var giorni: String = "Lun-Mar-Mer-Gio-Ven-Sab-Dom"
-)
+): Serializable

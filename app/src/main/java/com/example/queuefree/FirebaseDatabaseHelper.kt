@@ -305,6 +305,7 @@ class FirebaseDatabaseHelper{
                         }
                     }
                     ds.BookingUserisLoaded(bookingUser)
+                    referenceBooking.removeEventListener(this)
                 }
             }
         })

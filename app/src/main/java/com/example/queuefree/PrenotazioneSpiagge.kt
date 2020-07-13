@@ -35,19 +35,12 @@ class PrenotazioneSpiagge : FragmentActivity(), OnMapReadyCallback,GoogleMap.OnM
         back_button.setOnClickListener {
             val intent = Intent(this,HomePageActivity::class.java)
             startActivity(intent)
-
-
         }
-
-
-
     }
 
     override fun onBackPressed() {
         val intent = Intent(this,HomePageActivity::class.java)
         startActivity(intent)
-
-
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
