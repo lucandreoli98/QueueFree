@@ -2,12 +2,13 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="75dp"
-        android:background="@color/backgroundRed">
+        android:background="@color/backgroundRed" >
 
         <TextView
             android:id="@+id/nameFirm"
@@ -18,7 +19,106 @@
             android:textSize="40sp"
             android:textStyle="bold"
             android:gravity="center"/>
+
     </RelativeLayout>
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <ImageView
+            android:id="@+id/imageStart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="13dp"
+            android:layout_marginStart="10dp"
+            android:src="@drawable/ic_event_black" />
+
+        <TextView
+            android:id="@+id/dataPrenotazione"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@+id/imageStart"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="10dp"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:text=""/>
+
+        <ImageView
+            android:id="@+id/imageClock"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/dataPrenotazione"
+            android:layout_alignStart="@+id/imageStart"
+            android:layout_marginTop="13dp"
+            android:src="@drawable/ic_clock" />
+
+        <TextView
+            android:id="@+id/orarioPrenotazione"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/imageLocation"
+            android:layout_below="@+id/dataPrenotazione"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="10dp"
+            android:textSize="20sp"
+            android:text=""
+            android:textColor="@color/black" />
+
+        <ImageView
+            android:id="@+id/imagePartecipanti"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/orarioPrenotazione"
+            android:layout_alignStart="@+id/imageStart"
+            android:layout_marginTop="13dp"
+            android:src="@drawable/ic_people" />
+
+        <TextView
+            android:id="@+id/partecipantiPrenotazione"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/imagePartecipanti"
+            android:layout_below="@+id/orarioPrenotazione"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="10dp"
+            android:textSize="20sp"
+            android:text=""
+            android:textColor="@color/black" />
+
+        <ImageView
+            android:id="@+id/imageLocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/partecipantiPrenotazione"
+            android:layout_alignStart="@+id/imageStart"
+            android:layout_marginTop="13dp"
+            android:src="@drawable/ic_location" />
+
+        <TextView
+            android:id="@+id/positionPrenotazione"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/imageLocation"
+            android:layout_below="@+id/partecipantiPrenotazione"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="10dp"
+            android:text=""
+            android:textSize="20sp"
+            android:textColor="@color/black" />
+
+        <fragment
+            android:id="@+id/mapPrenotazione"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/positionPrenotazione"
+            android:layout_marginTop="20dp"
+            android:padding="50dp" />
+
+    </RelativeLayout>
 
 </LinearLayout>

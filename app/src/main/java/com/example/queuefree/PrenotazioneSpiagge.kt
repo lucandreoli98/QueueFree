@@ -32,6 +32,7 @@ class PrenotazioneSpiagge : FragmentActivity(), OnMapReadyCallback,GoogleMap.OnM
         setContentView(R.layout.maps_activity)
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
+
         back_button.setOnClickListener {
             val intent = Intent(this,HomePageActivity::class.java)
             startActivity(intent)
