@@ -25,6 +25,8 @@ class ReminderBookings :Service() {
 
     @Override
     override fun onCreate() {
+
+
         startTimer()
 
 
@@ -42,42 +44,81 @@ class ReminderBookings :Service() {
                 var i=1
 
 
+
                 database.readAllFirmFromDB(object:FirebaseDatabaseHelper.DataStatusHashFirm{
                     override fun dataisLoadedFirm(firms: HashMap<String, Firm>) {
                         database.readBookingUser(firms,object:FirebaseDatabaseHelper.DataBookingUser{
                             override fun BookingUserisLoaded(bookingUser: ArrayList<BookingUser>) {
-                                for (BookingsFirm in bookingUser){
-                                    for(Bookings in BookingsFirm.bookings) {
-                                        Log.d("NOTIFICA", "${BookingsFirm.firm.nomeazienza} : ${Bookings.dd}/${Bookings.mm}/${Bookings.yy}, current date : $day/$month/$year")
-                                        if (Bookings.dd.toInt() == day) {
-                                            if (Bookings.mm.toInt() == month){
-                                                if (Bookings.yy.toInt() == year) {
-                                                    val starthour = BookingsFirm.firm.startHour + Bookings.nOre
-                                                     val time =completeTimeStamp(starthour,BookingsFirm.firm.startMinute)
-                                                    sendNotification("${BookingsFirm.firm.nomeazienza}:la prenotazione inizia alle $time",i)
-                                                    i++
 
+                                val totalbu = ArrayList<Booking>()
+                                val totalFirm = ArrayList<Firm>()
+
+                                for (bu in bookingUser)
+                                    for(b in bu.bookings){
+                                        totalbu.add(b)
+                                        totalFirm.add(bu.firm)
+                                    }
+
+                                var startd = 0L
+                                var startm = 0L
+                                var starty = 0L
+                                var count = 0L
+                                var difila = 0L
+                                var startParte = 0L
+                                var startfirm = ""
+                                val totalbucompact = ArrayList<Booking>()
+                                val totalfirmcompact = ArrayList<Firm>()
+                                val durate = ArrayList<Long>()
+
+                                for(i in 0 until totalbu.size){
+                                    if(totalbu[i].dd != startd || totalbu[i].mm != startm || totalbu[i].yy != starty || totalbu[i].nPartecipanti != startParte || startfirm != totalFirm[i].nomeazienza || totalbu[i].nOre != (count+1)){
+                                        startd = totalbu[i].dd
+                                        startm = totalbu[i].mm
+                                        starty = totalbu[i].yy
+                                        startParte = totalbu[i].nPartecipanti
+                                        startfirm =  totalFirm[i].nomeazienza
+                                        totalbucompact.add(totalbu[i])
+                                        totalfirmcompact.add(totalFirm[i])
+                                        if(difila!=0L)
+                                            durate.add(difila)
+
+                                        difila=1
+                                    }else
+                                        difila++
+
+                                    count = totalbu[i].nOre
+                                }
+                                durate.add(difila)
+
+                                for(j in 0 until totalbucompact.size){
+                                    if(totalbucompact[j].dd==day.toLong()){
+                                        if(totalbucompact[j].mm==month.toLong()){
+                                            if(totalbucompact[j].yy==year.toLong()){
+                                                val starthour= totalfirmcompact[j].startHour+totalbucompact[j].nOre
+                                                Log.d("NOTIFICA","${totalfirmcompact[j].nomeazienza}: $starthour apre alle ${totalfirmcompact[j].startHour}")
+                                                if(Date().hours<=starthour){
+                                                    var date=completeTimeStamp(starthour,totalfirmcompact[j].startMinute)
+                                                    sendNotification("${totalfirmcompact[j].nomeazienza}: la prenotazione inizia alle $date",i)
+                                                    ++i
                                                 }
+
+                                            }
+
                                         }
                                     }
 
-                                    }
+
                                 }
+
                             }
-
                         })
-
                     }
-
                 })
-
-
-
-
-
             }
-
         }
+
+
+
 
        var timer = Timer(true)
         val delay = 1000 * 10 // 10 seconds
