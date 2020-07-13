@@ -6,13 +6,14 @@ import android.content.Intent
 import android.os.Build
 import android.os.IBinder
 import android.util.Log
+import androidx.core.app.NotificationCompat
 import java.util.*
 import kotlin.collections.HashMap
 
 class ReminderBookings :Service() {
 
     private val database = FirebaseDatabaseHelper()
-    private val CHANNEL_ID="101"
+    private val CHANNEL_ID="notificationChannel"
 
 
 
@@ -24,7 +25,7 @@ class ReminderBookings :Service() {
 
     @Override
     override fun onCreate() {
-        notificationchannel()
+
 
 
         startTimer()
@@ -146,7 +147,7 @@ class ReminderBookings :Service() {
         val contentText: CharSequence = text
 
         // create the notification and set its data
-        val notification: Notification = Notification.Builder(this)
+        val notification: Notification = NotificationCompat.Builder(this,CHANNEL_ID)
             .setSmallIcon(icon)
             .setContentTitle(contentTitle)
             .setContentText(contentText)
@@ -175,16 +176,5 @@ class ReminderBookings :Service() {
         }
     }
 
-    fun notificationchannel(){
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            // Create the NotificationChannel
-            val name = getString(R.string.notification_channel_start)
-            val importance = NotificationManager.IMPORTANCE_DEFAULT
-            val mChannel = NotificationChannel(CHANNEL_ID, name, importance)
-            // Register the channel with the system; you can't change the importance
-            // or other notification behaviors after this
-            val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
-            notificationManager.createNotificationChannel(mChannel)
-        }
-    }
+
 }
