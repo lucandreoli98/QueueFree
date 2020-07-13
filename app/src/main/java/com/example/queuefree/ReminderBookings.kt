@@ -1,11 +1,9 @@
 package com.example.queuefree
 
-import android.app.Notification
-import android.app.NotificationManager
-import android.app.PendingIntent
-import android.app.Service
+import android.app.*
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.IBinder
 import android.util.Log
 import java.util.*
@@ -14,6 +12,7 @@ import kotlin.collections.HashMap
 class ReminderBookings :Service() {
 
     private val database = FirebaseDatabaseHelper()
+    private val CHANNEL_ID="101"
 
 
 
@@ -25,6 +24,7 @@ class ReminderBookings :Service() {
 
     @Override
     override fun onCreate() {
+        notificationchannel()
 
 
         startTimer()
@@ -172,6 +172,19 @@ class ReminderBookings :Service() {
             "${hour}:0${minute}"
         } else {
             "${hour}:${minute}"
+        }
+    }
+
+    fun notificationchannel(){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            // Create the NotificationChannel
+            val name = getString(R.string.notification_channel_start)
+            val importance = NotificationManager.IMPORTANCE_DEFAULT
+            val mChannel = NotificationChannel(CHANNEL_ID, name, importance)
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.createNotificationChannel(mChannel)
         }
     }
 }
