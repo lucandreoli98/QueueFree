@@ -13,7 +13,8 @@ import kotlin.collections.HashMap
 class ReminderBookings :Service() {
 
     private val database = FirebaseDatabaseHelper()
-    private val CHANNEL_ID="notificationChannel"
+    private val CHANNEL_ID1="notificationChannel1"
+
 
 
 
@@ -42,7 +43,8 @@ class ReminderBookings :Service() {
                 val day=calendar.get(Calendar.DAY_OF_MONTH)
                 val month=calendar.get(Calendar.MONTH)+1
                 val year=calendar.get(Calendar.YEAR)
-                var i=1
+                var i=0
+
 
 
 
@@ -91,23 +93,24 @@ class ReminderBookings :Service() {
                                 }
                                 durate.add(difila)
 
+
                                 for(j in 0 until totalbucompact.size){
                                     if(totalbucompact[j].dd==day.toLong()){
                                         if(totalbucompact[j].mm==month.toLong()){
                                             if(totalbucompact[j].yy==year.toLong()){
                                                 val starthour= totalfirmcompact[j].startHour+totalbucompact[j].nOre
-                                                Log.d("NOTIFICA","${totalfirmcompact[j].nomeazienza}: $starthour apre alle ${totalfirmcompact[j].startHour}")
                                                 if(Date().hours<=starthour){
                                                     var date=completeTimeStamp(starthour,totalfirmcompact[j].startMinute)
                                                     sendNotification("${totalfirmcompact[j].nomeazienza}: la prenotazione inizia alle $date",i)
-                                                    ++i
+                                                    i++
+
+
                                                 }
 
                                             }
 
                                         }
                                     }
-
 
                                 }
 
@@ -121,7 +124,7 @@ class ReminderBookings :Service() {
 
 
 
-       var timer = Timer(true)
+       var timer = Timer(false)
         val delay = 1000 * 10 // 10 seconds
 
         val interval = 1000*60*60 // 1 hour
@@ -147,7 +150,7 @@ class ReminderBookings :Service() {
         val contentText: CharSequence = text
 
         // create the notification and set its data
-        val notification: Notification = NotificationCompat.Builder(this,CHANNEL_ID)
+        val notification: Notification = NotificationCompat.Builder(this,CHANNEL_ID1)
             .setSmallIcon(icon)
             .setContentTitle(contentTitle)
             .setContentText(contentText)
