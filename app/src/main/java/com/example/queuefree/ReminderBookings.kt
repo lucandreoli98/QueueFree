@@ -11,13 +11,9 @@ import android.util.Log
 import java.util.*
 import kotlin.collections.HashMap
 
-class ReminderBookings :Service() {
+abstract class ReminderBookings :Service() {}
 
-    private val database = FirebaseDatabaseHelper()
-
-
-
-
+    /*private val database = FirebaseDatabaseHelper()
 
     override fun onBind(intent: Intent?): IBinder? {
         return null
@@ -26,11 +22,7 @@ class ReminderBookings :Service() {
     @Override
     override fun onCreate() {
         startTimer()
-
-
     }
-
-
 
     private fun startTimer() {
         val task: TimerTask = object : TimerTask() {
@@ -134,3 +126,4 @@ class ReminderBookings :Service() {
         }
     }
 }
+*/

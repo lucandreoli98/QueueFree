@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="200dp" >
+    android:layout_height="220dp" >
 
     <ImageView
         android:layout_width="match_parent"
@@ -12,6 +12,7 @@
         android:layout_alignParentBottom="true"
         app:srcCompat="@drawable/ticket_icon"
         android:contentDescription=""
+        android:layout_marginTop="20dp"
         android:layout_marginBottom="20dp"/>
 
     <TextView
@@ -20,7 +21,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="60dp"
         android:layout_marginStart="90dp"
         android:textColor="@color/black"
         android:textSize="20sp"
@@ -97,9 +98,8 @@
         android:layout_height="40dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="35dp"
+        android:layout_marginTop="55dp"
         android:layout_marginEnd="75dp"
-        android:src="@drawable/museo"
         android:contentDescription="" />
 
 </RelativeLayout>
