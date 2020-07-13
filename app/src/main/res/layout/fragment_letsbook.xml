@@ -5,7 +5,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="310dp"
+        android:layout_height="340dp"
         android:background="@color/backgroundRed"
         android:elevation="20dp">
 
@@ -18,7 +18,7 @@
             android:layout_alignParentStart="true"
             android:layout_marginStart="145dp"
             android:layout_marginEnd="145dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="25dp"
             android:src="@color/white"
             android:contentDescription="@string/firmimage" />
 
@@ -84,12 +84,26 @@
             android:textColor="@color/white"
             android:textSize="25sp"
             android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/opendayslist"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/endHou"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:text=""
+            android:textColor="@color/white"
+            android:textSize="25sp"
+            android:textStyle="bold"/>
+
+
     </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="310dp">
+        android:layout_marginTop="340dp">
 
         <ImageView
             android:id="@+id/imageDay"
