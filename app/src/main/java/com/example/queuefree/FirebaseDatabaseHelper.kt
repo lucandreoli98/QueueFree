@@ -406,6 +406,8 @@ class FirebaseDatabaseHelper{
 
     }
 
+
+
     private fun isZero(i: Int): String{
         return if(i < 10)
             "0"
