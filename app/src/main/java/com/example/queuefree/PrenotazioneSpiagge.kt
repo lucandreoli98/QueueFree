@@ -23,7 +23,7 @@ import kotlinx.android.synthetic.main.maps_activity.*
 class PrenotazioneSpiagge : FragmentActivity(), OnMapReadyCallback,GoogleMap.OnMarkerClickListener{
 
     lateinit var map: GoogleMap
-     var database :FirebaseDatabase= FirebaseDatabase.getInstance()
+    var database :FirebaseDatabase= FirebaseDatabase.getInstance()
     lateinit var fr:Firm
 
     override fun onCreate(savedInstanceState: Bundle?) {

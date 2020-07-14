@@ -451,7 +451,7 @@ class FirmProfileFragment: Fragment() {
                                 alertDialog.dismiss()
                                 val email = emailTextViewFirm.text.toString().trim()
 
-                                this.firm = Firm(currentUser!!.uid,firm.nomeazienza, firm.email, firm.password, firm.categoria,firm.location,firm.startHour,firm.startMinute,firm.endHour,firm.endMinute,tot.toLong(),firm.descrizione,turno,maxGruppo.toLong(),giorni)
+                                this.firm = Firm(currentUser!!.uid,firm.nomeazienza, firm.email, firm.password, firm.categoria,firm.location,firm.startHour,firm.startMinute,firm.endHour,firm.endMinute,tot.toLong(),firm.descrizione,turno,maxGruppo.toLong(),giorni,firm.latitude,firm.longitude)
 
                                 cUser.updateEmail(email).addOnCompleteListener { task2 ->
                                     if (task2.isSuccessful) {
