@@ -33,10 +33,11 @@ class FinishTurnReminder : Service() {
             override fun run() {
                 val calendar = Calendar.getInstance()
                 val day = calendar.get(Calendar.DAY_OF_MONTH)
-                val month = calendar.get(Calendar.MONTH)
+                val month = calendar.get(Calendar.MONTH)+1
                 val year = calendar.get(Calendar.YEAR)
-                val hours=calendar.get(Calendar.HOUR)
+                val hours=calendar.get(Calendar.HOUR_OF_DAY)
                 val minute=calendar.get(Calendar.MINUTE)
+                Log.d("ORA","$hours")
 
                 val date=Calendar.getInstance()
                 date.set(year,month,day,hours,minute+1,0)
@@ -44,7 +45,7 @@ class FinishTurnReminder : Service() {
 
 
                 Log.d("TIMER","IL timer si avvierà alle ${calendar.time} in millisecondi ${calendar.timeInMillis} mentre quella attuale è ${Date().time}")
-                startTimer1(date.timeInMillis-calendar.timeInMillis)
+               startTimer1(date.timeInMillis-calendar.timeInMillis,"Ciao")
 
 
 
@@ -93,23 +94,21 @@ class FinishTurnReminder : Service() {
                                         count = totalbu[i].nOre
                                     }
                                     durate.add(difila)
+                                    Log.d("OK","Fino a qui tutto bene")
+
 
                                      for (j in 0 until totalbucompact.size) {
                                         if (totalbucompact[j].dd == day.toLong()) {
                                             if (totalbucompact[j].mm == month.toLong()) {
                                                 if (totalbucompact[j].yy == year.toLong()) {
-                                                    val starthour =
-                                                        totalfirmcompact[j].startHour + totalbucompact[j].nOre
-                                                    Log.d(
-                                                        "NOTIFICA",
-                                                        "${totalfirmcompact[j].nomeazienza}: $starthour apre alle ${totalfirmcompact[j].startHour} durata : ${durate[j]}"
-                                                    )
+                                                    val starthour = totalfirmcompact[j].startHour + totalbucompact[j].nOre
                                                     var finishHour = starthour + durate[j]
-                                                    if (finishHour>calendar.get(Calendar.HOUR_OF_DAY)){
+                                                    if (finishHour>=hours){
                                                         var data :Calendar= Calendar.getInstance()
-                                                            data.set(year,month,day,finishHour.toInt(),totalfirmcompact[j].startMinute.toInt(),0)
-                                                        startTimer1(data.timeInMillis-calendar.timeInMillis)
-                                                        Log.d("TIMER","IL timer si avvierà alle ${data.time}")
+                                                        data.set(year,month,day,finishHour.toInt(),totalfirmcompact[j].startMinute.toInt(),0)
+                                                        Log.d("TIMER","IL timer si avvierà alle ${data.time} di ${totalfirmcompact[j].nomeazienza}")
+                                                        startTimer1(date.timeInMillis-calendar.timeInMillis,totalfirmcompact[j].nomeazienza)
+
 
                                                         }
 
@@ -142,7 +141,7 @@ class FinishTurnReminder : Service() {
 
 
 
-    private fun startTimer1(date: Long) {
+    private fun startTimer1(date: Long,nome :String) {
 
 
    /* val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
@@ -153,7 +152,7 @@ class FinishTurnReminder : Service() {
         Log.d("ALARM2","Ci arrivo qua?")*/
         val task: TimerTask = object : TimerTask() {
             override fun run() {
-                sendNotification()
+                sendNotification(nome)
 
             }
         }
@@ -167,7 +166,7 @@ class FinishTurnReminder : Service() {
 
     }
 
-    private fun sendNotification() {
+    private fun sendNotification(nome:String) {
         // create the intent for the notification
         val notificationIntent = Intent(this, MainActivity::class.java)
             .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
@@ -179,7 +178,7 @@ class FinishTurnReminder : Service() {
 
         // create the variables for the notification
         val icon: Int = R.drawable.ic_baseline_cancel_24
-        val contentTitle :CharSequence= "La tua prenotazione è finita"
+        val contentTitle :CharSequence= "La tua prenotazione a $nome è finita"
         val contentText: CharSequence = " Apprestati ad uscire!"
 
         // create the notification and set its data
