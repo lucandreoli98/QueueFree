@@ -1,5 +1,6 @@
 package com.example.queuefree
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -78,9 +79,9 @@ class PrenotazioniFragment: Fragment() {
                                 bundle.putSerializable("book", parent!!.getItemAtPosition(position) as Booking)
                                 bundle.putLong("durata", durate[position])
 
-                                val fragment = InfoTicket()
-                                fragment.arguments = bundle
-                                fragmentManager!!.beginTransaction().replace(R.id.profileContainer, fragment).commit()
+                                val intent = Intent(context!!, InfoTicket::class.java)
+                                intent.putExtra("parameter", bundle)
+                                startActivity(intent)
                             }
                         }
                     }

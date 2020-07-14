@@ -14,8 +14,6 @@ class BookAdapter(
     private val firm: ArrayList<Firm>,
     private val durate: ArrayList<Long>) : ArrayAdapter<Booking>(customContext, resource, objects) {
 
-
-
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
 
         val inflater= LayoutInflater.from(context)

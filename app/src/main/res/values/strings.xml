@@ -109,5 +109,6 @@
     <string name="registra_azienda">REGISTRA AZIENDA</string>
     <string name="conferma">conferma</string>
     <string name="giorni_di_apertura">Giorni:</string>
+    <string name="persone_prenotate">\t\t\t\tPersone prenotate:</string>
 
 </resources>

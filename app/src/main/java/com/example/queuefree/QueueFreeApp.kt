@@ -15,7 +15,6 @@ class QueueFreeApp :Application() {
 
 override fun onCreate(){
 
-
     super.onCreate()
     notificationchannel1()
     Log.d("CHANNEL1","Canale creato")
