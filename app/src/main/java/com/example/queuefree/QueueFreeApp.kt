@@ -13,23 +13,22 @@ class QueueFreeApp :Application() {
     val CHANNEL_ID1="notificationChannel1"
     val CHANNEL_ID2="notificationChannel2"
 
-override fun onCreate(){
+    override fun onCreate(){
 
-    super.onCreate()
-    /*notificationchannel1()
-    Log.d("CHANNEL1","Canale creato")
-    notificationchannel2()
-    Log.d("CHANNEL2","Canale creato")
-    // start service
-    //val service = Intent(this, ReminderBookings::class.java)
-    startService(service)
-    Log.d("INTENT1","Intent fatto")
-    val service2 = Intent(this, FinishTurnReminder::class.java)
-    startService(service2)
-    Log.d("INTENT2","Intent fatto")*/
+        super.onCreate()
+        notificationchannel1()
+        Log.d("CHANNEL1","Canale creato")
+        notificationchannel2()
+        Log.d("CHANNEL2","Canale creato")
+        // start service
+        val service = Intent(this, ReminderBookings::class.java)
+        startService(service)
+        Log.d("INTENT1","Intent fatto")
+        val service2 = Intent(this, FinishTurnReminder::class.java)
+        startService(service2)
+        Log.d("INTENT2","Intent fatto")
 
-}
-
+    }
 
     fun notificationchannel1(){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {

@@ -38,14 +38,7 @@ class FinishTurnReminder : Service() {
                 val minute=calendar.get(Calendar.MINUTE)
                 Log.d("ORA","$hours")
 
-                val date=Calendar.getInstance()
-                date.set(year,month,day,hours,minute+1,0)
                 calendar.set(year,month,day,hours,minute,0)
-
-
-                Log.d("TIMER","IL timer si avvierà alle ${calendar.time} in millisecondi ${calendar.timeInMillis} mentre quella attuale è ${Date().time}")
-                startTimer1(date.timeInMillis-calendar.timeInMillis,"Ciao")
-
 
 
                 database.readAllFirmFromDB(object : FirebaseDatabaseHelper.DataStatusHashFirm {
@@ -105,19 +98,22 @@ class FinishTurnReminder : Service() {
                                                     if (finishHour>=hours){
                                                         val data :Calendar= Calendar.getInstance()
                                                         data.set(year,month,day,finishHour.toInt(),totalfirmcompact[j].startMinute.toInt(),0)
-                                                        Log.d("TIMER","IL timer si avvierà alle ${data.time} di ${totalfirmcompact[j].nomeazienza}")
-                                                        startTimer1(date.timeInMillis-calendar.timeInMillis,totalfirmcompact[j].nomeazienza)
-                                                        var scompact=ArrayList<Booking>()
-                                                        if (durate[j]>1){
-                                                            scompact=scompatta(totalbucompact[j],durate[j])
-                                                            database.CancelBookings(scompact,totalFirm[j])
-                                                        }
-                                                        else{
-                                                            scompact.add(totalbu[j])
-                                                            database.CancelBookings(scompact,totalFirm[j])
-                                                        }
+                                                        Log.d("TIMER","IL timer si avvierà alle ${data.time} di ${totalfirmcompact[j].nomeazienza} partendo da ${calendar.time}")
+                                                        val difference=data.timeInMillis-calendar.timeInMillis
+                                                        if (difference>0)
+                                                             startTimer1(data.timeInMillis-calendar.timeInMillis,totalbucompact,durate,j,totalfirmcompact)
+                                                        else {
+                                                            var scompact=ArrayList<Booking>()
+                                                            if (durate[j]>1){
+                                                                scompact=scompatta(totalbucompact[j],durate[j])
+                                                                database.CancelBookings(scompact,totalFirm[j])
+                                                            }
+                                                            else{
+                                                                scompact.add(totalbucompact[j])
+                                                                database.CancelBookings(scompact,totalFirm[j])
+                                                            }
 
-
+                                                          }
 
                                                         }
 
@@ -138,9 +134,9 @@ class FinishTurnReminder : Service() {
         }
 
         val timer = Timer(true)
-        val delay = 1000 // 1 minuto e mezzo
+        val delay = 1000
 
-        val interval = 1000*60*60 // 2 hour
+        val interval = 1000*60*60/2// mezz'ora
 
         timer.schedule(task,delay.toLong(),interval.toLong())
 
@@ -150,18 +146,23 @@ class FinishTurnReminder : Service() {
 
 
 
-    private fun startTimer1(date: Long,name:String) {
+    private fun startTimer1(date: Long,bookings:ArrayList<Booking>,durate:ArrayList<Long>,i:Int,totalFirm:ArrayList<Firm>) {
 
 
-   /* val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        val intent =Intent(this,AlarmReceiver::class.java)
-        val pendinintent =PendingIntent.getBroadcast(this,0,intent,0)
-        Log.d("ALARM","Ci arrivo qua?")
-        alarmManager.setRepeating(AlarmManager.RTC,date,0,pendinintent)
-        Log.d("ALARM2","Ci arrivo qua?")*/
+
         val task: TimerTask = object : TimerTask() {
             override fun run() {
-                sendNotification(name)
+
+                sendNotification(totalFirm[i].nomeazienza)
+                var scompact=ArrayList<Booking>()
+                if (durate[i]>1){
+                    scompact=scompatta(bookings[i],durate[i])
+                    database.CancelBookings(scompact,totalFirm[i])
+                }
+                else{
+                    scompact.add(bookings[i])
+                    database.CancelBookings(scompact,totalFirm[i])
+                }
 
             }
         }
@@ -210,6 +211,7 @@ class FinishTurnReminder : Service() {
       for (i in 0 until durata ){
           var book=Booking(booking.dd,booking.mm,booking.yy,booking.nOre+durata,booking.nPartecipanti)
           scompact.add(book)
+          Log.d("SCOMPATTA","${book.dd},${book.mm},${book.yy},${book.nOre},${book.nPartecipanti}")
       }
 
       return scompact
