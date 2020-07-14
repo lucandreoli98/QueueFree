@@ -346,6 +346,7 @@ class FirebaseDatabaseHelper{
                         }
                     }
                     ds.bookingFirmisLoaded(bookings,bookingsHour)
+                    referenceBooking.removeEventListener(this)
                 }
             }
         })
