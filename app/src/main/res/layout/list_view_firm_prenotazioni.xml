@@ -14,6 +14,55 @@
         android:layout_marginTop="20dp"
         android:layout_marginBottom="20dp"/>
 
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="63dp"
+        android:layout_marginStart="115dp"
+        android:src="@drawable/ic_clock" />
 
+    <TextView
+        android:id="@+id/orarioPrentFirm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="60dp"
+        android:text=""
+        android:gravity="center"
+        android:textColor="@color/black"
+        android:textSize="20sp" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_people"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/orarioPrentFirm"
+        android:layout_marginTop="13dp"
+        android:layout_marginStart="105dp"/>
+
+    <TextView
+        android:id="@+id/personeText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/orarioPrentFirm"
+        android:layout_marginTop="10dp"
+        android:text="@string/persone_prenotate"
+        android:textSize="20sp"
+        android:textColor="@color/black"
+        android:gravity="center" />
+
+    <TextView
+        android:id="@+id/personePrenotate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/personeText"
+        android:layout_marginTop="1dp"
+        android:text=""
+        android:textSize="20sp"
+        android:textColor="@color/black"
+        android:gravity="center" />
 
 </RelativeLayout>
