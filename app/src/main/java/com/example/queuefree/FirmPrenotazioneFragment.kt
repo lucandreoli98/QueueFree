@@ -60,10 +60,11 @@ class FirmPrenotazioneFragment: Fragment(), DatePickerDialog.OnDateSetListener {
                     override fun bookingFirmisLoaded(bookings: ArrayList<Booking>, bookingsHour: ArrayList<Long>) {
                         vista!!.listFirmPren.visibility = View.VISIBLE
 
-                        val adapter =  BookFirmAdapter(context!!, R.layout.list_view_firm_prenotazioni,  bookingsHour)
+                        val adapter =  BookFirmAdapter(context!!, R.layout.list_view_firm_prenotazioni,  bookingsHour, firm)
                         vista!!.listFirmPren.adapter = adapter
 
                         vista!!.listFirmPren.setOnItemClickListener { parent, view, position, l ->
+
 
                             /*val bundle = Bundle()
                             bundle.putSerializable("firm", totalfirmcompact[position])
