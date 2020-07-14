@@ -1,9 +1,6 @@
 package com.example.queuefree
 
-import android.app.Notification
-import android.app.NotificationManager
-import android.app.PendingIntent
-import android.app.Service
+import android.app.*
 import android.content.Context
 import android.content.Intent
 import android.os.IBinder
@@ -36,8 +33,20 @@ class FinishTurnReminder : Service() {
             override fun run() {
                 val calendar = Calendar.getInstance()
                 val day = calendar.get(Calendar.DAY_OF_MONTH)
-                val month = calendar.get(Calendar.MONTH) + 1
+                val month = calendar.get(Calendar.MONTH)
                 val year = calendar.get(Calendar.YEAR)
+                val hours=calendar.get(Calendar.HOUR)
+                val minute=calendar.get(Calendar.MINUTE)
+
+                val date=Calendar.getInstance()
+                date.set(year,month,day,hours,minute+1,0)
+                calendar.set(year,month,day,hours,minute,0)
+
+
+                Log.d("TIMER","IL timer si avvierà alle ${calendar.time} in millisecondi ${calendar.timeInMillis} mentre quella attuale è ${Date().time}")
+                startTimer1(date.timeInMillis-calendar.timeInMillis)
+
+
 
                 database.readAllFirmFromDB(object : FirebaseDatabaseHelper.DataStatusHashFirm {
                     override fun dataisLoadedFirm(firms: HashMap<String, Firm>) {
@@ -96,10 +105,11 @@ class FinishTurnReminder : Service() {
                                                         "${totalfirmcompact[j].nomeazienza}: $starthour apre alle ${totalfirmcompact[j].startHour} durata : ${durate[j]}"
                                                     )
                                                     var finishHour = starthour + durate[j]
-                                                    if (finishHour>Date().hours){
-                                                        val data =Date(year,month,day,finishHour.toInt(),totalfirmcompact[j].startMinute.toInt())
-                                                        startTimer1(data)
-                                                        Log.d("TIMER","IL timer si avvierà alle ${data.hours}:${data.minutes}")
+                                                    if (finishHour>calendar.get(Calendar.HOUR_OF_DAY)){
+                                                        var data :Calendar= Calendar.getInstance()
+                                                            data.set(year,month,day,finishHour.toInt(),totalfirmcompact[j].startMinute.toInt(),0)
+                                                        startTimer1(data.timeInMillis-calendar.timeInMillis)
+                                                        Log.d("TIMER","IL timer si avvierà alle ${data.time}")
 
                                                         }
 
@@ -119,10 +129,10 @@ class FinishTurnReminder : Service() {
             }
         }
 
-        var timer = Timer(false)
-        val delay = 1000 * 10* 10 // 1 minuto e mezzo
+        var timer = Timer(true)
+        val delay = 1000 // 1 minuto e mezzo
 
-        val interval = 1000*60*60*2 // 2 hour
+        val interval = 1000*60*60 // 2 hour
 
         timer.schedule(task,delay.toLong(),interval.toLong())
 
@@ -132,24 +142,28 @@ class FinishTurnReminder : Service() {
 
 
 
+    private fun startTimer1(date: Long) {
 
 
-
-
-
-
-
-
-    private fun startTimer1(date: Date) {
+   /* val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val intent =Intent(this,AlarmReceiver::class.java)
+        val pendinintent =PendingIntent.getBroadcast(this,0,intent,0)
+        Log.d("ALARM","Ci arrivo qua?")
+        alarmManager.setRepeating(AlarmManager.RTC,date,0,pendinintent)
+        Log.d("ALARM2","Ci arrivo qua?")*/
         val task: TimerTask = object : TimerTask() {
             override fun run() {
                 sendNotification()
+
             }
-
         }
+        var timer = Timer(true)
+        timer.schedule(task,date)
 
-        var timer = Timer(false)
-        timer.schedule(task, date)
+
+
+
+
 
     }
 
@@ -165,8 +179,8 @@ class FinishTurnReminder : Service() {
 
         // create the variables for the notification
         val icon: Int = R.drawable.ic_baseline_cancel_24
-        val contentTitle = getText(R.string.notify)
-        val contentText: CharSequence = "La tua prenotazione è esaurita, apprestati ad uscire!"
+        val contentTitle :CharSequence= "La tua prenotazione è finita"
+        val contentText: CharSequence = " Apprestati ad uscire!"
 
         // create the notification and set its data
         val notification: Notification = NotificationCompat.Builder(this,CHANNEL_ID2)
@@ -178,11 +192,13 @@ class FinishTurnReminder : Service() {
             .build()
 
         // display the notification
-        val manager =
-            getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        val NOTIFICATION_ID = 1
+        val manager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val NOTIFICATION_ID = 7
         manager.notify(NOTIFICATION_ID, notification)
     }
+
+
+
 
 
 }

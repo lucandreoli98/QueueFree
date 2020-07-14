@@ -19,7 +19,10 @@ class MainActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_main)
 
-        // start service
+        QueueFreeApp().notificationchannel1()
+        QueueFreeApp().notificationchannel2()
+
+
         supportFragmentManager.beginTransaction().replace(R.id.login_fragment, LoginFragment()).commit()
     }
 

@@ -127,7 +127,7 @@ class ReminderBookings :Service() {
        var timer = Timer(false)
         val delay = 1000 * 10 // 10 seconds
 
-        val interval = 1000*60*60 // 1 hour
+        val interval = 1000*60*60*2// 2 hour
 
         timer.schedule(task, delay.toLong(), interval.toLong())
 
