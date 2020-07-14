@@ -88,6 +88,8 @@ class FirebaseDatabaseHelper{
                                     "maxTurn"->f.maxTurn=field.value as Long
                                     "maxPartecipants"->f.maxPartecipants=field.value as Long
                                     "giorni" -> f.giorni = field.value as String
+                                    "latitude" -> f.latitude = field.value as Double
+                                    "longitude" -> f.longitude = field.value as Double
                                 }
                             }
                             ds.DataisLoadedFirm(f)
@@ -126,6 +128,8 @@ class FirebaseDatabaseHelper{
                                     "maxTurn"->f.maxTurn=field.value as Long
                                     "maxPartecipants"->f.maxPartecipants=field.value as Long
                                     "giorni" -> f.giorni = field.value as String
+                                    "latitude" -> f.latitude = field.value as Double
+                                    "longitude" -> f.longitude = field.value as Double
                                 }
                             }
                             ds.DataisLoadedFirm(f)
@@ -159,6 +163,8 @@ class FirebaseDatabaseHelper{
                                     "maxTurn"->f.maxTurn=field.value as Long
                                     "maxPartecipants"->f.maxPartecipants=field.value as Long
                                     "giorni" -> f.giorni = field.value as String
+                                    "latitude" -> f.latitude = field.value as Double
+                                    "longitude" -> f.longitude = field.value as Double
                                 }
                             }
                             ds.DataisLoadedFirm(f)
@@ -256,6 +262,8 @@ class FirebaseDatabaseHelper{
                                 "maxTurn"->f[firms.key!!]!!.maxTurn=field.value as Long
                                 "maxPartecipants"->f[firms.key!!]!!.maxPartecipants=field.value as Long
                                 "giorni" -> f[firms.key!!]!!.giorni = field.value as String
+                                "latitude" -> f[firms.key!!]!!.latitude = field.value as Double
+                                "longitude" -> f[firms.key!!]!!.longitude = field.value as Double
                             }
                         }
                     }
@@ -374,15 +382,11 @@ class FirebaseDatabaseHelper{
                                         }
                                     }
                                 }
-
-
                             }
-
                         }
                     }
                 }
             }
-
         })
 
     }

@@ -54,10 +54,8 @@ class PrenotazioneSpiagge : FragmentActivity(), OnMapReadyCallback,GoogleMap.OnM
         FirebaseDatabaseHelper().readFirmsByCategory(object : FirebaseDatabaseHelper.DataStatusFirm {
             override fun DataisLoadedFirm(firm: Firm){
 
-                geo.getFromLocationName(firm.location,1)
 
-                val latlng = LatLng( geo.getFromLocationName(firm.location,1)[0].latitude, geo.getFromLocationName(
-                    firm.location,1)[0].longitude)
+                val latlng = LatLng(firm.latitude,firm.longitude)
 
 
                 when(intent.getStringExtra("tipo")) {

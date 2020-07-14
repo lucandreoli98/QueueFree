@@ -31,8 +31,8 @@ class FirmRegisterFragment : Fragment() {
 
     private var fireBase: FirebaseAuth? = null
     private var locationString: String = ""
-    private var latitude:String = ""
-    private var longitude:String = ""
+    private var latitude:Double = 0.0
+    private var longitude:Double = 0.0
     private var hhOpen: Long? = null
     private var mmOpen: Long? = null
     private var hhClose: Long? = null
@@ -49,7 +49,7 @@ class FirmRegisterFragment : Fragment() {
         //Per autocomplete su luoghi
         Places.initialize(activity!!,resources.getString(R.string.google_map_api_key))
         view.placesSelect.setOnClickListener{
-            val list = listOf(Place.Field.ADDRESS,Place.Field.NAME)
+            val list = listOf(Place.Field.ADDRESS,Place.Field.NAME,Place.Field.LAT_LNG)
             val intent: Intent = Autocomplete.IntentBuilder(AutocompleteActivityMode.OVERLAY,list)
                 .setCountry("IT")
                 .build(activity!!)
@@ -133,7 +133,7 @@ class FirmRegisterFragment : Fragment() {
             val conf = confpassRegisterEditText.text.toString().trim()
             val placeString = placesSelect.text.toString().trim()
             val capienza = capienzaEditText.text.toString().trim()
-            var ok=true          //ti evita di fare le operazioni in piu per ogni controllo basta che un campo non sia compilato
+            var ok=true //ti evita di fare le operazioni in piu per ogni controllo basta che un campo non sia compilato
 
             if (ok && firmName.isEmpty()) {
                 firm_name.error = resources.getString(R.string.f_nameEmpty)
@@ -192,7 +192,7 @@ class FirmRegisterFragment : Fragment() {
                         if (task.isSuccessful) {
                             val id = FirebaseAuth.getInstance().currentUser!!.uid.trim { it <= ' ' }
 
-                            val f = Firm(id,firmName, email, password, categoriaString, locationString,this.hhOpen!!,this.mmOpen!!,this.hhClose!!,this.mmClose!!,capienza.toLong(),"")
+                            val f = Firm(id,firmName, email, password, categoriaString, locationString,this.hhOpen!!,this.mmOpen!!,this.hhClose!!,this.mmClose!!,capienza.toLong(),"",1,1,"Lun-Mar-Mer-Gio-Ven-Sab-Dom",latitude,longitude)
 
                             Log.e("task successful", resources.getString(R.string.userRegistrated))
 
@@ -217,9 +217,10 @@ class FirmRegisterFragment : Fragment() {
         super.onActivityResult(requestCode, resultCode, data)
         if(requestCode == 100 && resultCode == AutocompleteActivity.RESULT_OK){
             val place: Place = Autocomplete.getPlaceFromIntent(data!!)
-
             placesSelect.text = place.address
             locationString= place.address.toString()
+            latitude = place.latLng!!.latitude
+            longitude = place.latLng!!.longitude
 
 
         }else if(resultCode == AutocompleteActivity.RESULT_ERROR){

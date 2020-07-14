@@ -2,6 +2,7 @@ package com.example.queuefree
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,8 +18,6 @@ class PrenotazioniFragment: Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
         val view = inflater.inflate(R.layout.prenotazioni_utente, container, false)
-
-        val ft = fragmentManager!!.beginTransaction()
 
         database.readAllFirmFromDB(object : FirebaseDatabaseHelper.DataStatusHashFirm{
             override fun dataisLoadedFirm(firms: HashMap<String, Firm>) {
@@ -88,7 +87,6 @@ class PrenotazioniFragment: Fragment() {
                 })
             }
         })
-
         return view
     }
 }

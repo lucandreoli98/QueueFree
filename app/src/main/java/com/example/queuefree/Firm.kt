@@ -16,7 +16,9 @@ class Firm(
     var endMinute: Long = 0,
     var capienza: Long = 0,
     var descrizione: String = "",
-    var maxTurn: Long = 0,
-    var maxPartecipants: Long = 0,
-    var giorni: String = "Lun-Mar-Mer-Gio-Ven-Sab-Dom"
+    var maxTurn: Long = 1,
+    var maxPartecipants: Long = 1,
+    var giorni: String = "Lun-Mar-Mer-Gio-Ven-Sab-Dom",
+    var latitude: Double = 0.0,
+    var longitude: Double = 0.0
 ): Serializable

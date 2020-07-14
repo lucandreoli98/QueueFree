@@ -4,15 +4,10 @@ import android.content.Context
 import android.location.Geocoder
 import android.os.AsyncTask
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.Fragment
+import android.util.Log
 import androidx.fragment.app.FragmentActivity
 import com.google.android.gms.maps.*
-import com.google.android.gms.maps.model.CameraPosition
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.Marker
+import com.google.android.gms.maps.model.*
 import kotlinx.android.synthetic.main.info_prenotazione.*
 import kotlinx.android.synthetic.main.info_prenotazione.view.*
 import java.text.SimpleDateFormat
@@ -35,6 +30,7 @@ class InfoTicket: FragmentActivity(), OnMapReadyCallback, GoogleMap.OnMarkerClic
         mMapView.getMapAsync(this)
 
         val firm: Firm = bundle.getSerializable("firm") as Firm
+        this.firm = firm
         val booking: Booking = bundle.getSerializable("book") as Booking
         val durata: Long = bundle.getLong("durata")
 
@@ -47,7 +43,6 @@ class InfoTicket: FragmentActivity(), OnMapReadyCallback, GoogleMap.OnMarkerClic
         orarioPrenotazione.text = orario
         partecipantiPrenotazione.text = "Partecipanti: " + booking.nPartecipanti.toString()
         positionPrenotazione.text = firm.location
-
     }
 
 
@@ -66,26 +61,28 @@ class InfoTicket: FragmentActivity(), OnMapReadyCallback, GoogleMap.OnMarkerClic
     }
 
     override fun onMapReady(p0: GoogleMap?) {
-        MapsInitializer.initialize(this)
 
-        map = p0!!
-        p0.mapType = GoogleMap.MAP_TYPE_NORMAL
+        val latlng = LatLng(firm.latitude,firm.longitude)
+        when(firm.categoria) {
+            "Spiaggia" -> {
+                p0!!.addMarker(MarkerOptions().position(latlng).title(firm.nomeazienza).icon(BitmapDescriptorFactory.fromResource(R.drawable.ombrellone)))
+                p0.moveCamera(CameraUpdateFactory.newLatLngZoom(latlng, 15f))
+            }
 
-        val geo = Geocoder(this)
-        val pos = CameraPosition.builder().target(LatLng(geo.getFromLocationName(firm.location,1)[0].latitude, geo.getFromLocationName(firm.location,1)[0].longitude))
+            "Museo" -> {
+                p0!!.addMarker(MarkerOptions().position(latlng).title(firm.nomeazienza).icon(BitmapDescriptorFactory.fromResource(R.drawable.museo)))
+                p0.moveCamera(CameraUpdateFactory.newLatLngZoom(latlng, 15f))
+            }
 
-        p0.moveCamera(CameraUpdateFactory.newCameraPosition(pos.build()))
-
+            "Biblioteca" -> {
+                p0!!.addMarker(MarkerOptions().position(latlng).title(firm.nomeazienza).icon(BitmapDescriptorFactory.fromResource(R.drawable.libro)))
+                p0.moveCamera(CameraUpdateFactory.newLatLngZoom(latlng, 15f))
+            }
+        }
     }
 
     override fun onMarkerClick(p0: Marker?): Boolean {
         return true
     }
 
-    class DownloadFilesTask(private val context: Context) : AsyncTask<String, Void, LatLng>() {
-        override fun doInBackground(vararg posizione: String): LatLng? {
-            val geo = Geocoder(context)
-            return LatLng(geo.getFromLocationName(posizione[0],1)[0].latitude, geo.getFromLocationName(posizione[0],1)[0].longitude)
-        }
-    }
 }
