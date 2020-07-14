@@ -19,8 +19,8 @@ class MainActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_main)
 
-        QueueFreeApp().notificationchannel1()
-        QueueFreeApp().notificationchannel2()
+        //QueueFreeApp().notificationchannel1()
+        //QueueFreeApp().notificationchannel2()
 
 
         supportFragmentManager.beginTransaction().replace(R.id.login_fragment, LoginFragment()).commit()

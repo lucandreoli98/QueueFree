@@ -21,8 +21,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <service android:name=".ReminderBookings" />
+
         <service android:name=".FinishTurnReminder" />
         <activity android:name=".LetsbookActivity" />
+        <activity android:name=".InfoTicket" />
+
         <activity android:name=".FirmActivity" />
         <activity android:name=".ProflileActivity" />
         <activity

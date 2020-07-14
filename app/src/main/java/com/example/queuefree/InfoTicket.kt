@@ -10,8 +10,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import com.google.android.gms.maps.*
+import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
+import kotlinx.android.synthetic.main.info_prenotazione.*
 import kotlinx.android.synthetic.main.info_prenotazione.view.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -20,7 +22,6 @@ import java.util.*
 class InfoTicket: FragmentActivity(), OnMapReadyCallback, GoogleMap.OnMarkerClickListener{
 
     lateinit var map: GoogleMap
-    lateinit var mMapView: MapView
 
     private var firm = Firm()
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,32 +30,26 @@ class InfoTicket: FragmentActivity(), OnMapReadyCallback, GoogleMap.OnMarkerClic
 
         val bundle = intent.getBundleExtra("parameter")
 
-        /*val firm: Firm = arguments!!.getSerializable("firm") as Firm
-        val booking: Booking = arguments!!.getSerializable("book") as Booking
-        val durata: Long = arguments!!.getLong("durata")
+        val mMapView = supportFragmentManager.findFragmentById(R.id.mappaScreen) as SupportMapFragment
+
+        mMapView.getMapAsync(this)
+
+        val firm: Firm = bundle.getSerializable("firm") as Firm
+        val booking: Booking = bundle.getSerializable("book") as Booking
+        val durata: Long = bundle.getLong("durata")
 
         Locale.setDefault(Locale.ITALIAN)
         val data: String = SimpleDateFormat("EEEE dd MMMM yyyy").format(Date(booking.yy.toInt()-1900,booking.mm.toInt()-1, booking.dd.toInt()))
 
-        view.nameFirm.text = firm.nomeazienza
-        view.dataPrenotazione.text = data
+        nameFirm.text = firm.nomeazienza
+        dataPrenotazione.text = data
         val orario = completeTimeStamp(firm.startHour+booking.nOre,firm.startMinute) + " - " +completeTimeStamp(durata+firm.startHour, firm.startMinute)
-        view.orarioPrenotazione.text = orario
-        view.partecipantiPrenotazione.text = "Partecipanti: " + booking.nPartecipanti.toString()
-        view.positionPrenotazione.text = firm.location*/
+        orarioPrenotazione.text = orario
+        partecipantiPrenotazione.text = "Partecipanti: " + booking.nPartecipanti.toString()
+        positionPrenotazione.text = firm.location
 
     }
 
-    /*override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        mMapView = view.mappaScreen
-        mMapView.onCreate(savedInstanceState)
-        mMapView.onResume()
-        mMapView.getMapAsync(this)
-
-
-    }
 
     private fun completeTimeStamp(hour :Long, minute: Long):String{
         return if(hour<10){
@@ -71,17 +66,15 @@ class InfoTicket: FragmentActivity(), OnMapReadyCallback, GoogleMap.OnMarkerClic
     }
 
     override fun onMapReady(p0: GoogleMap?) {
-        MapsInitializer.initialize(context!!)
+        MapsInitializer.initialize(this)
 
         map = p0!!
         p0.mapType = GoogleMap.MAP_TYPE_NORMAL
 
+        val geo = Geocoder(this)
+        val pos = CameraPosition.builder().target(LatLng(geo.getFromLocationName(firm.location,1)[0].latitude, geo.getFromLocationName(firm.location,1)[0].longitude))
 
-        //val latlan = DownloadFilesTask(activity!!).execute(firm.location).get()
-
-        //val pos = CameraPosition.builder().target(latlan)
-
-        //p0.moveCamera(CameraUpdateFactory.newCameraPosition(pos.build()))
+        p0.moveCamera(CameraUpdateFactory.newCameraPosition(pos.build()))
 
     }
 
@@ -94,5 +87,5 @@ class InfoTicket: FragmentActivity(), OnMapReadyCallback, GoogleMap.OnMarkerClic
             val geo = Geocoder(context)
             return LatLng(geo.getFromLocationName(posizione[0],1)[0].latitude, geo.getFromLocationName(posizione[0],1)[0].longitude)
         }
-    }*/
+    }
 }
