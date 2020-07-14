@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="220dp" >
 
@@ -15,92 +14,54 @@
         android:layout_marginTop="20dp"
         android:layout_marginBottom="20dp"/>
 
-    <TextView
-        android:id="@+id/firmNameTicket"
+    <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="60dp"
-        android:layout_marginStart="90dp"
-        android:textColor="@color/black"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:text=""/>
-
-    <ImageView
-        android:id="@+id/imageCalendar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/firmNameTicket"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="90dp"
-        android:layout_marginTop="8dp"
-        android:src="@drawable/ic_event_black" />
-
-    <TextView
-        android:id="@+id/dataTicket"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/firmNameTicket"
-        android:layout_toEndOf="@+id/imageCalendar"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="5dp"
-        android:textColor="@color/black"
-        android:textSize="20sp"
-        android:text="" />
-
-    <ImageView
-        android:id="@+id/imageHourTicket"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/dataTicket"
-        android:layout_alignStart="@+id/firmNameTicket"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="63dp"
+        android:layout_marginStart="115dp"
         android:src="@drawable/ic_clock" />
 
     <TextView
-        android:id="@+id/orarioTicket"
-        android:layout_width="wrap_content"
+        android:id="@+id/orarioPrentFirm"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/dataTicket"
-        android:layout_toEndOf="@+id/imageHourTicket"
-        android:layout_marginTop="5dp"
-        android:layout_marginStart="5dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="60dp"
+        android:text=""
+        android:gravity="center"
         android:textColor="@color/black"
-        android:textSize="20sp"
-        android:text=""/>
+        android:textSize="20sp" />
 
     <ImageView
-        android:id="@+id/imagePartecipantiTicket"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/dataTicket"
-        android:layout_toEndOf="@+id/orarioTicket"
-        android:layout_marginTop="8dp"
-        android:layout_marginStart="10dp"
-        android:src="@drawable/ic_people" />
+        android:src="@drawable/ic_people"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/orarioPrentFirm"
+        android:layout_marginTop="13dp"
+        android:layout_marginStart="105dp"/>
 
     <TextView
-        android:id="@+id/partecipantiTicket"
-        android:layout_width="wrap_content"
+        android:id="@+id/personeText"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_toEndOf="@+id/imagePartecipantiTicket"
-        android:layout_alignBaseline="@+id/orarioTicket"
-        android:layout_marginStart="5dp"
+        android:layout_below="@+id/orarioPrentFirm"
+        android:layout_marginTop="10dp"
+        android:text="@string/persone_prenotate"
+        android:textSize="20sp"
+        android:textColor="@color/black"
+        android:gravity="center" />
+
+    <TextView
+        android:id="@+id/personePrenotate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/personeText"
+        android:layout_marginTop="1dp"
         android:text=""
         android:textSize="20sp"
-        android:textColor="@color/black" />
-
-
-    <ImageView
-        android:id="@+id/imageCategoryTicket"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="55dp"
-        android:layout_marginEnd="75dp"
-        android:contentDescription="" />
-
+        android:textColor="@color/black"
+        android:gravity="center" />
 </RelativeLayout>

@@ -8,8 +8,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import com.google.android.gms.maps.*
-import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import kotlinx.android.synthetic.main.info_prenotazione.view.*
@@ -17,16 +17,19 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
-class InfoTicket: Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListener{
+class InfoTicket: FragmentActivity(), OnMapReadyCallback, GoogleMap.OnMarkerClickListener{
 
     lateinit var map: GoogleMap
     lateinit var mMapView: MapView
 
     private var firm = Firm()
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view =  inflater.inflate(R.layout.info_prenotazione, container, false)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.info_prenotazione)
 
-        val firm: Firm = arguments!!.getSerializable("firm") as Firm
+        val bundle = intent.getBundleExtra("parameter")
+
+        /*val firm: Firm = arguments!!.getSerializable("firm") as Firm
         val booking: Booking = arguments!!.getSerializable("book") as Booking
         val durata: Long = arguments!!.getLong("durata")
 
@@ -38,12 +41,11 @@ class InfoTicket: Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListene
         val orario = completeTimeStamp(firm.startHour+booking.nOre,firm.startMinute) + " - " +completeTimeStamp(durata+firm.startHour, firm.startMinute)
         view.orarioPrenotazione.text = orario
         view.partecipantiPrenotazione.text = "Partecipanti: " + booking.nPartecipanti.toString()
-        view.positionPrenotazione.text = firm.location
+        view.positionPrenotazione.text = firm.location*/
 
-        return view
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    /*override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         mMapView = view.mappaScreen
@@ -92,5 +94,5 @@ class InfoTicket: Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListene
             val geo = Geocoder(context)
             return LatLng(geo.getFromLocationName(posizione[0],1)[0].latitude, geo.getFromLocationName(posizione[0],1)[0].longitude)
         }
-    }
+    }*/
 }

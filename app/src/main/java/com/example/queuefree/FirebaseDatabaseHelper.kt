@@ -330,18 +330,22 @@ class FirebaseDatabaseHelper{
                     for(firms in snapshot.children){ // in questo punto id azienda
                         if(id == firms.key){
                             for(userBooks in firms.children){
-                                val ora = userBooks.key.toString().substring(38,40).toInt()
-                                bookings.add(Booking())
-                                for(field in userBooks.children){
-                                    when (field.key) {
-                                        "dd" -> bookings[bookings.size-1].dd = field.value as Long
-                                        "mm" -> bookings[bookings.size-1].mm = field.value as Long
-                                        "yy" -> bookings[bookings.size-1].yy = field.value as Long
-                                        "nore" -> bookings[bookings.size-1].nOre = field.value as Long
-                                        "npartecipanti" -> bookings[bookings.size-1].nPartecipanti = field.value as Long
+                                if(year == userBooks.key!!.substring(29,33).toLong() && month == userBooks.key!!.substring(33,35).toLong()
+                                    && day == userBooks.key!!.substring(35,37).toLong()){
+
+                                    val ora = userBooks.key.toString().substring(38,40).toInt()
+                                    bookings.add(Booking())
+                                    for(field in userBooks.children){
+                                        when (field.key) {
+                                            "dd" -> bookings[bookings.size-1].dd = field.value as Long
+                                            "mm" -> bookings[bookings.size-1].mm = field.value as Long
+                                            "yy" -> bookings[bookings.size-1].yy = field.value as Long
+                                            "nore" -> bookings[bookings.size-1].nOre = field.value as Long
+                                            "npartecipanti" -> bookings[bookings.size-1].nPartecipanti = field.value as Long
+                                        }
                                     }
+                                    bookingsHour[ora] += bookings[bookings.size-1].nPartecipanti
                                 }
-                                bookingsHour[ora] += bookings[bookings.size-1].nPartecipanti
                             }
                         }
                     }

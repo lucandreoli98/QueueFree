@@ -16,4 +16,23 @@
         android:textSize="20sp"
         android:textColor="@color/white"/>
 
+    <TextView
+        android:id="@+id/titlePren"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:gravity="center"
+        android:background="@color/backgroundRed"
+        android:textColor="@color/white"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:text="Prenotazioni"/>
+
+    <ListView
+        android:id="@+id/listFirmPren"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/titlePren"
+        android:visibility="invisible" />
+
 </RelativeLayout>
