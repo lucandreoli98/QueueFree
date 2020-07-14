@@ -24,7 +24,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="200dp" >
 
         <ImageView
             android:id="@+id/imageStart"
@@ -110,15 +110,16 @@
             android:text=""
             android:textSize="20sp"
             android:textColor="@color/black" />
-
-        <fragment
-            android:id="@+id/mapPrenotazione"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/positionPrenotazione"
-            android:layout_marginTop="20dp"
-            android:padding="50dp" />
-
     </RelativeLayout>
+    <FrameLayout
+        android:layout_height="match_parent"
+        android:layout_width="match_parent">
+        <com.google.android.gms.maps.MapView
+            android:id="@+id/mappaScreen"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"/>
+
+    </FrameLayout>
+
 
 </LinearLayout>

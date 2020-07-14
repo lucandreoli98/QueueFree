@@ -1,22 +1,26 @@
 package com.example.queuefree
 
+import android.content.Context
 import android.location.Geocoder
+import android.os.AsyncTask
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.OnMapReadyCallback
-import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.*
+import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import kotlinx.android.synthetic.main.info_prenotazione.view.*
 import java.text.SimpleDateFormat
 import java.util.*
 
-class InfoTicket: Fragment(){//, OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
+
+class InfoTicket: Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListener{
+
+    lateinit var map: GoogleMap
+    lateinit var mMapView: MapView
 
     private var firm = Firm()
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -36,10 +40,18 @@ class InfoTicket: Fragment(){//, OnMapReadyCallback, GoogleMap.OnMarkerClickList
         view.partecipantiPrenotazione.text = "Partecipanti: " + booking.nPartecipanti.toString()
         view.positionPrenotazione.text = firm.location
 
-        /*val mapFragment = fragmentManager!!.findFragmentById(R.id.mapPrenotazione) as SupportMapFragment
-        mapFragment.getMapAsync(this)*/
-
         return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        mMapView = view.mappaScreen
+        mMapView.onCreate(savedInstanceState)
+        mMapView.onResume()
+        mMapView.getMapAsync(this)
+
+
     }
 
     private fun completeTimeStamp(hour :Long, minute: Long):String{
@@ -56,17 +68,29 @@ class InfoTicket: Fragment(){//, OnMapReadyCallback, GoogleMap.OnMarkerClickList
         }
     }
 
-    /*override fun onMapReady(googleMap: GoogleMap?) {
-        val geo = Geocoder(context!!)
+    override fun onMapReady(p0: GoogleMap?) {
+        MapsInitializer.initialize(context!!)
 
-        var map = googleMap
-        map!!.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(geo.getFromLocationName(firm.location,1)[0].latitude, geo.getFromLocationName(
-            firm.location,1)[0].longitude), 8f))
+        map = p0!!
+        p0.mapType = GoogleMap.MAP_TYPE_NORMAL
 
-        map.uiSettings.setAllGesturesEnabled(false)
+
+        //val latlan = DownloadFilesTask(activity!!).execute(firm.location).get()
+
+        //val pos = CameraPosition.builder().target(latlan)
+
+        //p0.moveCamera(CameraUpdateFactory.newCameraPosition(pos.build()))
+
     }
 
     override fun onMarkerClick(p0: Marker?): Boolean {
-        TODO("Not yet implemented")
-    }*/
+        return true
+    }
+
+    class DownloadFilesTask(private val context: Context) : AsyncTask<String, Void, LatLng>() {
+        override fun doInBackground(vararg posizione: String): LatLng? {
+            val geo = Geocoder(context)
+            return LatLng(geo.getFromLocationName(posizione[0],1)[0].latitude, geo.getFromLocationName(posizione[0],1)[0].longitude)
+        }
+    }
 }
