@@ -350,4 +350,40 @@ class FirebaseDatabaseHelper{
             }
         })
     }
+
+    fun CancelBookings(bookings: ArrayList<Booking>, firm: Firm){
+        referenceBooking.addValueEventListener(object: ValueEventListener{
+            override fun onCancelled(error: DatabaseError) {
+            }
+
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if (snapshot.exists()){
+                    for (azienda in snapshot.children){
+                        if (azienda.key==firm.id){
+                            for (prenotazione in azienda.children){
+                                var str=prenotazione.key!!.split("-")
+                                if (str[0]==id){
+                                    var actualbook=Booking()
+                                    for (field in prenotazione.children){
+                                        when(field.key){
+                                            "dd" -> actualbook.dd = field.value as Long
+                                            "mm" -> actualbook.mm = field.value as Long
+                                            "yy" -> actualbook.yy = field.value as Long
+                                            "nore" -> actualbook.nOre = field.value as Long
+                                            "npartecipanti" -> actualbook.nPartecipanti = field.value as Long
+                                        }
+                                    }
+                                }
+
+
+                            }
+
+                        }
+                    }
+                }
+            }
+
+        })
+
+    }
 }
