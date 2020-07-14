@@ -371,6 +371,24 @@ class FirebaseDatabaseHelper{
                                             "yy" -> actualbook.yy = field.value as Long
                                             "nore" -> actualbook.nOre = field.value as Long
                                             "npartecipanti" -> actualbook.nPartecipanti = field.value as Long
+
+                                        }
+                                    }
+                                    Log.d("CANCELLAZIONE","bookings/${firm.id}/$id-${actualbook.yy}${isZero(actualbook.mm.toInt())}${actualbook.mm}${isZero(actualbook.dd.toInt())}${actualbook.dd}-${isZero(actualbook.nOre.toInt())}${actualbook.nOre}")
+
+                                    for (i in 0 until bookings.size){
+                                        Log.d("CONFRONTO","actual book: ${actualbook.yy}${isZero(actualbook.mm.toInt())}${actualbook.mm}${isZero(actualbook.dd.toInt())}${actualbook.dd}-${isZero(actualbook.nOre.toInt())}${actualbook.nOre} con bookings :${bookings[i].yy}${isZero(bookings[i].mm.toInt())}${bookings[i].mm}${isZero(bookings[i].dd.toInt())}${bookings[i].dd}-${isZero(bookings[i].nOre.toInt())}${bookings[i].nOre}")
+                                        if (bookings[i].dd==actualbook.dd){
+                                            if (bookings[i].mm==actualbook.mm)
+                                                if(bookings[i].yy==actualbook.yy)
+                                                    if (bookings[i].nOre==actualbook.nOre)
+                                                        if (bookings[i].nPartecipanti==actualbook.nPartecipanti){
+                                                             database.getReference("bookings/${firm.id}/$id-${actualbook.yy}${isZero(actualbook.mm.toInt())}${actualbook.mm}${isZero(actualbook.dd.toInt())}${actualbook.dd}-${isZero(actualbook.nOre.toInt())}${actualbook.nOre}").removeValue()
+                                                                Log.d("ELIMINAZIONE","eliminato")
+
+                                                            }
+
+
                                         }
                                     }
                                 }
@@ -385,5 +403,12 @@ class FirebaseDatabaseHelper{
 
         })
 
+    }
+
+    private fun isZero(i: Int): String{
+        return if(i < 10)
+            "0"
+        else
+            ""
     }
 }

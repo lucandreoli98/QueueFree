@@ -17,7 +17,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
-class InfoTicket: FragmentActivity(), OnMapReadyCallback, GoogleMap.OnMarkerClickListener{
+class InfoTicket: FragmentActivity()/*, OnMapReadyCallback, GoogleMap.OnMarkerClickListener*/{
 
     lateinit var map: GoogleMap
     lateinit var mMapView: MapView
@@ -44,6 +44,8 @@ class InfoTicket: FragmentActivity(), OnMapReadyCallback, GoogleMap.OnMarkerClic
         view.positionPrenotazione.text = firm.location*/
 
     }
+
+
 
     /*override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
