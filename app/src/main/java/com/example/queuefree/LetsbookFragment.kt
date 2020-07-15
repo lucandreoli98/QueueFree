@@ -149,33 +149,33 @@ class LetsbookFragment: Fragment(), DatePickerDialog.OnDateSetListener {
 
         }
 
-    if (isSearch) {
+        if (isSearch) {
 
-        when (dayOfWeek) {
-            "Sunday" -> if (!firm.giorni.contains("Dom")) isSearch = false
-            "Monday" -> if (!firm.giorni.contains("Lun")) isSearch = false
-            "Tuesday" -> if (!firm.giorni.contains("Mar")) isSearch = false
-            "Wednesday" -> if (!firm.giorni.contains("Mer")) isSearch = false
-            "Thursday" -> if (!firm.giorni.contains("Gio")) isSearch = false
-            "Friday" -> if (!firm.giorni.contains("Ven")) isSearch = false
-            "Saturday" -> if (!firm.giorni.contains("Sab")) isSearch = false
-            else -> isSearch = false
-        }
+            when (dayOfWeek) {
+                "Sunday" -> if (!firm.giorni.contains("Dom")) isSearch = false
+                "Monday" -> if (!firm.giorni.contains("Lun")) isSearch = false
+                "Tuesday" -> if (!firm.giorni.contains("Mar")) isSearch = false
+                "Wednesday" -> if (!firm.giorni.contains("Mer")) isSearch = false
+                "Thursday" -> if (!firm.giorni.contains("Gio")) isSearch = false
+                "Friday" -> if (!firm.giorni.contains("Ven")) isSearch = false
+                "Saturday" -> if (!firm.giorni.contains("Sab")) isSearch = false
+                else -> isSearch = false
+            }
 
-        if (isSearch)
-            readBooking() // lettura DB
-        else {
-            changeVisibilty(false)
-            this.day = 0L
-            this.month = 0L
-            this.year = 0L
-            Toast.makeText(
-                context!!,
-                "La struttura è chiusa il giorno selezionato",
-                Toast.LENGTH_SHORT
-            ).show()
+            if (isSearch)
+                readBooking() // lettura DB
+            else {
+                changeVisibilty(false)
+                this.day = 0L
+                this.month = 0L
+                this.year = 0L
+                Toast.makeText(
+                    context!!,
+                    "La struttura è chiusa il giorno selezionato",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
         }
-    }
 
 
     }
@@ -264,12 +264,6 @@ class LetsbookFragment: Fragment(), DatePickerDialog.OnDateSetListener {
                                                     FirebaseDatabase.getInstance().getReference("/bookings/${firm.id}/$id-$year${isZero(month.toInt())}$month${isZero(day.toInt())}$day-${isZero(i)}$i").setValue(r)
                                                 }
 
-                                    Toast.makeText(context!!,"Prenotazione effettuata con successo!",Toast.LENGTH_SHORT).show()
-                                    alertDialog.dismiss()
-                                    val i = Intent(activity, HomePageActivity::class.java)
-                                    i.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
-                                    startActivity(i)
-                                }
                                                 Toast.makeText(context!!,"Prenotazione effettuata con successo!",Toast.LENGTH_SHORT).show()
                                                 alertDialog.dismiss()
                                                 val i = Intent(activity, HomePageActivity::class.java)
