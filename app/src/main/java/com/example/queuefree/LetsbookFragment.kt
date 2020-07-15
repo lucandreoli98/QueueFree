@@ -265,6 +265,7 @@ class LetsbookFragment: Fragment(), DatePickerDialog.OnDateSetListener {
                                                 }
 
                                                 Toast.makeText(context!!,"Prenotazione effettuata con successo!",Toast.LENGTH_SHORT).show()
+                                                alertDialog.dismiss()
                                                 val i = Intent(activity, HomePageActivity::class.java)
                                                 i.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
                                                 startActivity(i)
