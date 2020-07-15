@@ -29,7 +29,7 @@ class HomePageFragment : Fragment(), DatePickerDialog.OnDateSetListener {// , Na
 
         fireBase = FirebaseAuth.getInstance()
 
-        val fb: FirebaseDatabaseHelper = FirebaseDatabaseHelper()
+        val fb = FirebaseDatabaseHelper()
         fb.readUserFromDB(object : FirebaseDatabaseHelper.DataStatus {
             override fun DataIsLoaded(user: User) {
                 if ((fireBase != null && fireBase!!.currentUser != null)&&(user.dd==0L)) {

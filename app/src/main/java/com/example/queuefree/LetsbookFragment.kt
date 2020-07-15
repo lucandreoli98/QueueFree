@@ -236,25 +236,33 @@ class LetsbookFragment: Fragment(), DatePickerDialog.OnDateSetListener {
                             }
 
                             if(isSearch){
-                                isSearch = false
 
-                                val confirmDialogView = LayoutInflater.from(context!!).inflate(R.layout.biglietto_della_fiumara, null)
-                                val mBuilder = AlertDialog.Builder(context!!).setView(confirmDialogView)
-                                val alertDialog = mBuilder.show()
+                                val userID = "$id-$year${isZero(month.toInt())}$month${isZero(day.toInt())}$day"
+                                val oraInizio = v!!.startHour.selectedItemPosition + firm.startHour
+                                val durata = (v!!.durataH.selectedItemPosition+1).toLong()
 
-                                confirmDialogView.firmNameTicket.text = firm.nomeazienza
-                                confirmDialogView.dataTicket.text = "${day}/${month}/${year}"
-                                confirmDialogView.orarioTicket.text = "${completeTimeStamp(firm.startHour+v!!.startHour.selectedItemPosition,firm.startMinute)} - ${completeTimeStamp(durataH.selectedItemPosition + firm.startHour + v!!.startHour.selectedItemPosition +1 ,firm.startMinute)}"
-                                confirmDialogView.partecipantiTicket.text = (v!!.npeople.selectedItemPosition+1).toString()
-                                confirmDialogView.via_prenot.text = firm.location
-                                confirmDialogView.annulla.setOnClickListener {
-                                    alertDialog.dismiss()
-                                }
-                                confirmDialogView.conferma.setOnClickListener {
-                                    for (i in v!!.startHour.selectedItemPosition..v!!.durataH.selectedItemPosition + v!!.startHour.selectedItemPosition) {
-                                        val r = Booking(day, month, year, i.toLong(), (v!!.npeople.selectedItemPosition+1).toLong())
-                                        FirebaseDatabase.getInstance().getReference("/bookings/${firm.id}/$id-$year${isZero(month.toInt())}$month${isZero(day.toInt())}$day-${isZero(i)}$i").setValue(r)
-                                    }
+                                fb.compareBookings(userID,oraInizio,durata,object : FirebaseDatabaseHelper.DataAlreadyBookin{
+                                    override fun alreadyBooked(isAlreadyBooked: Boolean) {
+                                        if(!isAlreadyBooked){
+                                            isSearch = false
+
+                                            val confirmDialogView = LayoutInflater.from(context!!).inflate(R.layout.biglietto_della_fiumara, null)
+                                            val mBuilder = AlertDialog.Builder(context!!).setView(confirmDialogView)
+                                            val alertDialog = mBuilder.show()
+
+                                            confirmDialogView.firmNameTicket.text = firm.nomeazienza
+                                            confirmDialogView.dataTicket.text = "${day}/${month}/${year}"
+                                            confirmDialogView.orarioTicket.text = "${completeTimeStamp(firm.startHour+v!!.startHour.selectedItemPosition,firm.startMinute)} - ${completeTimeStamp(durataH.selectedItemPosition + firm.startHour + v!!.startHour.selectedItemPosition +1 ,firm.startMinute)}"
+                                            confirmDialogView.partecipantiTicket.text = (v!!.npeople.selectedItemPosition+1).toString()
+                                            confirmDialogView.via_prenot.text = firm.location
+                                            confirmDialogView.annulla.setOnClickListener {
+                                                alertDialog.dismiss()
+                                            }
+                                            confirmDialogView.conferma.setOnClickListener {
+                                                for (i in v!!.startHour.selectedItemPosition..v!!.durataH.selectedItemPosition + v!!.startHour.selectedItemPosition) {
+                                                    val r = Booking(day, month, year, i.toLong(), (v!!.npeople.selectedItemPosition+1).toLong())
+                                                    FirebaseDatabase.getInstance().getReference("/bookings/${firm.id}/$id-$year${isZero(month.toInt())}$month${isZero(day.toInt())}$day-${isZero(i)}$i").setValue(r)
+                                                }
 
                                     Toast.makeText(context!!,"Prenotazione effettuata con successo!",Toast.LENGTH_SHORT).show()
                                     alertDialog.dismiss()
@@ -262,6 +270,16 @@ class LetsbookFragment: Fragment(), DatePickerDialog.OnDateSetListener {
                                     i.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
                                     startActivity(i)
                                 }
+                                                Toast.makeText(context!!,"Prenotazione effettuata con successo!",Toast.LENGTH_SHORT).show()
+                                                val i = Intent(activity, HomePageActivity::class.java)
+                                                i.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
+                                                startActivity(i)
+                                            }
+                                        }else
+                                            Toast.makeText(context!!,"Hai già prenotato",Toast.LENGTH_SHORT).show()
+                                    }
+
+                                })
                             }
                         }
                     }
