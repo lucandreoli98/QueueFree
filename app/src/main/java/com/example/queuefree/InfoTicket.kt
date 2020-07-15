@@ -1,13 +1,19 @@
 package com.example.queuefree
 
+import android.app.AlertDialog
 import android.content.Context
+import android.content.Intent
 import android.location.Geocoder
 import android.os.AsyncTask
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
+import android.widget.Toast
 import androidx.fragment.app.FragmentActivity
 import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.*
+import kotlinx.android.synthetic.main.ask_ifyouaresure.view.*
+import kotlinx.android.synthetic.main.biglietto_della_fiumara.view.*
 import kotlinx.android.synthetic.main.info_prenotazione.*
 import kotlinx.android.synthetic.main.info_prenotazione.view.*
 import java.text.SimpleDateFormat
@@ -15,8 +21,6 @@ import java.util.*
 
 
 class InfoTicket: FragmentActivity(), OnMapReadyCallback, GoogleMap.OnMarkerClickListener{
-
-    lateinit var map: GoogleMap
 
     private var firm = Firm()
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,7 +49,25 @@ class InfoTicket: FragmentActivity(), OnMapReadyCallback, GoogleMap.OnMarkerClic
         positionPrenotazione.text = firm.location
 
         deletebook.setOnClickListener {
-            //TODO
+            val sureDialogView = LayoutInflater.from(this).inflate(R.layout.ask_ifyouaresure, null)
+            val mBuilder = AlertDialog.Builder(this).setView(sureDialogView)
+            val alertDialog = mBuilder.show()
+            sureDialogView.backbuttonsure.setOnClickListener {
+                alertDialog.dismiss()
+            }
+            sureDialogView.confirmsure.setOnClickListener {
+                Log.d("AAAAAAAAAAAAAAAAAAAAAA","AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+                FirebaseDatabaseHelper().removeBook(this,firm,booking,durata,object :FirebaseDatabaseHelper.DataStatusCancelBook{
+                    override fun dataisDeleted(mContext: Context) {
+                        Log.d("BBBBBBBBBBBBBBBBBBBBBBBBBBB","BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB")
+
+                        Toast.makeText(mContext,"Prenotazione cancellata con successo!",Toast.LENGTH_SHORT).show()
+                        val i = Intent(mContext, ProflileActivity::class.java)
+                        startActivity(i)
+                    }
+                })
+            }
+
         }
     }
 

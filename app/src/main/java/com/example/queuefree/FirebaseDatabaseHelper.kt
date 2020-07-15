@@ -35,6 +35,9 @@ class FirebaseDatabaseHelper{
     interface DataStatusHashUser{
         fun dataisLoadedUser(mContext: Context, users: HashMap<String,User>)
     }
+    interface DataStatusCancelBook{
+        fun dataisDeleted(mContext: Context)
+    }
 
     fun readUserFromDB(ds: DataStatus){
         referenceuser.addValueEventListener(object : ValueEventListener {
@@ -441,6 +444,44 @@ class FirebaseDatabaseHelper{
 
             override fun onCancelled(p0: DatabaseError) {
                 Log.e("OnCancelled", p0.toException().toString())
+            }
+        })
+    }
+
+    fun removeBook(mContext: Context,firm: Firm, booking: Booking,durata: Long, ds: DataStatusCancelBook){
+        referenceBooking.addValueEventListener(object : ValueEventListener {
+            override fun onCancelled(error: DatabaseError) {
+                Log.e("OnCancelled",error.toString())
+            }
+
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if (snapshot.exists()) {
+                    for (azienda in snapshot.children) {
+                        if (azienda.key == firm.id) {
+                            for (prenotazione in azienda.children) {
+                                if (prenotazione.key!!.split("-")[0] == id) {
+                                    val actualbook = Booking()
+                                    for (field in prenotazione.children) {
+                                        when (field.key) {
+                                            "dd" -> actualbook.dd = field.value as Long
+                                            "mm" -> actualbook.mm = field.value as Long
+                                            "yy" -> actualbook.yy = field.value as Long
+                                            "nore" -> actualbook.nOre = field.value as Long
+                                            "npartecipanti" -> actualbook.nPartecipanti = field.value as Long
+                                        }
+                                    }
+                                    if(booking.yy == actualbook.yy)
+                                        if(booking.mm == actualbook.mm)
+                                            if(booking.dd == actualbook.dd)
+                                                if(booking.nPartecipanti == actualbook.nPartecipanti)
+                                                    if (actualbook.nOre in booking.nOre..booking.nOre+durata)
+                                                        database.getReference("bookings/${firm.id}/$id-${actualbook.yy}${isZero(actualbook.mm.toInt())}${actualbook.mm}${isZero(actualbook.dd.toInt())}${actualbook.dd}-${isZero(actualbook.nOre.toInt())}${actualbook.nOre}").removeValue()
+                                }
+                            }
+                        }
+                    }
+                }
+                ds.dataisDeleted(mContext)
             }
         })
     }
