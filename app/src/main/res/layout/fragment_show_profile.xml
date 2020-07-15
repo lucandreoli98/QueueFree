@@ -192,7 +192,7 @@
             android:textStyle="bold"
             android:textAllCaps="false"
             android:background="@drawable/btn_edit"
-            android:text="@string/editProfileButton"/>
+            android:text="@string/modifica_profilo"/>
 
         <Button
             android:id="@+id/passCancButton"

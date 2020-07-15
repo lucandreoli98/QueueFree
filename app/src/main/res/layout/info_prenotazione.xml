@@ -119,16 +119,16 @@
         <fragment
             xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/mappaScreen"
-
             android:name="com.google.android.gms.maps.SupportMapFragment"
             android:layout_height="match_parent"
             android:layout_width="match_parent"/>
 
     </RelativeLayout>
+
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="85dp"
-        >
+        android:layout_height="85dp">
+
         <Button
             android:id="@+id/deletebook"
             android:layout_width="wrap_content"
@@ -136,9 +136,9 @@
             android:layout_centerInParent="true"
             android:background="@drawable/btn_musei"
             android:text="Elimina prenotazione"
+            android:textAllCaps="false"
             android:padding="20dp"
-            android:textColor="@color/white"
-            />
+            android:textColor="@color/white" />
 
     </RelativeLayout>
 

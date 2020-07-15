@@ -14,7 +14,7 @@
     <string name="surname">Cognome</string>
     <string name="male">M</string>
     <string name="female">F</string>
-    <string name="insertdate">Inserisci data di nascita</string>
+    <string name="insertdate">Inserisci la tua data di nascita</string>
     <string name="nameEmpty">Inserisci nome</string>
     <string name="surnameEmpty">Inserisci cognome</string>
     <string name="emailEmpty">Inserisci email</string>
@@ -110,5 +110,7 @@
     <string name="conferma">conferma</string>
     <string name="giorni_di_apertura">Giorni:</string>
     <string name="persone_prenotate">\t\t\t\tPersone prenotate:</string>
+    <string name="menu_elimina">ELIMINA</string>
+    <string name="modifica_profilo">Modifica Profilo</string>
 
 </resources>

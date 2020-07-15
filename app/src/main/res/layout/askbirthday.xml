@@ -5,12 +5,27 @@
     android:background="@color/backgroundRed"
     android:padding="15dp">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:textSize="25sp"
+        android:text="@string/insertdate"
+        android:textStyle="bold" />
+
     <Button
         android:id="@+id/register_show_calendar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/insertdate"
-        android:textColor="@color/red" />
+        android:text="Data"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="60dp"
+        android:layout_marginEnd="60dp"
+        android:textAllCaps="false"
+        android:background="@drawable/btn_edit"/>
 
     <Button
         android:layout_marginTop="20dp"
@@ -20,4 +35,5 @@
         android:background="@drawable/btn_rounded"
         android:text="@string/confirm"
         android:textColor="@color/red" />
+
 </LinearLayout>

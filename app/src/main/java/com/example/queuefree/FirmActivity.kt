@@ -30,7 +30,8 @@ class FirmActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
-            R.id.menu_logout -> signOut()
+            R.id.menu_logout      -> signOut()
+            R.id.menu_remove_firm -> removeFirm()
         }
 
         return true
@@ -47,5 +48,9 @@ class FirmActivity : AppCompatActivity() {
         val i=Intent(this, MainActivity::class.java)
         i.flags=Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
         startActivity(i)
+    }
+
+    fun removeFirm(){
+
     }
 }

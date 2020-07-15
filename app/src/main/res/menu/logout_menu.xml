@@ -2,8 +2,11 @@
 <menu xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android" >
 
+    <item android:id="@+id/menu_remove_firm"
+        android:title="@string/menu_elimina"
+        app:showAsAction="ifRoom" />
+
     <item android:id="@+id/menu_logout"
         android:title="@string/logoutMenu"
-        android:icon="@drawable/ic_baseline_exit_to_app_24"
         app:showAsAction="always" />
 </menu>
