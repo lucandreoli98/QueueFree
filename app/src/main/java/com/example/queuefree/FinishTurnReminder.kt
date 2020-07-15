@@ -99,18 +99,20 @@ class FinishTurnReminder : Service() {
                                                         val data :Calendar= Calendar.getInstance()
                                                         data.set(year,month,day,finishHour.toInt(),totalfirmcompact[j].startMinute.toInt(),0)
                                                         Log.d("TIMER","IL timer si avvierà alle ${data.time} di ${totalfirmcompact[j].nomeazienza} partendo da ${calendar.time}")
+
                                                         val difference=data.timeInMillis-calendar.timeInMillis
                                                         if (difference>0)
                                                              startTimer1(data.timeInMillis-calendar.timeInMillis,totalbucompact,durate,j,totalfirmcompact)
                                                         else {
                                                             var scompact=ArrayList<Booking>()
                                                             if (durate[j]>1){
+
                                                                 scompact=scompatta(totalbucompact[j],durate[j])
-                                                                database.CancelBookings(scompact,totalFirm[j])
+                                                                database.CancelBookings(scompact,totalfirmcompact[j])
                                                             }
                                                             else{
                                                                 scompact.add(totalbucompact[j])
-                                                                database.CancelBookings(scompact,totalFirm[j])
+                                                                database.CancelBookings(scompact,totalfirmcompact[j])
                                                             }
 
                                                           }
@@ -207,12 +209,10 @@ class FinishTurnReminder : Service() {
     }
 
   fun  scompatta(booking:Booking,durata :Long ) :ArrayList<Booking>{
-      Log.d("PRIMA DI SCOMPATTA","${booking.dd},${booking.mm},${booking.yy},${booking.nOre},${booking.nPartecipanti}")
       var scompact=ArrayList<Booking>()
       for (i in 0 until durata ){
-          var book=Booking(booking.dd,booking.mm,booking.yy,booking.nOre+durata,booking.nPartecipanti)
+          var book=Booking(booking.dd,booking.mm,booking.yy,booking.nOre+i,booking.nPartecipanti)
           scompact.add(book)
-          Log.d("SCOMPATTA","${book.dd},${book.mm},${book.yy},${book.nOre},${book.nPartecipanti}")
       }
 
       return scompact
