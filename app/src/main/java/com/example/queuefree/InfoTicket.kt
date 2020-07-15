@@ -59,6 +59,7 @@ class InfoTicket: FragmentActivity(), OnMapReadyCallback, GoogleMap.OnMarkerClic
                 FirebaseDatabaseHelper().removeBook(this,firm,booking,durata,object :FirebaseDatabaseHelper.DataStatusCancelBook{
                     override fun dataisDeleted(mContext: Context) {
                         Toast.makeText(mContext,"Prenotazione cancellata con successo!",Toast.LENGTH_SHORT).show()
+                        alertDialog.dismiss()
                         val i = Intent(mContext, ProflileActivity::class.java)
                         i.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
                         startActivity(i)

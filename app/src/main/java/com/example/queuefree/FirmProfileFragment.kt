@@ -26,6 +26,7 @@ import kotlinx.android.synthetic.main.fragment_firm_showprofile.*
 import kotlinx.android.synthetic.main.fragment_firm_showprofile.view.*
 import kotlinx.android.synthetic.main.fragment_firm_showprofile.view.emailTextViewFirm
 import kotlinx.android.synthetic.main.fragment_show_profile.*
+import kotlinx.android.synthetic.main.fragment_show_profile.view.*
 import kotlinx.android.synthetic.main.time_picker_layout.view.*
 import kotlinx.android.synthetic.main.update_password.view.*
 import java.io.ByteArrayOutputStream
@@ -236,11 +237,20 @@ class FirmProfileFragment: Fragment() {
         })
 
         view.progress_bar_firm.visibility=View.VISIBLE
-        FirebaseStorage.getInstance().reference.child("pics").child(id).getBytes(4096*4096).addOnSuccessListener { bytes ->
+        FirebaseStorage.getInstance().reference.child("pics").child(id).getBytes(4096*4096)
+            .addOnSuccessListener { bytes ->
             val bitmap= BitmapFactory.decodeByteArray(bytes,0,bytes.size)
             view.imageProfileFirm.setImageBitmap(bitmap)
             view.progress_bar_firm.visibility=View.INVISIBLE
-        }
+            }
+            .addOnFailureListener {
+                FirebaseStorage.getInstance().reference.child("pics").child("defaultimage.jpg").getBytes(4096*4096)
+                    .addOnSuccessListener { bytes ->
+                        val bitmap=BitmapFactory.decodeByteArray(bytes,0,bytes.size)
+                        view.imageProfile.setImageBitmap(bitmap)
+                        view.progress_bar.visibility=View.INVISIBLE
+                    }
+            }
 
         view.imageProfileFirm.setOnClickListener {
             passDialogView =
