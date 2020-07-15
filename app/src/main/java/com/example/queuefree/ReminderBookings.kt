@@ -10,15 +10,10 @@ import androidx.core.app.NotificationCompat
 import java.util.*
 import kotlin.collections.HashMap
 
-class ReminderBookings :Service() {
+class ReminderBookings : Service() {
 
     private val database = FirebaseDatabaseHelper()
     private val CHANNEL_ID1="notificationChannel1"
-
-
-
-
-
 
     override fun onBind(intent: Intent?): IBinder? {
         return null
@@ -26,15 +21,8 @@ class ReminderBookings :Service() {
 
     @Override
     override fun onCreate() {
-
-
-
         startTimer()
-
-
     }
-
-
 
     private fun startTimer() {
         val task: TimerTask = object : TimerTask() {
@@ -44,9 +32,6 @@ class ReminderBookings :Service() {
                 val month=calendar.get(Calendar.MONTH)+1
                 val year=calendar.get(Calendar.YEAR)
                 var i=0
-
-
-
 
                 database.readAllFirmFromDB(object:FirebaseDatabaseHelper.DataStatusHashFirm{
                     override fun dataisLoadedFirm(firms: HashMap<String, Firm>) {
@@ -133,7 +118,6 @@ class ReminderBookings :Service() {
 
     }
 
-
     private fun sendNotification(text: String, i:Int) {
         // create the intent for the notification
         val notificationIntent = Intent(this, MainActivity::class.java)
@@ -178,6 +162,4 @@ class ReminderBookings :Service() {
             "${hour}:${minute}"
         }
     }
-
-
 }

@@ -175,6 +175,7 @@
             android:textSize="15sp"
             android:textAllCaps="false"
             android:text="@string/insertdate"
+            android:background="@drawable/btn_profile"
             android:visibility="invisible"/>
 
         <Button

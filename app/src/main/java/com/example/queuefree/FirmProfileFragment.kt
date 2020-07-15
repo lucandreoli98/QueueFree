@@ -538,7 +538,7 @@ class FirmProfileFragment: Fragment() {
 
             FirebaseStorage.getInstance().reference.child("pics/$id").putFile(image!!)
                 .addOnFailureListener {
-                    Log.e("UPLOAD FROM GALLERY", it.message)
+                    Log.e("UPLOAD FROM GALLERY", it.message!!)
                 }
         }
     }

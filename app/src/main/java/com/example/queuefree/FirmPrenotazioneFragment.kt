@@ -54,7 +54,6 @@ class FirmPrenotazioneFragment: Fragment(), DatePickerDialog.OnDateSetListener {
 
     private fun downloadBooking(){
         val fb = FirebaseDatabaseHelper()
-        Log.d("Data: ", day.toString()+month.toString()+year.toString())
         fb.readFirmFromDB(object: FirebaseDatabaseHelper.DataStatusFirm{
             override fun DataisLoadedFirm(firm: Firm) {
                 fb.readBookingFirm(day,month,year,firm,object : FirebaseDatabaseHelper.DataBookingFirm{
