@@ -38,6 +38,9 @@ class FirebaseDatabaseHelper{
     interface DataStatusCancelBook{
         fun dataisDeleted(mContext: Context)
     }
+    interface DataAlreadyBookin{
+        fun alreadyBooked(isAlreadyBooked: Boolean)
+    }
 
     fun readUserFromDB(ds: DataStatus){
         referenceuser.addValueEventListener(object : ValueEventListener {
@@ -486,7 +489,52 @@ class FirebaseDatabaseHelper{
         })
     }
 
+    // stringa con id-yyyymmdd, oraInizio, durata
+    fun compareBookings(userID: String, oraInizio: Long, durata: Long, ds: DataAlreadyBookin){
+        var isAlreadyBooked = false
+        readAllFirmFromDB(object: DataStatusHashFirm{
+            override fun dataisLoadedFirm(firms: HashMap<String, Firm>) {
+                referenceBooking.addValueEventListener(object : ValueEventListener {
+                    override fun onCancelled(error: DatabaseError) {
+                    }
 
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        if(snapshot.exists()){
+                            for(firmID in snapshot.children) { // in questo punto id azienda
+                                for(userBooks in firmID.children){
+                                    if(userBooks.key.toString().substring(0,37) == userID){
+                                        val confrBook = Booking()
+                                        for(field in userBooks.children){
+                                            when(field.key){
+                                                "dd" -> confrBook.dd = field.value as Long
+                                                "mm" -> confrBook.mm = field.value as Long
+                                                "yy" -> confrBook.yy = field.value as Long
+                                                "nore" -> confrBook.nOre = field.value as Long
+                                                "npartecipanti" -> confrBook.nPartecipanti = field.value as Long
+                                            }
+                                        }
+                                        for(i in 0..durata){
+                                            if((firms[firmID.key]!!.startHour+confrBook.nOre == oraInizio+i) || (firms[firmID.key]!!.startHour+confrBook.nOre+1 == oraInizio+i)){
+                                                isAlreadyBooked = true
+                                                break
+                                            }
+                                        }
+                                    }
+                                    if(isAlreadyBooked){
+                                        break
+                                    }
+                                }
+                                if(isAlreadyBooked){
+                                    break
+                                }
+                            }
+                            ds.alreadyBooked(isAlreadyBooked)
+                        }
+                    }
+                })
+            }
+        })
+    }
 
     private fun isZero(i: Int): String{
         return if(i < 10)
