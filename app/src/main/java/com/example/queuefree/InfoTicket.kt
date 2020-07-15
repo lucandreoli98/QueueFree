@@ -56,13 +56,11 @@ class InfoTicket: FragmentActivity(), OnMapReadyCallback, GoogleMap.OnMarkerClic
                 alertDialog.dismiss()
             }
             sureDialogView.confirmsure.setOnClickListener {
-                Log.d("AAAAAAAAAAAAAAAAAAAAAA","AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
                 FirebaseDatabaseHelper().removeBook(this,firm,booking,durata,object :FirebaseDatabaseHelper.DataStatusCancelBook{
                     override fun dataisDeleted(mContext: Context) {
-                        Log.d("BBBBBBBBBBBBBBBBBBBBBBBBBBB","BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB")
-
                         Toast.makeText(mContext,"Prenotazione cancellata con successo!",Toast.LENGTH_SHORT).show()
                         val i = Intent(mContext, ProflileActivity::class.java)
+                        i.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
                         startActivity(i)
                     }
                 })
