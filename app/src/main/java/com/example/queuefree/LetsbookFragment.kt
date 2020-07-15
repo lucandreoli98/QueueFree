@@ -134,7 +134,6 @@ class LetsbookFragment: Fragment(), DatePickerDialog.OnDateSetListener {
         dayofbook.set(this.year.toInt(),this.month.toInt(),this.day.toInt())
 
         if (calendar.before(dayofbook)) {
-
             val date = dayOfMonth.toString() + " / " + (month + 1) + " / " + year
             v!!.select_data.text = date
             dayOfWeek = SimpleDateFormat("EEEE").format(Date(year, month, dayOfMonth - 1))

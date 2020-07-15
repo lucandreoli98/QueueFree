@@ -39,7 +39,7 @@ class InfoTicket: FragmentActivity(), OnMapReadyCallback, GoogleMap.OnMarkerClic
 
         nameFirm.text = firm.nomeazienza
         dataPrenotazione.text = data
-        val orario = completeTimeStamp(firm.startHour+booking.nOre,firm.startMinute) + " - " +completeTimeStamp(durata+firm.startHour, firm.startMinute)
+        val orario = completeTimeStamp(firm.startHour+booking.nOre,firm.startMinute) + " - " +completeTimeStamp(durata+firm.startHour+booking.nOre, firm.startMinute)
         orarioPrenotazione.text = orario
         partecipantiPrenotazione.text = "Partecipanti: " + booking.nPartecipanti.toString()
         positionPrenotazione.text = firm.location

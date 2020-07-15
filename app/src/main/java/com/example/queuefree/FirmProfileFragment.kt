@@ -40,10 +40,10 @@ class FirmProfileFragment: Fragment() {
     private val fb: FirebaseDatabaseHelper = FirebaseDatabaseHelper()
     private val RIC = 1234
     private val AGC = 5678
-    private var minuteopentime=0
-    private var houropentime=0
-    private var minuteclosetime=0
-    private var hourclosetime=0
+    private var minuteopentime = 0
+    private var houropentime = 0
+    private var minuteclosetime = 0
+    private var hourclosetime = 0
     private lateinit var imageUri: Uri
     private var vista:View? = null
     private var giorni = ""
@@ -144,6 +144,7 @@ class FirmProfileFragment: Fragment() {
                             // cambia visibilita'
                             descrDialogView.descrTextView.visibility = View.INVISIBLE
                             descrDialogView.descrEditText.visibility = View.VISIBLE
+                            descrDialogView.editDescr.text = resources.getString(R.string.saveProfile)
                         }else{
                             val descrizione = descrDialogView.descrEditText.text.toString().trim()
                             var isEmpty = false
