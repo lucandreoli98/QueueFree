@@ -184,8 +184,6 @@ class FirebaseDatabaseHelper{
     }
 
     fun readDailyBooking(dd: Long, mm: Long, yy: Long, firm: Firm, ds: DataStatusBooking){
-
-
         referenceBooking.addValueEventListener(object: ValueEventListener{
             override fun onCancelled(error: DatabaseError) {
             }
@@ -237,6 +235,7 @@ class FirebaseDatabaseHelper{
                     }
                 }
                 ds.BookingisLoaded(nHour, bookingsFirm)
+                referenceBooking.removeEventListener(this)
             }
 
         })
