@@ -207,6 +207,7 @@ class FinishTurnReminder : Service() {
     }
 
   fun  scompatta(booking:Booking,durata :Long ) :ArrayList<Booking>{
+      Log.d("PRIMA DI SCOMPATTA","${booking.dd},${booking.mm},${booking.yy},${booking.nOre},${booking.nPartecipanti}")
       var scompact=ArrayList<Booking>()
       for (i in 0 until durata ){
           var book=Booking(booking.dd,booking.mm,booking.yy,booking.nOre+durata,booking.nPartecipanti)

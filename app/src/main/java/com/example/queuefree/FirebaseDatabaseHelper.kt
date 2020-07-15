@@ -360,6 +360,9 @@ class FirebaseDatabaseHelper{
         })
     }
 
+
+
+
     fun CancelBookings(bookings: ArrayList<Booking>, firm: Firm){
         referenceBooking.addValueEventListener(object: ValueEventListener{
             override fun onCancelled(error: DatabaseError) {
