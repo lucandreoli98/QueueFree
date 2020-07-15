@@ -364,6 +364,7 @@ class FirebaseDatabaseHelper{
 
 
     fun CancelBookings(bookings: ArrayList<Booking>, firm: Firm){
+        Log.d("AZIENDA","${firm.nomeazienza}")
         referenceBooking.addValueEventListener(object: ValueEventListener{
             override fun onCancelled(error: DatabaseError) {
             }
@@ -386,17 +387,15 @@ class FirebaseDatabaseHelper{
 
                                         }
                                     }
-                                    Log.d("CANCELLAZIONE","bookings/${firm.id}/$id-${actualbook.yy}${isZero(actualbook.mm.toInt())}${actualbook.mm}${isZero(actualbook.dd.toInt())}${actualbook.dd}-${isZero(actualbook.nOre.toInt())}${actualbook.nOre}")
 
                                     for (i in 0 until bookings.size){
-                                        Log.d("CONFRONTO","actual book: ${actualbook.yy}${isZero(actualbook.mm.toInt())}${actualbook.mm}${isZero(actualbook.dd.toInt())}${actualbook.dd}-${isZero(actualbook.nOre.toInt())}${actualbook.nOre} con bookings :${bookings[i].yy}${isZero(bookings[i].mm.toInt())}${bookings[i].mm}${isZero(bookings[i].dd.toInt())}${bookings[i].dd}-${isZero(bookings[i].nOre.toInt())}${bookings[i].nOre}")
                                         if (bookings[i].dd==actualbook.dd){
                                             if (bookings[i].mm==actualbook.mm)
                                                 if(bookings[i].yy==actualbook.yy)
                                                     if (bookings[i].nOre==actualbook.nOre)
                                                         if (bookings[i].nPartecipanti==actualbook.nPartecipanti){
                                                              database.getReference("bookings/${firm.id}/$id-${actualbook.yy}${isZero(actualbook.mm.toInt())}${actualbook.mm}${isZero(actualbook.dd.toInt())}${actualbook.dd}-${isZero(actualbook.nOre.toInt())}${actualbook.nOre}").removeValue()
-                                                                Log.d("ELIMINAZIONE","eliminato")
+                                                                Log.d("ELIMINAZIONE","eliminata la prenotazione bookings/${firm.id}/$id-${actualbook.yy}${isZero(actualbook.mm.toInt())}${actualbook.mm}${isZero(actualbook.dd.toInt())}${actualbook.dd}-${isZero(actualbook.nOre.toInt())}${actualbook.nOre}")
 
                                                             }
 
