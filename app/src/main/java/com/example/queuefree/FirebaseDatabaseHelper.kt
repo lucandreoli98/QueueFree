@@ -1,5 +1,6 @@
 package com.example.queuefree
 
+import android.content.Context
 import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
@@ -29,7 +30,10 @@ class FirebaseDatabaseHelper{
         fun BookingUserisLoaded(bookingUser: ArrayList<BookingUser>)
     }
     interface DataBookingFirm {
-        fun bookingFirmisLoaded(bookings: ArrayList<Booking>, bookingsHour: ArrayList<Long>)
+        fun bookingFirmisLoaded(bookings: ArrayList<Booking>, bookingsHour: ArrayList<Long>,usersID: ArrayList<String>)
+    }
+    interface DataStatusHashUser{
+        fun dataisLoadedUser(mContext: Context, users: HashMap<String,User>)
     }
 
     fun readUserFromDB(ds: DataStatus){
@@ -320,8 +324,9 @@ class FirebaseDatabaseHelper{
     }
 
     fun readBookingFirm(day: Long, month: Long, year: Long, firm: Firm, ds: DataBookingFirm){
-        var bookingsHour = ArrayList<Long>()
-        var bookings = ArrayList<Booking>()
+        val bookingsHour = ArrayList<Long>()
+        val bookings = ArrayList<Booking>()
+        val usersID = ArrayList<String>()
 
         if((firm.endHour - firm.startHour)>0)
             for(i in 0 until (firm.endHour - firm.startHour))
@@ -338,6 +343,7 @@ class FirebaseDatabaseHelper{
                     for(firms in snapshot.children){ // in questo punto id azienda
                         if(id == firms.key){
                             for(userBooks in firms.children){
+                                usersID.add(userBooks.key.toString().substring(0,28).trim())
                                 val ora = userBooks.key.toString().substring(38,40).toInt()
                                 bookings.add(Booking())
                                 for(field in userBooks.children){
@@ -353,7 +359,7 @@ class FirebaseDatabaseHelper{
                             }
                         }
                     }
-                    ds.bookingFirmisLoaded(bookings,bookingsHour)
+                    ds.bookingFirmisLoaded(bookings,bookingsHour,usersID)
                     referenceBooking.removeEventListener(this)
                 }
             }
@@ -410,7 +416,35 @@ class FirebaseDatabaseHelper{
                 }
             }
         })
+    }
 
+    fun readAllUserFromDB(mContext: Context, ds: DataStatusHashUser){
+        referenceuser.addValueEventListener(object : ValueEventListener {
+            val users = HashMap<String,User>()
+            override fun onDataChange(p0: DataSnapshot) {
+                if (p0.exists()){
+                    for(user in p0.children) {
+                        users[user.key!!] = User()
+                        for(field in user.children){
+                            when(field.key) {
+                                "nome" -> users[user.key!!]!!.nome = field.value as String
+                                "cognome" -> users[user.key!!]!!.cognome = field.value as String
+                                "email" -> users[user.key!!]!!.email = field.value as String
+                                "dd" -> users[user.key!!]!!.dd = field.value as Long
+                                "mm" -> users[user.key!!]!!.mm= field.value as Long
+                                "yy" -> users[user.key!!]!!.yy = field.value as Long
+                            }
+                        }
+                    }
+                    ds.dataisLoadedUser(mContext,users)
+
+                }
+            }
+
+            override fun onCancelled(p0: DatabaseError) {
+                Log.e("OnCancelled", p0.toException().toString())
+            }
+        })
     }
 
 

@@ -16,7 +16,7 @@ class QueueFreeApp :Application() {
     override fun onCreate(){
 
         super.onCreate()
-        notificationchannel1()
+        /*notificationchannel1()
         Log.d("CHANNEL1","Canale creato")
         notificationchannel2()
         Log.d("CHANNEL2","Canale creato")
@@ -26,7 +26,7 @@ class QueueFreeApp :Application() {
         Log.d("INTENT1","Intent fatto")
         val service2 = Intent(this, FinishTurnReminder::class.java)
         startService(service2)
-        Log.d("INTENT2","Intent fatto")
+        Log.d("INTENT2","Intent fatto")*/
 
     }
 

@@ -25,7 +25,7 @@
         <service android:name=".FinishTurnReminder" />
         <activity android:name=".LetsbookActivity" />
         <activity android:name=".InfoTicket" />
-
+        <activity android:name=".InfoPrenotazioneFirm" />
         <activity android:name=".FirmActivity" />
         <activity android:name=".ProflileActivity" />
         <activity

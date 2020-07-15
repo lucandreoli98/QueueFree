@@ -21,7 +21,6 @@ class PrenotazioniFragment: Fragment() {
 
         database.readAllFirmFromDB(object : FirebaseDatabaseHelper.DataStatusHashFirm{
             override fun dataisLoadedFirm(firms: HashMap<String, Firm>) {
-
                 database.readBookingUser(firms, object: FirebaseDatabaseHelper.DataBookingUser{
                     override fun BookingUserisLoaded(bookingUser:  ArrayList<BookingUser>) {
                         if(context != null){

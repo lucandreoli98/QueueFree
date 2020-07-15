@@ -1,6 +1,7 @@
 package com.example.queuefree
 
 import android.app.DatePickerDialog
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -57,20 +58,22 @@ class FirmPrenotazioneFragment: Fragment(), DatePickerDialog.OnDateSetListener {
         fb.readFirmFromDB(object: FirebaseDatabaseHelper.DataStatusFirm{
             override fun DataisLoadedFirm(firm: Firm) {
                 fb.readBookingFirm(day,month,year,firm,object : FirebaseDatabaseHelper.DataBookingFirm{
-                    override fun bookingFirmisLoaded(bookings: ArrayList<Booking>, bookingsHour: ArrayList<Long>) {
+                    override fun bookingFirmisLoaded(bookings: ArrayList<Booking>, bookingsHour: ArrayList<Long>, usersID: ArrayList<String>) {
                         vista!!.listFirmPren.visibility = View.VISIBLE
 
                         val adapter =  BookFirmAdapter(context!!, R.layout.list_view_firm_prenotazioni,  bookingsHour, firm)
                         vista!!.listFirmPren.adapter = adapter
 
                         vista!!.listFirmPren.setOnItemClickListener { parent, view, position, l ->
+                            val bundle = Bundle()
+                            bundle.putSerializable("firm", firm)
+                            bundle.putSerializable("booking", bookings)
+                            bundle.putInt("ora", position)
+                            bundle.putStringArrayList("usersID", usersID)
 
-
-                            /*val bundle = Bundle()
-                            bundle.putSerializable("firm", totalfirmcompact[position])
-                            bundle.putSerializable("book", parent!!.getItemAtPosition(position) as Booking)
-                            bundle.putLong("durata", durate[position])*/
-
+                            val intent = Intent(activity, InfoPrenotazioneFirm::class.java)
+                            intent.putExtra("parameter", bundle)
+                            startActivity(intent)
                         }
                     }
                 })
