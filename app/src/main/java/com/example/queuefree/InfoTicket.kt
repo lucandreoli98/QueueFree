@@ -43,6 +43,10 @@ class InfoTicket: FragmentActivity(), OnMapReadyCallback, GoogleMap.OnMarkerClic
         orarioPrenotazione.text = orario
         partecipantiPrenotazione.text = "Partecipanti: " + booking.nPartecipanti.toString()
         positionPrenotazione.text = firm.location
+
+        deletebook.setOnClickListener {
+            //TODO
+        }
     }
 
 
