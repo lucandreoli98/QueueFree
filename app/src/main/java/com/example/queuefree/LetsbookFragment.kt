@@ -34,11 +34,19 @@ class LetsbookFragment: Fragment(), DatePickerDialog.OnDateSetListener {
     private val hoursArray: ArrayList<Long> = ArrayList()
     private var isSearch = false
     private var dayOfWeek: String?=null
+    var calendar=Calendar.getInstance()
+    var actualday = calendar.get(Calendar.DAY_OF_MONTH)
+    var actualmonth = calendar.get(Calendar.MONTH)+1
+    var actualyear = calendar.get(Calendar.YEAR)
+    var actualhours=calendar.get(Calendar.HOUR_OF_DAY)
+    var actualminute=calendar.get(Calendar.MINUTE)
+
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view: View = inflater.inflate(R.layout.fragment_letsbook, container, false)
         v=view
+        calendar.set(actualyear,actualmonth,actualday,actualhours,actualminute,0)
 
         FirebaseDatabaseHelper().readFirmsfromEmail(arguments!!.getString("email",""), object : FirebaseDatabaseHelper.DataStatusFirm {
             // lettura dell'azienda da DB
@@ -122,33 +130,55 @@ class LetsbookFragment: Fragment(), DatePickerDialog.OnDateSetListener {
         this.day = dayOfMonth.toLong()
         this.month = (month + 1).toLong()
         this.year = year.toLong()
-        val date = dayOfMonth.toString() + " / " + (month + 1) + " / " + year
-        v!!.select_data.text = date
+        val dayofbook=Calendar.getInstance()
+        dayofbook.set(this.year.toInt(),this.month.toInt(),this.day.toInt())
 
-        dayOfWeek = SimpleDateFormat("EEEE").format(Date(year, month, dayOfMonth - 1))
+        if (calendar.before(dayofbook)) {
 
-        isSearch = true
-
-        when(dayOfWeek){
-            "Sunday" -> if(!firm.giorni.contains("Dom")) isSearch = false
-            "Monday" -> if(!firm.giorni.contains("Lun")) isSearch = false
-            "Tuesday" -> if(!firm.giorni.contains("Mar")) isSearch = false
-            "Wednesday" -> if(!firm.giorni.contains("Mer")) isSearch = false
-            "Thursday" -> if(!firm.giorni.contains("Gio")) isSearch = false
-            "Friday" -> if(!firm.giorni.contains("Ven")) isSearch = false
-            "Saturday" -> if(!firm.giorni.contains("Sab")) isSearch = false
-            else -> isSearch=false
+            val date = dayOfMonth.toString() + " / " + (month + 1) + " / " + year
+            v!!.select_data.text = date
+            dayOfWeek = SimpleDateFormat("EEEE").format(Date(year, month, dayOfMonth - 1))
+            isSearch = true
         }
-
-        if(isSearch)
-            readBooking() // lettura DB
         else{
             changeVisibilty(false)
             this.day=0L
             this.month = 0L
             this.year = 0L
-            Toast.makeText(context!!,"La struttura è chiusa il giorno selezionato",Toast.LENGTH_SHORT).show()
+            Toast.makeText(context!!,"Hai selezionato un giorno già passato",Toast.LENGTH_SHORT).show()
+            isSearch=false
+
         }
+
+    if (isSearch) {
+
+        when (dayOfWeek) {
+            "Sunday" -> if (!firm.giorni.contains("Dom")) isSearch = false
+            "Monday" -> if (!firm.giorni.contains("Lun")) isSearch = false
+            "Tuesday" -> if (!firm.giorni.contains("Mar")) isSearch = false
+            "Wednesday" -> if (!firm.giorni.contains("Mer")) isSearch = false
+            "Thursday" -> if (!firm.giorni.contains("Gio")) isSearch = false
+            "Friday" -> if (!firm.giorni.contains("Ven")) isSearch = false
+            "Saturday" -> if (!firm.giorni.contains("Sab")) isSearch = false
+            else -> isSearch = false
+        }
+
+        if (isSearch)
+            readBooking() // lettura DB
+        else {
+            changeVisibilty(false)
+            this.day = 0L
+            this.month = 0L
+            this.year = 0L
+            Toast.makeText(
+                context!!,
+                "La struttura è chiusa il giorno selezionato",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+    }
+
+
     }
 
     private fun readBooking(){
@@ -170,6 +200,17 @@ class LetsbookFragment: Fragment(), DatePickerDialog.OnDateSetListener {
 
                     v!!.book.setOnClickListener {
                         isSearch = true
+
+                        if (day==actualday.toLong() && month==actualmonth.toLong()){
+                            var datestartbook = Calendar.getInstance()
+                            datestartbook.set(year.toInt(),month.toInt(),day.toInt(),(v!!.startHour.selectedItemPosition + firm.startHour).toInt(),firm.startMinute.toInt())
+                            if (datestartbook.before(calendar)){
+                                isSearch=false
+                                Toast.makeText(context!!,"Prenotazione non valida!\nL'Orario di inizio è già passato",Toast.LENGTH_SHORT).show()
+
+                            }
+                        }
+
                         if((v!!.startHour.selectedItemPosition + firm.startHour + v!!.durataH.selectedItemPosition+1) > firm.endHour){
                             isSearch = false
                             Toast.makeText(context!!,"Prenotazione non valida!\nOrario di chiusura non rispettato",Toast.LENGTH_SHORT).show()
