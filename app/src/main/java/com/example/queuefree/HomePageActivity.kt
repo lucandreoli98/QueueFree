@@ -1,8 +1,13 @@
 package com.example.queuefree
 
 import android.app.AlertDialog
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.Service
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -19,7 +24,8 @@ import com.google.firebase.auth.FirebaseAuth
 class HomePageActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     private var fireBase: FirebaseAuth? = null
-
+    val CHANNEL_ID1="notificationChannel1"
+    val CHANNEL_ID2="notificationChannel2"
     lateinit var toolbar: Toolbar
     lateinit var drawerLayout: DrawerLayout
     lateinit var navView: NavigationView
@@ -27,6 +33,20 @@ class HomePageActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
+
+
+        notificationchannel1()
+        Log.d("CHANNEL1", "Canale creato")
+        notificationchannel2()
+        Log.d("CHANNEL2", "Canale creato")
+        // start service
+        val service = Intent(this, ReminderBookings::class.java)
+        startService(service)
+        Log.d("INTENT1", "Intent fatto")
+        val service2 = Intent(this, FinishTurnReminder::class.java)
+        startService(service2)
+        Log.d("INTENT2", "Intent fatto")
+
 
         fireBase = FirebaseAuth.getInstance()
 
@@ -75,4 +95,32 @@ class HomePageActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         i.flags=Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
         startActivity(i)
     }
+
+    fun notificationchannel1(){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            // Create the NotificationChannel
+            val name = getString(R.string.notification_channel_start)
+            val importance = NotificationManager.IMPORTANCE_DEFAULT
+            val mChannel = NotificationChannel(CHANNEL_ID1, name, importance)
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            val notificationManager = getSystemService(Service.NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.createNotificationChannel(mChannel)
+        }
+    }
+
+    fun notificationchannel2(){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            // Create the NotificationChannel
+            val name = getString(R.string.notification_channel_start)
+            val importance = NotificationManager.IMPORTANCE_DEFAULT
+            val mChannel = NotificationChannel(CHANNEL_ID2, name, importance)
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            val notificationManager = getSystemService(Service.NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.createNotificationChannel(mChannel)
+        }
+    }
+
+
 }
