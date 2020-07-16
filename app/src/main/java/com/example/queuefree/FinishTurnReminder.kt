@@ -15,6 +15,7 @@ class FinishTurnReminder : Service() {
 
     val database=FirebaseDatabaseHelper()
     private val CHANNEL_ID2="notificationChannel2"
+    private var notificationManager: NotificationManager? = null
 
 
     override fun onBind(intent: Intent?): IBinder? {
@@ -31,8 +32,8 @@ class FinishTurnReminder : Service() {
                 val mChannel = NotificationChannel(CHANNEL_ID2, name, importance)
                 // Register the channel with the system; you can't change the importance
                 // or other notification behaviors after this
-                val notificationManager = getSystemService(Service.NOTIFICATION_SERVICE) as NotificationManager
-                notificationManager.createNotificationChannel(mChannel)
+                notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+                notificationManager!!.createNotificationChannel(mChannel)
             }
 
 
@@ -112,7 +113,7 @@ class FinishTurnReminder : Service() {
                                                     if (finishHour>=hours){
                                                         val data :Calendar= Calendar.getInstance()
                                                         data.set(year,month,day,finishHour.toInt(),totalfirmcompact[j].startMinute.toInt(),0)
-                                                        Log.d("TIMER","IL timer si avvierà alle ${data.time} di ${totalfirmcompact[j].nomeazienza} partendo da ${calendar.time}")
+                                                        Log.d("TIMER","$month IL timer si avvierà alle ${data.time} di ${totalfirmcompact[j].nomeazienza} partendo da ${calendar.time}")
 
                                                         val difference=data.timeInMillis-calendar.timeInMillis
                                                         if (difference>0)
@@ -155,9 +156,6 @@ class FinishTurnReminder : Service() {
         val interval = 1000*60*60/2// mezz'ora
 
         timer.schedule(task,delay.toLong(),interval.toLong())
-
-
-
     }
 
 
@@ -184,12 +182,6 @@ class FinishTurnReminder : Service() {
         }
         val timer = Timer(false)
         timer.schedule(task,date)
-
-
-
-
-
-
     }
 
     private fun sendNotification(name: String) {
@@ -217,9 +209,8 @@ class FinishTurnReminder : Service() {
             .build()
 
         // display the notification
-        val manager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         val NOTIFICATION_ID = 7
-        manager.notify(NOTIFICATION_ID, notification)
+        notificationManager!!.notify(NOTIFICATION_ID, notification)
     }
 
   fun  scompatta(booking:Booking,durata :Long ) :ArrayList<Booking>{

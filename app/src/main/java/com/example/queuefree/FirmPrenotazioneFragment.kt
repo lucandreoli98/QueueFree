@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.DatePicker
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.fragment_firm_prenotazione.view.*
 import kotlinx.android.synthetic.main.prenotazioni_utente.view.*
@@ -64,15 +65,18 @@ class FirmPrenotazioneFragment: Fragment(), DatePickerDialog.OnDateSetListener {
                         vista!!.listFirmPren.adapter = adapter
 
                         vista!!.listFirmPren.setOnItemClickListener { parent, view, position, l ->
-                            val bundle = Bundle()
-                            bundle.putSerializable("firm", firm)
-                            bundle.putSerializable("booking", bookings)
-                            bundle.putInt("ora", position)
-                            bundle.putStringArrayList("usersID", usersID)
+                            if(bookingsHour[position] != 0L){
+                                val bundle = Bundle()
+                                bundle.putSerializable("firm", firm)
+                                bundle.putSerializable("booking", bookings)
+                                bundle.putInt("ora", position)
+                                bundle.putStringArrayList("usersID", usersID)
 
-                            val intent = Intent(activity, InfoPrenotazioneFirm::class.java)
-                            intent.putExtra("parameter", bundle)
-                            startActivity(intent)
+                                val intent = Intent(activity, InfoPrenotazioneFirm::class.java)
+                                intent.putExtra("parameter", bundle)
+                                startActivity(intent)
+                            }else
+                                Toast.makeText(context!!,"Non ci sono prenotazioni in questa fascia oraria",Toast.LENGTH_SHORT).show()
                         }
                     }
                 })

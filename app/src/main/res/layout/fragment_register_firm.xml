@@ -33,7 +33,7 @@
         android:layout_marginEnd="70dp"
         android:ems="10"
         android:hint="@string/emailEditText"
-        android:inputType="textWebEmailAddress"
+        android:inputType="textEmailAddress"
         android:textColor="@color/white"
         android:textColorHint="@color/white"
         android:textSize="20sp" />

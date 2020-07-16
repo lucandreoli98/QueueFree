@@ -153,6 +153,9 @@ class ShowProfileFragment: Fragment(), DatePickerDialog.OnDateSetListener {
         editProfileButton.text = resources.getString(R.string.saveProfile)
         passCancButton.text = resources.getString(R.string.canc_modifica)
         val date = user.dd.toString() + " / " + user.mm.toString() + " / " + user.yy.toString()
+        day = user.dd
+        month = user.mm
+        year = user.yy
         dataEditTextView.text = date
     }
 
@@ -255,7 +258,7 @@ class ShowProfileFragment: Fragment(), DatePickerDialog.OnDateSetListener {
         emailEditText.setText(user.email)
         dataEditTextView.setText(dataTextView.text)
 
-        editProfileButton.text = resources.getString(R.string.editProfileButton)
+        editProfileButton.text = resources.getString(R.string.modifica_profilo)
         passCancButton.text = resources.getString(R.string.modifica_password)
     }
 
@@ -266,15 +269,9 @@ class ShowProfileFragment: Fragment(), DatePickerDialog.OnDateSetListener {
 
         newPassDialogView.okNewPassButton.setOnClickListener {
             var ok = true
-            val email = newPassDialogView.emailForPass.text.toString()
             val oldPassString = newPassDialogView.oldPassword.text.toString()
             val newPasswordString = newPassDialogView.newPassword.text.toString()
 
-            if (ok && email.isEmpty()) {
-                newPassDialogView.emailForPass.error = resources.getString(R.string.emailEmpty)
-                newPassDialogView.emailForPass.requestFocus()
-                ok = false
-            }
             if (ok && oldPassString.isEmpty()) {
                 newPassDialogView.oldPassword.error = resources.getString(R.string.passEmpty)
                 newPassDialogView.oldPassword.requestFocus()
@@ -292,7 +289,7 @@ class ShowProfileFragment: Fragment(), DatePickerDialog.OnDateSetListener {
 
             if(ok) {
                 currentUser.let { cUser ->
-                    val credential = EmailAuthProvider.getCredential(email, oldPassString)
+                    val credential = EmailAuthProvider.getCredential(user.email, oldPassString)
 
                     cUser!!.reauthenticate(credential).addOnCompleteListener { task ->
                         if (task.isSuccessful) {

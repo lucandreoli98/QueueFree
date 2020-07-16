@@ -13,7 +13,9 @@ import kotlin.collections.HashMap
 class ReminderBookings : Service() {
 
     private val database = FirebaseDatabaseHelper()
-    private val CHANNEL_ID1="notificationChannel1"
+    private val CHANNEL_ID1="i.apps.notifications"
+    private val CHANNEL_DESCRIPTION="Descrizione"
+    private var notificationManager: NotificationManager? = null
 
     override fun onBind(intent: Intent?): IBinder? {
         return null
@@ -25,15 +27,15 @@ class ReminderBookings : Service() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             // Create the NotificationChannel
             val name = getString(R.string.notification_channel_start)
-            val importance = NotificationManager.IMPORTANCE_DEFAULT
-            val mChannel = NotificationChannel(CHANNEL_ID1, name, importance)
+            val importance = NotificationManager.IMPORTANCE_HIGH
+            val mChannel = NotificationChannel(CHANNEL_ID1,CHANNEL_DESCRIPTION, importance)
             // Register the channel with the system; you can't change the importance
             // or other notification behaviors after this
-            val notificationManager = getSystemService(Service.NOTIFICATION_SERVICE) as NotificationManager
-            notificationManager.createNotificationChannel(mChannel)
-        }
+            notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager!!.createNotificationChannel(mChannel)
 
-        startTimer()
+            startTimer()
+        }
     }
 
     private fun startTimer() {
@@ -120,20 +122,18 @@ class ReminderBookings : Service() {
 
 
 
-
-       var timer = Timer(false)
+        var timer = Timer(false)
         val delay = 1000 * 10 // 10 seconds
 
         val interval = 1000*60*60// 2 hour
 
         timer.schedule(task, delay.toLong(), interval.toLong())
-
     }
 
     private fun sendNotification(text: String, i:Int) {
         // create the intent for the notification
         val notificationIntent = Intent(this, MainActivity::class.java)
-            .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
 
         // create the pending intent
         val flags = PendingIntent.FLAG_UPDATE_CURRENT
@@ -148,6 +148,7 @@ class ReminderBookings : Service() {
         // create the notification and set its data
         val notification: Notification = NotificationCompat.Builder(this,CHANNEL_ID1)
             .setSmallIcon(icon)
+            .setTicker("Ticker")
             .setContentTitle(contentTitle)
             .setContentText(contentText)
             .setContentIntent(pendingIntent)
@@ -155,10 +156,8 @@ class ReminderBookings : Service() {
             .build()
 
         // display the notification
-        val manager =
-            getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         val NOTIFICATION_ID = i
-        manager.notify(NOTIFICATION_ID, notification)
+        notificationManager!!.notify(NOTIFICATION_ID, notification)
     }
 
     fun completeTimeStamp(hour :Long,minute: Long):String{

@@ -171,12 +171,13 @@
             android:layout_toEndOf="@+id/dataText"
             android:layout_alignBaseline="@+id/dataText"
             android:layout_marginStart="20dp"
-            android:textColor="@color/black"
+            android:textColor="@color/red"
             android:textSize="15sp"
             android:textAllCaps="false"
             android:text="@string/insertdate"
             android:background="@drawable/btn_profile"
-            android:visibility="invisible"/>
+            android:visibility="invisible"
+            android:padding="10dp" />
 
         <Button
             android:id="@+id/editProfileButton"

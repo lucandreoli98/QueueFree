@@ -59,6 +59,7 @@ class FirebaseDatabaseHelper{
                                 }
                             }
                             ds.DataIsLoaded(user)
+                            referenceuser.removeEventListener(this)
                         }
                     }
             }
@@ -103,6 +104,7 @@ class FirebaseDatabaseHelper{
                                 }
                             }
                             ds.DataisLoadedFirm(f)
+                            referencefirm.removeEventListener(this)
                         }
                     }
             }
@@ -143,6 +145,7 @@ class FirebaseDatabaseHelper{
                                 }
                             }
                             ds.DataisLoadedFirm(f)
+                            referencefirm.removeEventListener(this)
                         }
                     }
             }
@@ -178,6 +181,7 @@ class FirebaseDatabaseHelper{
                                 }
                             }
                             ds.DataisLoadedFirm(f)
+                            referencefirm.removeEventListener(this)
                         }
                     }
             }
@@ -277,6 +281,7 @@ class FirebaseDatabaseHelper{
                         }
                     }
                     ds.dataisLoadedFirm(f)
+                    referencefirm.removeEventListener(this)
                 }
             }
 
@@ -290,7 +295,6 @@ class FirebaseDatabaseHelper{
     // Lettura delle prenotazioni in base alla mail dell'azienda
     fun readBookingUser(firms: HashMap<String,Firm>, ds: DataBookingUser){
         val bookingUser = ArrayList<BookingUser>() // tutte le prenotazioni effettuate
-        bookingUser.clear()
 
         referenceBooking.addValueEventListener(object: ValueEventListener{
             override fun onCancelled(error: DatabaseError) {
@@ -411,16 +415,14 @@ class FirebaseDatabaseHelper{
                                                         if (bookings[i].nPartecipanti==actualbook.nPartecipanti){
                                                              database.getReference("bookings/${firm.id}/$id-${actualbook.yy}${isZero(actualbook.mm.toInt())}${actualbook.mm}${isZero(actualbook.dd.toInt())}${actualbook.dd}-${isZero(actualbook.nOre.toInt())}${actualbook.nOre}").removeValue()
                                                                 Log.d("ELIMINAZIONE","eliminata la prenotazione bookings/${firm.id}/$id-${actualbook.yy}${isZero(actualbook.mm.toInt())}${actualbook.mm}${isZero(actualbook.dd.toInt())}${actualbook.dd}-${isZero(actualbook.nOre.toInt())}${actualbook.nOre}")
-
                                                             }
-
-
                                         }
                                     }
                                 }
                             }
                         }
                     }
+                    referenceBooking.removeEventListener(this)
                 }
             }
         })
@@ -445,7 +447,7 @@ class FirebaseDatabaseHelper{
                         }
                     }
                     ds.dataisLoadedUser(mContext,users)
-
+                    referenceuser.removeEventListener(this)
                 }
             }
 
@@ -489,8 +491,16 @@ class FirebaseDatabaseHelper{
                     }
                 }
                 ds.dataisDeleted(mContext)
+                referenceBooking.removeEventListener(this)
             }
         })
+    }
+
+    private fun isZero(i: Int): String{
+        return if(i < 10)
+            "0"
+        else
+            ""
     }
 
     // stringa con id-yyyymmdd, oraInizio, durata
@@ -541,10 +551,43 @@ class FirebaseDatabaseHelper{
         })
     }
 
-    private fun isZero(i: Int): String{
-        return if(i < 10)
-            "0"
-        else
-            ""
+    fun removeFirm(firm: Firm){
+        referencefirm.addValueEventListener(object : ValueEventListener {
+            override fun onCancelled(error: DatabaseError) {
+            }
+
+            override fun onDataChange(p0: DataSnapshot) {
+                if (p0.exists())
+                    for (uDB in p0.children) { // per tutti gli utente dentro la tabella user
+                        if (id == uDB.key) {
+                            val firmDB = Firm()
+                            for (field in uDB.children) {
+                                when (field.key) {
+                                    "id" -> firmDB.id = field.value as String
+                                    "nomeazienza" -> firmDB.nomeazienza = field.value as String
+                                    "email" -> firmDB.email = field.value as String
+                                    "password" -> firmDB.password = field.value as String
+                                    "categoria" -> firmDB.categoria = field.value as String
+                                    "location" -> firmDB.location = field.value as String
+                                    "startHour" -> firmDB.startHour = field.value as Long
+                                    "endHour" -> firmDB.endHour = field.value as Long
+                                    "endMinute" -> firmDB.endMinute = field.value as Long
+                                    "startMinute" -> firmDB.startMinute = field.value as Long
+                                    "capienza" -> firmDB.capienza = field.value as Long
+                                    "descrizione" -> firmDB.descrizione = field.value as String
+                                    "maxTurn" -> firmDB.maxTurn = field.value as Long
+                                    "maxPartecipants" -> firmDB.maxPartecipants = field.value as Long
+                                    "giorni" -> firmDB.giorni = field.value as String
+                                    "latitude" -> firmDB.latitude = field.value as Double
+                                    "longitude" -> firmDB.longitude = field.value as Double
+                                }
+                            }
+                            if(firm == firmDB){
+                                database.getReference("firm/$id").removeValue()
+                            }
+                        }
+                    }
+            }
+        })
     }
 }

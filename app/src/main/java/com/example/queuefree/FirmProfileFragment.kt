@@ -243,14 +243,14 @@ class FirmProfileFragment: Fragment() {
             view.imageProfileFirm.setImageBitmap(bitmap)
             view.progress_bar_firm.visibility=View.INVISIBLE
             }
-            .addOnFailureListener {
+            /*.addOnFailureListener {
                 FirebaseStorage.getInstance().reference.child("pics").child("defaultimage.jpg").getBytes(4096*4096)
                     .addOnSuccessListener { bytes ->
                         val bitmap=BitmapFactory.decodeByteArray(bytes,0,bytes.size)
                         view.imageProfile.setImageBitmap(bitmap)
                         view.progress_bar.visibility=View.INVISIBLE
                     }
-            }
+            }*/
 
         view.imageProfileFirm.setOnClickListener {
             passDialogView =
@@ -282,16 +282,9 @@ class FirmProfileFragment: Fragment() {
 
         newPassDialogView.okNewPassButton.setOnClickListener {
             var ok = true
-            val email = newPassDialogView.emailForPass.text.toString()
             val oldPassString = newPassDialogView.oldPassword.text.toString()
             val newPasswordString = newPassDialogView.newPassword.text.toString()
 
-            if (ok && email.isEmpty()) {
-                newPassDialogView.emailForPass.error =
-                    resources.getString(R.string.emailEmpty)
-                newPassDialogView.emailForPass.requestFocus()
-                ok = false
-            }
             if (ok && oldPassString.isEmpty()) {
                 newPassDialogView.oldPassword.error =
                     resources.getString(R.string.passEmpty)
@@ -312,7 +305,7 @@ class FirmProfileFragment: Fragment() {
 
             if (ok) {
                 currentUser.let { cUser ->
-                    val credential = EmailAuthProvider.getCredential(email, oldPassString)
+                    val credential = EmailAuthProvider.getCredential(firm.email, oldPassString)
 
                     cUser!!.reauthenticate(credential).addOnCompleteListener { task ->
                         if (task.isSuccessful) {
