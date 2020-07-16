@@ -45,7 +45,11 @@ class ReminderBookings : Service() {
                 val day=calendar.get(Calendar.DAY_OF_MONTH)
                 val month=calendar.get(Calendar.MONTH)+1
                 val year=calendar.get(Calendar.YEAR)
+                val hour=calendar.get(Calendar.HOUR_OF_DAY)
+                val minute=calendar.get(Calendar.MINUTE)
+                calendar.set(year,month,day,hour,minute,0)
                 var i=0
+                Log.d("CALENDAR","${calendar.time}")
 
                 database.readAllFirmFromDB(object:FirebaseDatabaseHelper.DataStatusHashFirm{
                     override fun dataisLoadedFirm(firms: HashMap<String, Firm>) {
@@ -98,7 +102,11 @@ class ReminderBookings : Service() {
                                         if(totalbucompact[j].mm==month.toLong()){
                                             if(totalbucompact[j].yy==year.toLong()){
                                                 val starthour= totalfirmcompact[j].startHour+totalbucompact[j].nOre
-                                                if(Date().hours<=starthour){
+                                                val data=Calendar.getInstance()
+                                                data.set(year,month,day,starthour.toInt(),totalfirmcompact[j].startMinute.toInt(),0)
+                                                Log.d("DATA","${data.time} contro ${calendar.time}")
+                                                Log.d("DATA"," "+data.after(calendar)+"  ${totalfirmcompact[j].nomeazienza}")
+                                                if(data.after(calendar)){
                                                     var date=completeTimeStamp(starthour,totalfirmcompact[j].startMinute)
                                                     sendNotification("${totalfirmcompact[j].nomeazienza}: la prenotazione inizia alle $date",i)
                                                     i++
@@ -125,7 +133,7 @@ class ReminderBookings : Service() {
         var timer = Timer(false)
         val delay = 1000 * 10 // 10 seconds
 
-        val interval = 1000*60*60// 2 hour
+        val interval = 1000*60*30// 1 hour
 
         timer.schedule(task, delay.toLong(), interval.toLong())
     }

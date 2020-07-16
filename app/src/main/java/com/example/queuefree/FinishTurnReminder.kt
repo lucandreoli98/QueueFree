@@ -150,7 +150,7 @@ class FinishTurnReminder : Service() {
             }
         }
 
-        val timer = Timer(true)
+        val timer = Timer(false)
         val delay = 1000
 
         val interval = 1000*60*60/2// mezz'ora
