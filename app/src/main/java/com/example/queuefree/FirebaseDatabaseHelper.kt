@@ -35,8 +35,8 @@ class FirebaseDatabaseHelper{
     interface DataStatusHashUser{
         fun dataisLoadedUser(mContext: Context, users: HashMap<String,User>)
     }
-    interface DataStatusCancelBook{
-        fun dataisDeleted(mContext: Context)
+    interface DataStatusCancel{
+        fun isDeleted(mContext: Context)
     }
     interface DataAlreadyBookin{
         fun alreadyBooked(isAlreadyBooked: Boolean)
@@ -457,7 +457,7 @@ class FirebaseDatabaseHelper{
         })
     }
 
-    fun removeBook(mContext: Context,firm: Firm, booking: Booking,durata: Long, ds: DataStatusCancelBook){
+    fun removeBook(mContext: Context,firm: Firm, booking: Booking,durata: Long, ds: DataStatusCancel){
         referenceBooking.addValueEventListener(object : ValueEventListener {
             override fun onCancelled(error: DatabaseError) {
                 Log.e("OnCancelled",error.toString())
@@ -490,7 +490,7 @@ class FirebaseDatabaseHelper{
                         }
                     }
                 }
-                ds.dataisDeleted(mContext)
+                ds.isDeleted(mContext)
                 referenceBooking.removeEventListener(this)
             }
         })
@@ -503,7 +503,6 @@ class FirebaseDatabaseHelper{
             ""
     }
 
-    // stringa con id-yyyymmdd, oraInizio, durata
     fun compareBookings(userID: String, oraInizio: Long, durata: Long, ds: DataAlreadyBookin){
         var isAlreadyBooked = false
         readAllFirmFromDB(object: DataStatusHashFirm{
@@ -551,13 +550,13 @@ class FirebaseDatabaseHelper{
         })
     }
 
-    fun removeFirm(firm: Firm){
+    fun removeFirm(mContext: Context, firm: Firm,ds: DataStatusCancel){
         referencefirm.addValueEventListener(object : ValueEventListener {
             override fun onCancelled(error: DatabaseError) {
             }
 
             override fun onDataChange(p0: DataSnapshot) {
-                if (p0.exists())
+                if (p0.exists()){
                     for (uDB in p0.children) { // per tutti gli utente dentro la tabella user
                         if (id == uDB.key) {
                             val firmDB = Firm()
@@ -587,6 +586,8 @@ class FirebaseDatabaseHelper{
                             }
                         }
                     }
+                    ds.isDeleted(mContext)
+                }
             }
         })
     }

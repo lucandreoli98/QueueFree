@@ -1,7 +1,6 @@
 package com.example.queuefree
 
 import android.app.*
-import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.IBinder
@@ -223,11 +222,6 @@ class FinishTurnReminder : Service() {
       return scompact
 
   }
-
-
-
-
-
 }
 
 

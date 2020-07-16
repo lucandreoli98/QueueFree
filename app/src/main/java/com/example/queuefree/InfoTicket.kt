@@ -33,7 +33,7 @@ class InfoTicket: FragmentActivity(), OnMapReadyCallback, GoogleMap.OnMarkerClic
 
         mMapView.getMapAsync(this)
 
-        val firm: Firm = bundle.getSerializable("firm") as Firm
+        val firm: Firm = bundle!!.getSerializable("firm") as Firm
         this.firm = firm
         val booking: Booking = bundle.getSerializable("book") as Booking
         val durata: Long = bundle.getLong("durata")
@@ -56,8 +56,8 @@ class InfoTicket: FragmentActivity(), OnMapReadyCallback, GoogleMap.OnMarkerClic
                 alertDialog.dismiss()
             }
             sureDialogView.confirmsure.setOnClickListener {
-                FirebaseDatabaseHelper().removeBook(this,firm,booking,durata,object :FirebaseDatabaseHelper.DataStatusCancelBook{
-                    override fun dataisDeleted(mContext: Context) {
+                FirebaseDatabaseHelper().removeBook(this,firm,booking,durata,object :FirebaseDatabaseHelper.DataStatusCancel{
+                    override fun isDeleted(mContext: Context) {
                         Toast.makeText(mContext,"Prenotazione cancellata con successo!",Toast.LENGTH_SHORT).show()
                         alertDialog.dismiss()
                         val i = Intent(mContext, ProflileActivity::class.java)

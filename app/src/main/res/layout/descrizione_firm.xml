@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:text="Descrizione"
+        android:text="@string/descrizione_dialog"
         android:textStyle="bold"
         android:textSize="30sp"
         android:textColor="@color/red"
@@ -22,6 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/descTitle"
         android:layout_marginTop="5dp"
+        android:gravity="center"
         android:text=""
         android:textColor="@color/black"
         android:textSize="20sp" />

@@ -1,6 +1,7 @@
 package com.example.queuefree
 
 import android.app.Application
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -14,6 +15,8 @@ import com.google.firebase.auth.FirebaseAuth
 
 class FirmActivity : AppCompatActivity() {
 
+    private val fb = FirebaseDatabaseHelper()
+    private val mContext = this
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,7 +53,16 @@ class FirmActivity : AppCompatActivity() {
         startActivity(i)
     }
 
+    // TODO: RIMUOVERE ANCHE DA AUTHENTICATION
     fun removeFirm(){
-
+        fb.readFirmFromDB(object : FirebaseDatabaseHelper.DataStatusFirm{
+            override fun DataisLoadedFirm(firm: Firm) {
+                fb.removeFirm(mContext,firm,object : FirebaseDatabaseHelper.DataStatusCancel{
+                    override fun isDeleted(mContext: Context) {
+                        startActivity(Intent(mContext, MainActivity::class.java))
+                    }
+                })
+            }
+        })
     }
 }

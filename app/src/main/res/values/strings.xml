@@ -110,12 +110,14 @@
     <string name="conferma">conferma</string>
     <string name="giorni_di_apertura">Giorni:</string>
     <string name="persone_prenotate">\t\t\t\tPersone prenotate:</string>
-    <string name="menu_elimina">ELIMINA</string>
+    <string name="menu_elimina">ELIMINA ACCOUNT</string>
     <string name="modifica_profilo">Modifica Profilo</string>
     <string name="remove_firm">La rimozione dell\'account è irreversibile e cancellerà le prenotazioni effettuate dagli utenti.
         \nProseguire con la rimozione dell\'azienda da QueueFree?</string>
     <string name="indietro">Indietro</string>
     <string name="elimina">Elimina</string>
     <string name="attenzione">ATTENZIONE</string>
+    <string name="sei_sicuro_di_voler_procedere">Sei sicuro di voler procedere?</string>
+    <string name="descrizione_dialog">Descrizione</string>
 
 </resources>

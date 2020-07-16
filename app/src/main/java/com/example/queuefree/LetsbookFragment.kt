@@ -3,6 +3,7 @@ package com.example.queuefree
 import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.content.Intent
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,7 +15,9 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.biglietto_della_fiumara.view.*
+import kotlinx.android.synthetic.main.custom_info_window.view.*
 import kotlinx.android.synthetic.main.fragment_letsbook.*
 import kotlinx.android.synthetic.main.fragment_letsbook.view.*
 import java.text.SimpleDateFormat
@@ -52,6 +55,11 @@ class LetsbookFragment: Fragment(), DatePickerDialog.OnDateSetListener {
             // lettura dell'azienda da DB
             override fun DataisLoadedFirm(f: Firm){
                 firm = f
+
+                FirebaseStorage.getInstance().reference.child("pics").child(firm.id).getBytes(4096*4096).addOnSuccessListener { bytes ->
+                    val bitmap= BitmapFactory.decodeByteArray(bytes,0,bytes.size)
+                    v!!.firmImage.setImageBitmap(bitmap)
+                }
                 // compilazione dei campi relativi all'azienda
                 view.firmName.text=firm.nomeazienza
                 view.startHou.text = completeTimeStamp(firm.startHour,firm.startMinute)
@@ -103,7 +111,7 @@ class LetsbookFragment: Fragment(), DatePickerDialog.OnDateSetListener {
     }
 
     fun completeTimeStamp(hour :Long,minute: Long):String{
-        return if(hour<10){
+        return if(hour<1){
             if(minute<10){
                 "0${hour}:0${minute}"
             } else {

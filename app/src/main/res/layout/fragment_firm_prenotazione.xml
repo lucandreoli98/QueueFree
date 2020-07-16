@@ -26,13 +26,26 @@
         android:textColor="@color/white"
         android:textSize="30sp"
         android:textStyle="bold"
-        android:text="Prenotazioni"/>
+        android:text="@string/prenotazioni"/>
+
+    <TextView
+        android:id="@+id/dataFirmPren"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/titlePren"
+        android:background="@color/backgroundRed"
+        android:gravity="center"
+        android:text=""
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="@color/quantum_yellow"
+        android:visibility="invisible"/>
 
     <ListView
         android:id="@+id/listFirmPren"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/titlePren"
+        android:layout_below="@+id/dataFirmPren"
         android:layout_marginBottom="80dp"
         android:visibility="invisible"/>
 

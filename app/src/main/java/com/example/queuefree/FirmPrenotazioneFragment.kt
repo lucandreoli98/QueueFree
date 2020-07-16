@@ -21,6 +21,7 @@ class FirmPrenotazioneFragment: Fragment(), DatePickerDialog.OnDateSetListener {
     private var day = 0L
     private var month = 0L
     private var year = 0L
+    private var data = ""
     private var vista: View? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -50,6 +51,8 @@ class FirmPrenotazioneFragment: Fragment(), DatePickerDialog.OnDateSetListener {
 
         vista!!.dataShowButton.visibility = View.INVISIBLE
 
+        this.data = "Clicca per cambiare data\nAttuale: $day/${month+1}/$year"
+        //this.data = "Data: $day/$month/$year"
         downloadBooking()
     }
 
@@ -60,10 +63,18 @@ class FirmPrenotazioneFragment: Fragment(), DatePickerDialog.OnDateSetListener {
                 fb.readBookingFirm(day,month,year,firm,object : FirebaseDatabaseHelper.DataBookingFirm{
                     override fun bookingFirmisLoaded(bookings: ArrayList<Booking>, bookingsHour: ArrayList<Long>, usersID: ArrayList<String>) {
                         vista!!.listFirmPren.visibility = View.VISIBLE
+                        vista!!.dataFirmPren.visibility = View.VISIBLE
+                        vista!!.dataFirmPren.text = data
 
                         val adapter =  BookFirmAdapter(context!!, R.layout.list_view_firm_prenotazioni,  bookingsHour, firm)
                         vista!!.listFirmPren.adapter = adapter
 
+                        vista!!.dataFirmPren.setOnClickListener {
+                            adapter.clear()
+                            vista!!.listFirmPren.visibility = View.INVISIBLE
+                            vista!!.dataShowButton.visibility = View.VISIBLE
+                            vista!!.dataFirmPren.visibility = View.INVISIBLE
+                        }
                         vista!!.listFirmPren.setOnItemClickListener { parent, view, position, l ->
                             if(bookingsHour[position] != 0L){
                                 val bundle = Bundle()
