@@ -23,9 +23,6 @@ import kotlinx.android.synthetic.main.remove_firm_identity.view.*
 
 class FirmActivity : AppCompatActivity() {
 
-    private val fb = FirebaseDatabaseHelper()
-    private val mContext = this
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_firm_profile)
@@ -107,13 +104,13 @@ class FirmActivity : AppCompatActivity() {
                                 FirebaseDatabase.getInstance().getReference("firm/${cUser.uid}").removeValue()
                                 cUser.delete().addOnCompleteListener { taskDelete ->
                                     if(taskDelete.isSuccessful)
-                                        startActivity(Intent(mContext,MainActivity::class.java))
+                                        startActivity(Intent(this,MainActivity::class.java))
                                     else
-                                        Log.e("Error: ", taskDelete.exception.toString())
+                                        Toast.makeText(this,taskDelete.exception.toString(),Toast.LENGTH_SHORT).show()
                                 }
                             }
                             else
-                                Toast.makeText(mContext, "Email e/o password errate", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(this, "Email e/o password errate", Toast.LENGTH_SHORT).show()
                         }
                     }
                 }
@@ -121,19 +118,3 @@ class FirmActivity : AppCompatActivity() {
         }
     }
 }
-/*fb.readFirmFromDB(object : FirebaseDatabaseHelper.DataStatusFirm{
-                    override fun DataisLoadedFirm(firm: Firm) {
-                        fb.removeFirm(mContext,firm,object : FirebaseDatabaseHelper.DataStatusCancel{
-                            override fun isDeleted(mContext: Context) {
-                                currentUser.let { cUser ->
-                                    val credential = EmailAuthProvider.getCredential(user.email, password)
-
-                                    cUser!!.reauthenticate(credential).addOnCompleteListener { task ->
-                                        if (task.isSuccessful) {
-                                            alertDialog.dismiss()
-
-                                startActivity(Intent(mContext, MainActivity::class.java))
-                            }
-                        })
-                    }
-                })*/
