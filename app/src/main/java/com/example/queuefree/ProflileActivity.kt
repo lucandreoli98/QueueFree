@@ -50,23 +50,26 @@ class ProflileActivity : AppCompatActivity() {
         val alertDialog = mBuilder.show()
         passDialogView.okUserPassButton.setOnClickListener {
             alertDialog.dismiss()
-            val passDialogView2 = LayoutInflater.from(this).inflate(R.layout.confirm_password,null)
-            val mBuilder2 = AlertDialog.Builder(this).setView(passDialogView2)
-            val alertDialog2 = mBuilder2.show()
+            val user = Firebase.auth.currentUser!!
 
-            passDialogView2.okPassButton.setOnClickListener {
-                var ok = true
-                val password = passDialogView2.confirmPasswordEditText.text.toString().trim()
-                if (password.isEmpty()) {
-                    passDialogView2.confirmPasswordEditText.error = resources.getString(R.string.passEmpty)
-                    passDialogView2.confirmPasswordEditText.requestFocus()
-                    ok = false
-                }
-                if (ok){
-                    val user = Firebase.auth.currentUser!!
+            when(user.getIdToken(false).result.signInProvider){
+                "password" -> {
+                    val passDialogView2 = LayoutInflater.from(this).inflate(R.layout.confirm_password,null)
+                    val mBuilder2 = AlertDialog.Builder(this).setView(passDialogView2)
+                    val alertDialog2 = mBuilder2.show()
 
-                    when(user.getIdToken(false).result.signInProvider){
-                        "password" -> {
+                    passDialogView2.okPassButton.setOnClickListener {
+                        var ok = true
+                        val password =
+                            passDialogView2.confirmPasswordEditText.text.toString().trim()
+                        if (password.isEmpty()) {
+                            passDialogView2.confirmPasswordEditText.error =
+                                resources.getString(R.string.passEmpty)
+                            passDialogView2.confirmPasswordEditText.requestFocus()
+                            ok = false
+                        }
+                        if (ok) {
+
                             val credential = EmailAuthProvider.getCredential(user.email!!, password)
 
                             user.reauthenticate(credential)
@@ -78,56 +81,35 @@ class ProflileActivity : AppCompatActivity() {
                                             alertDialog2.dismiss()
                                             Log.d("User Eliminato", "User account deleted.")
                                             val i = Intent(this, MainActivity::class.java)
-                                            i.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
+                                            i.flags =
+                                                Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
                                             startActivity(i)
                                         }
-                                }
-                        }
-                        "google.com" -> {
-                            val acct = GoogleSignIn.getLastSignedInAccount(this)
-                            if (acct != null) {
-                                val credential = GoogleAuthProvider.getCredential(acct.idToken, null)
-                                user.reauthenticate(credential)
-                                    .addOnSuccessListener{
-                                        Log.d("Google", "Reauthenticated")
-                                        FirebaseDatabaseHelper().removeUser()
-                                        user.delete()
-                                            .addOnSuccessListener {
-                                                alertDialog2.dismiss()
-                                                Log.d("User Eliminato", "User account deleted.")
-                                                val i = Intent(this, MainActivity::class.java)
-                                                i.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
-                                                startActivity(i)
-                                            }
-                                }
-                            }
-                        }
-                        "facebook.com" ->{
-                            val credential = FacebookAuthProvider.getCredential(AccessToken.getCurrentAccessToken().toString())
-                            user.reauthenticate(credential)
-                                .addOnSuccessListener{
-                                    Log.d("Facebook", "Reauthenticated.")
-                                    FirebaseDatabaseHelper().removeUser()
-                                    user.delete()
-                                        .addOnSuccessListener {
-                                            alertDialog2.dismiss()
-                                            Log.d("User Eliminato", "User account deleted.")
-                                            val i = Intent(this, MainActivity::class.java)
-                                            i.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
-                                            startActivity(i)
-                                        }
-                                }
-                                .addOnFailureListener {
-                                    Log.d("AAAAAAAAAAAAAAAAAAAAAAAAa",it.message.toString())
                                 }
                         }
                     }
-
-
+                    passDialogView2.cancPasswordButton.setOnClickListener {
+                        alertDialog2.dismiss()
+                    }
                 }
-            }
-            passDialogView2.cancPasswordButton.setOnClickListener {
-                alertDialog2.dismiss()
+                "google.com" -> {
+                    val acct = GoogleSignIn.getLastSignedInAccount(this)
+                    if (acct != null) {
+                        val credential = GoogleAuthProvider.getCredential(acct.idToken, null)
+                        user.reauthenticate(credential)
+                            .addOnSuccessListener{
+                                Log.d("Google", "Reauthenticated")
+                                FirebaseDatabaseHelper().removeUser()
+                                user.delete()
+                                    .addOnSuccessListener {
+                                        Log.d("User Eliminato", "User account deleted.")
+                                        val i = Intent(this, MainActivity::class.java)
+                                        i.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
+                                        startActivity(i)
+                                    }
+                            }
+                    }
+                }
             }
 
         }
