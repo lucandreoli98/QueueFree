@@ -2,21 +2,23 @@ package com.example.queuefree
 
 import android.app.AlertDialog
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
-import com.facebook.login.LoginManager
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentActivity
+import com.facebook.AccessToken
 import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.EmailAuthProvider
-import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FacebookAuthProvider
+import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.confirm_password.view.*
 import kotlinx.android.synthetic.main.remove_user.view.*
+
 
 class ProflileActivity : AppCompatActivity() {
 
@@ -40,6 +42,8 @@ class ProflileActivity : AppCompatActivity() {
         return true
     }
 
+
+
     fun RemoveUser() {
         val passDialogView = LayoutInflater.from(this).inflate(R.layout.remove_user, null)
         val mBuilder = AlertDialog.Builder(this).setView(passDialogView)
@@ -61,21 +65,66 @@ class ProflileActivity : AppCompatActivity() {
                 }
                 if (ok){
                     val user = Firebase.auth.currentUser!!
-                    val credential = EmailAuthProvider.getCredential(user.email!!, password)
 
-                    user.reauthenticate(credential)
-                        .addOnSuccessListener {
-                            Log.d("Reautenticate", "User re-authenticated.")
-                            FirebaseDatabaseHelper().removeUser()
-                            user.delete()
+                    when(user.getIdToken(false).result.signInProvider){
+                        "password" -> {
+                            val credential = EmailAuthProvider.getCredential(user.email!!, password)
+
+                            user.reauthenticate(credential)
                                 .addOnSuccessListener {
-                                    alertDialog2.dismiss()
-                                    Log.d("User Eliminato!", "User account deleted.")
-                                    val i = Intent(this, MainActivity::class.java)
-                                    i.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
-                                    startActivity(i)
+                                    Log.d("Reautenticate", "User re-authenticated.")
+                                    FirebaseDatabaseHelper().removeUser()
+                                    user.delete()
+                                        .addOnSuccessListener {
+                                            alertDialog2.dismiss()
+                                            Log.d("User Eliminato", "User account deleted.")
+                                            val i = Intent(this, MainActivity::class.java)
+                                            i.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
+                                            startActivity(i)
+                                        }
                                 }
                         }
+                        "google.com" -> {
+                            val acct = GoogleSignIn.getLastSignedInAccount(this)
+                            if (acct != null) {
+                                val credential = GoogleAuthProvider.getCredential(acct.idToken, null)
+                                user.reauthenticate(credential)
+                                    .addOnSuccessListener{
+                                        Log.d("Google", "Reauthenticated.")
+                                        FirebaseDatabaseHelper().removeUser()
+                                        user.delete()
+                                            .addOnSuccessListener {
+                                                alertDialog2.dismiss()
+                                                Log.d("User Eliminato", "User account deleted.")
+                                                val i = Intent(this, MainActivity::class.java)
+                                                i.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
+                                                startActivity(i)
+                                            }
+                                }
+                            }
+                        }
+                        "facebook.com" ->{
+                            val credential = FacebookAuthProvider.getCredential(AccessToken.getCurrentAccessToken().toString())
+                            user.reauthenticate(credential)
+                                .addOnSuccessListener{
+                                    Log.d("Facebook", "Reauthenticated.")
+                                    FirebaseDatabaseHelper().removeUser()
+                                    user.delete()
+                                        .addOnSuccessListener {
+                                            alertDialog2.dismiss()
+                                            Log.d("User Eliminato", "User account deleted.")
+                                            val i = Intent(this, MainActivity::class.java)
+                                            i.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
+                                            startActivity(i)
+                                        }
+                                }
+                                .addOnFailureListener {
+                                    Log.d("AAAAAAAAAAAAAAAAAAAAAAAAa",it.message.toString())
+                                }
+                        }
+                    }
+
+
                 }
             }
             passDialogView2.cancPasswordButton.setOnClickListener {
