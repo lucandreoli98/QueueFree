@@ -70,7 +70,7 @@ class ProflileActivity : AppCompatActivity() {
                             user.delete()
                                 .addOnSuccessListener {
                                     alertDialog2.dismiss()
-                                    Log.d("User Eliminato", "User account deleted.")
+                                    Log.d("User Eliminato!", "User account deleted.")
                                     val i = Intent(this, MainActivity::class.java)
                                     i.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
                                     startActivity(i)
