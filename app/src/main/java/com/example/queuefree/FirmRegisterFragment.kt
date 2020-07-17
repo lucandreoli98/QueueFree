@@ -192,7 +192,7 @@ class FirmRegisterFragment : Fragment() {
                         if (task.isSuccessful) {
                             val id = FirebaseAuth.getInstance().currentUser!!.uid.trim { it <= ' ' }
 
-                            val f = Firm(id,firmName, email, password, categoriaString, locationString,this.hhOpen!!,this.mmOpen!!,this.hhClose!!,this.mmClose!!,capienza.toLong(),"",1,1,"Lun-Mar-Mer-Gio-Ven-Sab-Dom",latitude,longitude)
+                            val f = Firm(id,firmName, email, categoriaString, locationString,this.hhOpen!!,this.mmOpen!!,this.hhClose!!,this.mmClose!!,capienza.toLong(),"",1,1,"Lun-Mar-Mer-Gio-Ven-Sab-Dom",latitude,longitude)
 
                             Log.e("task successful", resources.getString(R.string.userRegistrated))
 

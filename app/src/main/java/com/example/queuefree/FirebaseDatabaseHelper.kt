@@ -87,7 +87,6 @@ class FirebaseDatabaseHelper{
                                     "id" -> f.id = field.value as String
                                     "nomeazienda" -> f.nomeazienza = field.value as String
                                     "email" -> f.email = field.value as String
-                                    "password" -> f.password = field.value as String
                                     "categoria" -> f.categoria= field.value as String
                                     "location" -> f.location = field.value as String
                                     "startHour"->f.startHour= field.value as Long
@@ -128,7 +127,6 @@ class FirebaseDatabaseHelper{
                                     "id" -> f.id = field.value as String
                                     "nomeazienza" -> f.nomeazienza = field.value as String
                                     "email" -> f.email = field.value as String
-                                    "password" -> f.password = field.value as String
                                     "categoria" -> f.categoria= field.value as String
                                     "location" -> f.location = field.value as String
                                     "startHour"->f.startHour= field.value as Long
@@ -165,7 +163,6 @@ class FirebaseDatabaseHelper{
                                     "id" -> f.id = field.value as String
                                     "nomeazienza" -> f.nomeazienza = field.value as String
                                     "email" -> f.email = field.value as String
-                                    "password" -> f.password = field.value as String
                                     "categoria" -> f.categoria= field.value as String
                                     "location" -> f.location = field.value as String
                                     "startHour"->f.startHour= field.value as Long
@@ -265,7 +262,6 @@ class FirebaseDatabaseHelper{
                                 "id" -> f[firms.key!!]!!.id = field.value as String
                                 "nomeazienza" -> f[firms.key!!]!!.nomeazienza = field.value as String
                                 "email" -> f[firms.key!!]!!.email = field.value as String
-                                "password" -> f[firms.key!!]!!.password = field.value as String
                                 "categoria" -> f[firms.key!!]!!.categoria= field.value as String
                                 "location" -> f[firms.key!!]!!.location = field.value as String
                                 "startHour"->f[firms.key!!]!!.startHour= field.value as Long
@@ -383,11 +379,7 @@ class FirebaseDatabaseHelper{
         })
     }
 
-
-
-
-    fun CancelBookings(bookings: ArrayList<Booking>, firm: Firm){
-        Log.d("AZIENDA","${firm.nomeazienza}")
+    fun cancelBookings(bookings: ArrayList<Booking>, firm: Firm){
         referenceBooking.addValueEventListener(object: ValueEventListener{
             override fun onCancelled(error: DatabaseError) {
             }
@@ -398,9 +390,9 @@ class FirebaseDatabaseHelper{
                     for (azienda in snapshot.children){
                         if (azienda.key==firm.id){
                             for (prenotazione in azienda.children){
-                                var str=prenotazione.key!!.split("-")
+                                val str=prenotazione.key!!.split("-")
                                 if (str[0]==id){
-                                    var actualbook=Booking()
+                                    val actualbook=Booking()
                                     for (field in prenotazione.children){
                                         when(field.key){
                                             "dd" -> actualbook.dd = field.value as Long
@@ -556,48 +548,6 @@ class FirebaseDatabaseHelper{
         })
     }
 
-    fun removeFirm(mContext: Context, firm: Firm,ds: DataStatusCancel){
-        val id = FirebaseAuth.getInstance().currentUser!!.uid.trim { it <= ' ' }
-        referencefirm.addValueEventListener(object : ValueEventListener {
-            override fun onCancelled(error: DatabaseError) {
-            }
-
-            override fun onDataChange(p0: DataSnapshot) {
-                if (p0.exists()){
-                    for (uDB in p0.children) { // per tutti gli utente dentro la tabella user
-                        if (id == uDB.key) {
-                            val firmDB = Firm()
-                            for (field in uDB.children) {
-                                when (field.key) {
-                                    "id" -> firmDB.id = field.value as String
-                                    "nomeazienza" -> firmDB.nomeazienza = field.value as String
-                                    "email" -> firmDB.email = field.value as String
-                                    "password" -> firmDB.password = field.value as String
-                                    "categoria" -> firmDB.categoria = field.value as String
-                                    "location" -> firmDB.location = field.value as String
-                                    "startHour" -> firmDB.startHour = field.value as Long
-                                    "endHour" -> firmDB.endHour = field.value as Long
-                                    "endMinute" -> firmDB.endMinute = field.value as Long
-                                    "startMinute" -> firmDB.startMinute = field.value as Long
-                                    "capienza" -> firmDB.capienza = field.value as Long
-                                    "descrizione" -> firmDB.descrizione = field.value as String
-                                    "maxTurn" -> firmDB.maxTurn = field.value as Long
-                                    "maxPartecipants" -> firmDB.maxPartecipants = field.value as Long
-                                    "giorni" -> firmDB.giorni = field.value as String
-                                    "latitude" -> firmDB.latitude = field.value as Double
-                                    "longitude" -> firmDB.longitude = field.value as Double
-                                }
-                            }
-                            if(firm == firmDB){
-                                database.getReference("firm/$id").removeValue()
-                            }
-                        }
-                    }
-                    ds.isDeleted(mContext)
-                }
-            }
-        })
-    }
     fun removeUser(){
         val id = FirebaseAuth.getInstance().currentUser!!.uid.trim { it <= ' ' }
         referenceBooking.addValueEventListener(object:ValueEventListener{
@@ -609,18 +559,13 @@ class FirebaseDatabaseHelper{
                 if (snapshot.exists()){
                     for (azienda in snapshot.children){
                         for (bookings in azienda.children){
-                            var str=bookings.key!!.split("-")
-                            if (str[0].trim()==id){
+                            if (bookings.key!!.split("-")[0].trim()==id){
                                 database.getReference("bookings/${azienda.key}/${bookings.key}").removeValue()
-
                             }
                         }
                     }
                 }
-
-
             }
-
         })
         database.getReference("users/$id").removeValue()
     }

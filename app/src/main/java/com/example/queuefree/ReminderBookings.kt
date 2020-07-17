@@ -1,7 +1,6 @@
 package com.example.queuefree
 
 import android.app.*
-import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.IBinder
@@ -110,25 +109,17 @@ class ReminderBookings : Service() {
                                                     var date=completeTimeStamp(starthour,totalfirmcompact[j].startMinute)
                                                     sendNotification("${totalfirmcompact[j].nomeazienza}: la prenotazione inizia alle $date",i)
                                                     i++
-
-
                                                 }
-
                                             }
-
                                         }
                                     }
-
                                 }
-
                             }
                         })
                     }
                 })
             }
         }
-
-
 
         var timer = Timer(false)
         val delay = 1000 * 10 // 10 seconds
