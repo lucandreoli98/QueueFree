@@ -77,7 +77,6 @@ class HomePageActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
             R.id.nav_profile -> startActivity(Intent(this, ProflileActivity::class.java))
             R.id.nav_about -> about()
             R.id.nav_logout -> signOut()
-            R.id.cancel_account -> RemoveUser()
         }
 
         return true
@@ -102,55 +101,5 @@ class HomePageActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         startActivity(i)
     }
 
-    fun RemoveUser() {
-        val passDialogView = LayoutInflater.from(this).inflate(R.layout.remove_user, null)
-        val mBuilder = AlertDialog.Builder(this).setView(passDialogView)
-        val alertDialog = mBuilder.show()
-        passDialogView.okUserPassButton.setOnClickListener {
-            alertDialog.dismiss()
-            val passDialogView2 = LayoutInflater.from(this).inflate(R.layout.confirm_password,null)
-            val mBuilder2 = AlertDialog.Builder(this).setView(passDialogView2)
-            val alertDialog2 = mBuilder2.show()
 
-            passDialogView2.okPassButton.setOnClickListener {
-                var ok = true
-                val password = passDialogView2.confirmPasswordEditText.text.toString().trim()
-                if (password.isEmpty()) {
-                    passDialogView2.confirmPasswordEditText.error =
-                        resources.getString(R.string.passEmpty)
-                    passDialogView2.confirmPasswordEditText.requestFocus()
-                    ok = false
-                }
-                if (ok){
-                    currentUser.let { cUser ->
-                        val credential = EmailAuthProvider.getCredential(cUser!!.email!!, password)
-                        Log.d("USER2", "${cUser.email}")
-
-                        cUser!!.reauthenticate(credential).addOnCompleteListener { task ->
-                            if (task.isSuccessful) {
-                                database.removeUser()
-                                currentUser!!.delete()
-                                alertDialog2.dismiss()
-                                signOut()
-
-
-                            } else {
-                                passDialogView2.confirmPasswordEditText.error =
-                                    "Password non corretta"
-                            }
-                        }
-                    }
-                }
-            }
-            passDialogView2.cancPasswordButton.setOnClickListener {
-                alertDialog2.dismiss()
-            }
-
-        }
-
-        passDialogView.cancUserPasswordButton.setOnClickListener {
-            alertDialog.dismiss()
-
-        }
-    }
 }

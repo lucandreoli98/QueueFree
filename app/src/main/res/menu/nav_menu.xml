@@ -13,10 +13,6 @@
         android:id="@+id/nav_logout"
         android:icon="@drawable/ic_signout"
         android:title="@string/logoutMenu"/>
-    <item
-        android:id="@+id/cancel_account"
-        android:title="Elimina Account"
-        android:icon="@drawable/ic_cancel"/>
 
 
 
