@@ -40,7 +40,7 @@ class FinishTurnReminder : Service() {
 
     }
 
-    fun startTimer() {
+    private fun startTimer() {
 
         val task: TimerTask = object : TimerTask() {
             override fun run() {
@@ -122,11 +122,11 @@ class FinishTurnReminder : Service() {
                                                             if (durate[j]>1){
 
                                                                 scompact=scompatta(totalbucompact[j],durate[j])
-                                                                database.CancelBookings(scompact,totalfirmcompact[j])
+                                                                database.cancelBookings(scompact,totalfirmcompact[j])
                                                             }
                                                             else{
                                                                 scompact.add(totalbucompact[j])
-                                                                database.CancelBookings(scompact,totalfirmcompact[j])
+                                                                database.cancelBookings(scompact,totalfirmcompact[j])
                                                             }
 
                                                           }
@@ -170,11 +170,11 @@ class FinishTurnReminder : Service() {
                 var scompact=ArrayList<Booking>()
                 if (durate[i]>1){
                     scompact=scompatta(bookings[i],durate[i])
-                    database.CancelBookings(scompact,totalFirm[i])
+                    database.cancelBookings(scompact,totalFirm[i])
                 }
                 else{
                     scompact.add(bookings[i])
-                    database.CancelBookings(scompact,totalFirm[i])
+                    database.cancelBookings(scompact,totalFirm[i])
                 }
 
             }
@@ -213,9 +213,9 @@ class FinishTurnReminder : Service() {
     }
 
   fun  scompatta(booking:Booking,durata :Long ) :ArrayList<Booking>{
-      var scompact=ArrayList<Booking>()
+      val scompact=ArrayList<Booking>()
       for (i in 0 until durata ){
-          var book=Booking(booking.dd,booking.mm,booking.yy,booking.nOre+i,booking.nPartecipanti)
+          val book=Booking(booking.dd,booking.mm,booking.yy,booking.nOre+i,booking.nPartecipanti)
           scompact.add(book)
       }
 

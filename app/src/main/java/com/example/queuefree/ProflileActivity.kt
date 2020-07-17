@@ -2,6 +2,7 @@ package com.example.queuefree
 
 import android.app.AlertDialog
 import android.content.Intent
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -58,8 +59,7 @@ class ProflileActivity : AppCompatActivity() {
                 var ok = true
                 val password = passDialogView2.confirmPasswordEditText.text.toString().trim()
                 if (password.isEmpty()) {
-                    passDialogView2.confirmPasswordEditText.error =
-                        resources.getString(R.string.passEmpty)
+                    passDialogView2.confirmPasswordEditText.error = resources.getString(R.string.passEmpty)
                     passDialogView2.confirmPasswordEditText.requestFocus()
                     ok = false
                 }

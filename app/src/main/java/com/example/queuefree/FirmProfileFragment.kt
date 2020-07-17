@@ -26,7 +26,6 @@ import kotlinx.android.synthetic.main.fragment_firm_showprofile.*
 import kotlinx.android.synthetic.main.fragment_firm_showprofile.view.*
 import kotlinx.android.synthetic.main.fragment_firm_showprofile.view.emailTextViewFirm
 import kotlinx.android.synthetic.main.fragment_show_profile.*
-import kotlinx.android.synthetic.main.fragment_show_profile.view.*
 import kotlinx.android.synthetic.main.time_picker_layout.view.*
 import kotlinx.android.synthetic.main.update_password.view.*
 import java.io.ByteArrayOutputStream
@@ -172,8 +171,6 @@ class FirmProfileFragment: Fragment() {
                         alertOpenDialog.dismiss()
                     }
                 }
-
-
 
                 // modifica della password dell'utente
                 view.pwd_edit.setOnClickListener {
@@ -450,7 +447,7 @@ class FirmProfileFragment: Fragment() {
                                 alertDialog.dismiss()
                                 val email = emailTextViewFirm.text.toString().trim()
 
-                                this.firm = Firm(currentUser!!.uid,firm.nomeazienza, firm.email, firm.password, firm.categoria,firm.location,startHour,startMinute,endHour,endMinute,tot.toLong(),firm.descrizione,turno,maxGruppo.toLong(),giorni,firm.latitude,firm.longitude)
+                                this.firm = Firm(currentUser!!.uid,firm.nomeazienza, firm.email, firm.categoria,firm.location,startHour,startMinute,endHour,endMinute,tot.toLong(),firm.descrizione,turno,maxGruppo.toLong(),giorni,firm.latitude,firm.longitude)
 
                                 cUser.updateEmail(email).addOnCompleteListener { task2 ->
                                     if (task2.isSuccessful) {

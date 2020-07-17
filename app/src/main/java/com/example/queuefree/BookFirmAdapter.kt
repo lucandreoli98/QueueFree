@@ -6,10 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import kotlinx.android.synthetic.main.list_view_firm_prenotazioni.view.*
-import kotlinx.android.synthetic.main.list_view_prenotazioni.view.*
 
 class BookFirmAdapter(
-    private val customContext: Context,
+    customContext: Context,
     private val resource: Int,
     private val objects: ArrayList<Long>,
     private val firm: Firm): ArrayAdapter<Long>(customContext, resource, objects) {
@@ -20,19 +19,11 @@ class BookFirmAdapter(
         val customView= inflater.inflate(resource,parent,false)
 
         val hour = completeTimeStamp(firm.startHour+position,firm.startMinute)+" - "+completeTimeStamp(firm.startHour+position+1,firm.startMinute)
-        customView.personePrenotate.text = objects[position].toString()+" su "+firm.capienza
-        customView.orarioPrentFirm.text = hour
-        /*customView.firmNameTicket.text = firm[position].nomeazienza
-        customView.dataTicket.text = "${getItem(position)!!.dd}/${getItem(position)!!.mm}/${getItem(position)!!.yy}"
-        customView.orarioTicket.text = "${completeTimeStamp(firm[position].startHour+getItem(position)!!.nOre,firm[position].startMinute)} - ${completeTimeStamp(durate[position]+firm[position].startHour+getItem(position)!!.nOre,firm[position].startMinute)}"
-        customView.partecipantiTicket.text = getItem(position)!!.nPartecipanti.toString()
+        val persone = objects[position].toString()+" su "+firm.capienza
 
-        when(firm[position].categoria){
-            "Spiaggia"   -> customView.imageCategoryTicket.setImageResource(R.drawable.spiaggia)
-            "Museo"      -> customView.imageCategoryTicket.setImageResource(R.drawable.museo_icon)
-            "Biblioteca" -> customView.imageCategoryTicket.setImageResource(R.drawable.biblioteca)
-        }
-         */
+        customView.personePrenotate.text = persone
+        customView.orarioPrentFirm.text = hour
+
         return customView
     }
 
@@ -49,6 +40,4 @@ class BookFirmAdapter(
             "${hour}:${minute}"
         }
     }
-
-
 }

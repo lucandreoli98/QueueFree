@@ -6,7 +6,6 @@ class Firm(
     var id:String = "",
     var nomeazienza: String = "",
     var email:    String = "",
-    var password: String = "", // da cancellare
     var categoria: String = "",
     var location: String = "",
     var startHour: Long = 0,
