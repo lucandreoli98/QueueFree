@@ -26,6 +26,7 @@ import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.main.fragment_login.*
 import kotlinx.android.synthetic.main.fragment_login.view.*
 import org.json.JSONObject
+import java.util.*
 
 
 class LoginFragment : Fragment() {
@@ -97,8 +98,7 @@ class LoginFragment : Fragment() {
         }
 
         view.buttonFacebookLogin.fragment = this
-        view.buttonFacebookLogin.setReadPermissions("email")
-        view.buttonFacebookLogin.setReadPermissions("user_birthday");
+        view.buttonFacebookLogin.setReadPermissions(listOf("public_profile,email,user_friends,user_birthday"))
 
         // Initialize Facebook Login button
 
@@ -140,7 +140,7 @@ class LoginFragment : Fragment() {
         // Build a GoogleSignInClient with the options specified by gso.
         val mGoogleSignInClient = GoogleSignIn.getClient(activity!!, gso)
 
-        view.googleButton.setOnClickListener(){
+        view.googleButton.setOnClickListener{
             val signInIntent = mGoogleSignInClient.signInIntent
             startActivityForResult(signInIntent, RC_SIGN_IN)
         }
