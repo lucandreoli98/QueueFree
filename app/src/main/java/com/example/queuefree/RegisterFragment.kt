@@ -45,7 +45,6 @@ class RegisterFragment: Fragment(), OnDateSetListener {
             val password = passRegisterEditText.text.toString().trim()
             val conf = confpassRegisterEditText.text.toString().trim()
             var ok=true          //ti evita di fare le operazioni in piu per ogni controllo basta che un campo non sia compilato
-            Log.d("CONTROLLO","data inserita :${calendar.time} data di oggi: ${data.time} data limite ${limite.time}")
             // verifica se tutti i campi sono stati compilati, altrimenti segnala un errore
             if (ok && nome.isEmpty()) {
                 nameRegisterEditText.error = resources.getString(R.string.nameEmpty)
@@ -72,6 +71,7 @@ class RegisterFragment: Fragment(), OnDateSetListener {
                 confpassRegisterEditText.requestFocus()
                 ok=false
             }
+
             if (ok && password != conf) {
                 confpassRegisterEditText.error = resources.getString(R.string.confpassDifferent)
                 confpassRegisterEditText.requestFocus()
