@@ -200,8 +200,7 @@ class FirmProfileFragment: Fragment() {
 
                     }
                     openHourDialogView.okTimerButton.setOnClickListener {
-                        openNumberText.text =
-                            completeTimeStamp(houropentime.toLong(), minuteopentime.toLong())
+                        openNumberText.text = completeTimeStamp(houropentime.toLong(), minuteopentime.toLong())
                         alertOpenDialog.dismiss()
                     }
                     openHourDialogView.cancTimerButton.setOnClickListener {
@@ -239,18 +238,18 @@ class FirmProfileFragment: Fragment() {
         view.progress_bar_firm.visibility=View.VISIBLE
         FirebaseStorage.getInstance().reference.child("pics").child(id).getBytes(4096*4096)
             .addOnSuccessListener { bytes ->
-            val bitmap= BitmapFactory.decodeByteArray(bytes,0,bytes.size)
-            view.imageProfileFirm.setImageBitmap(bitmap)
-            view.progress_bar_firm.visibility=View.INVISIBLE
+                val bitmap= BitmapFactory.decodeByteArray(bytes,0,bytes.size)
+                view.imageProfileFirm.setImageBitmap(bitmap)
+                view.progress_bar_firm.visibility=View.INVISIBLE
             }
-            /*.addOnFailureListener {
+            .addOnFailureListener {
                 FirebaseStorage.getInstance().reference.child("pics").child("defaultimage.jpg").getBytes(4096*4096)
                     .addOnSuccessListener { bytes ->
-                        val bitmap=BitmapFactory.decodeByteArray(bytes,0,bytes.size)
-                        view.imageProfile.setImageBitmap(bitmap)
-                        view.progress_bar.visibility=View.INVISIBLE
+                        val bitmap= BitmapFactory.decodeByteArray(bytes,0,bytes.size)
+                        view.imageProfileFirm.setImageBitmap(bitmap)
+                        view.progress_bar_firm.visibility=View.INVISIBLE
                     }
-            }*/
+            }
 
         view.imageProfileFirm.setOnClickListener {
             passDialogView =
