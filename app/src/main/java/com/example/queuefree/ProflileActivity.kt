@@ -20,11 +20,6 @@ import kotlinx.android.synthetic.main.remove_user.view.*
 
 class ProflileActivity : AppCompatActivity() {
 
-    private var fireBase: FirebaseAuth? = null
-    private val currentUser = FirebaseAuth.getInstance().currentUser
-    val database=FirebaseDatabaseHelper()
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
@@ -45,8 +40,6 @@ class ProflileActivity : AppCompatActivity() {
         return true
     }
 
-
-
     fun RemoveUser() {
         val passDialogView = LayoutInflater.from(this).inflate(R.layout.remove_user, null)
         val mBuilder = AlertDialog.Builder(this).setView(passDialogView)
@@ -61,7 +54,8 @@ class ProflileActivity : AppCompatActivity() {
                 var ok = true
                 val password = passDialogView2.confirmPasswordEditText.text.toString().trim()
                 if (password.isEmpty()) {
-                    passDialogView2.confirmPasswordEditText.error = resources.getString(R.string.passEmpty)
+                    passDialogView2.confirmPasswordEditText.error =
+                        resources.getString(R.string.passEmpty)
                     passDialogView2.confirmPasswordEditText.requestFocus()
                     ok = false
                 }
@@ -69,17 +63,19 @@ class ProflileActivity : AppCompatActivity() {
                     val user = Firebase.auth.currentUser!!
                     val credential = EmailAuthProvider.getCredential(user.email!!, password)
 
-                    user.reauthenticate(credential).addOnSuccessListener {
+                    user.reauthenticate(credential)
+                        .addOnSuccessListener {
                             Log.d("Reautenticate", "User re-authenticated.")
-                            database.removeUser()
-                            user.delete().addOnSuccessListener {
+                            FirebaseDatabaseHelper().removeUser()
+                            user.delete()
+                                .addOnSuccessListener {
                                     alertDialog2.dismiss()
-                                    Log.d("User Eliminato", "User account deleted.")
+                                    Log.d("User Eliminato!", "User account deleted.")
                                     val i = Intent(this, MainActivity::class.java)
                                     i.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
                                     startActivity(i)
-                            }
-                    }
+                                }
+                        }
                 }
             }
             passDialogView2.cancPasswordButton.setOnClickListener {
@@ -92,18 +88,5 @@ class ProflileActivity : AppCompatActivity() {
             alertDialog.dismiss()
 
         }
-    }
-
-    fun signOut() {
-        fireBase!!.signOut()
-        LoginManager.getInstance().logOut()
-        val gso =
-            GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).build()
-
-        val googleSignInClient = GoogleSignIn.getClient(this, gso)
-        googleSignInClient.signOut()
-        val i = Intent(this, MainActivity::class.java)
-        i.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
-        startActivity(i)
     }
 }
