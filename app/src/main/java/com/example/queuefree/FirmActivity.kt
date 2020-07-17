@@ -103,6 +103,7 @@ class FirmActivity : AppCompatActivity() {
                         cUser!!.reauthenticate(credential).addOnCompleteListener { task ->
                             if(task.isSuccessful){
                                 FirebaseDatabase.getInstance().getReference("bookings/${cUser.uid}").removeValue()
+
                                 FirebaseDatabase.getInstance().getReference("firm/${cUser.uid}").removeValue()
                                 cUser.delete().addOnCompleteListener { taskDelete ->
                                     if(taskDelete.isSuccessful)
