@@ -20,12 +20,15 @@ class RegisterFragment: Fragment(), OnDateSetListener {
     private var day = 0L
     private var month = 0L
     private var year = 0L
+    private var calendar=Calendar.getInstance()
 
     // Database
     private var fireBase: FirebaseAuth? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-
+        val data=Calendar.getInstance()
+        val limite=Calendar.getInstance()
+        limite.set(2008,1,1)
         val view = inflater.inflate(R.layout.fragment_register, container, false) // in kotlin tutte le id vengono racchiuse nella view
 
         fireBase = FirebaseAuth.getInstance()
@@ -35,14 +38,14 @@ class RegisterFragment: Fragment(), OnDateSetListener {
         }
 
         view.submitButton.setOnClickListener {
-
+            calendar.set(year.toInt(),month.toInt(),day.toInt())
             val nome = nameRegisterEditText.text.toString().trim()
             val cognome = surnameRegisterEditText.text.toString().trim()
             val email = emailRegisterEditText.text.toString().trim()
             val password = passRegisterEditText.text.toString().trim()
             val conf = confpassRegisterEditText.text.toString().trim()
             var ok=true          //ti evita di fare le operazioni in piu per ogni controllo basta che un campo non sia compilato
-
+            Log.d("CONTROLLO","data inserita :${calendar.time} data di oggi: ${data.time} data limite ${limite.time}")
             // verifica se tutti i campi sono stati compilati, altrimenti segnala un errore
             if (ok && nome.isEmpty()) {
                 nameRegisterEditText.error = resources.getString(R.string.nameEmpty)
@@ -77,6 +80,16 @@ class RegisterFragment: Fragment(), OnDateSetListener {
 
             if (ok && (day == 0L || month == 0L || year == 0L)) {
                 register_show_calendar.text = resources.getString(R.string.dataEmpty)
+                register_show_calendar.requestFocus()
+                ok=false
+            }
+            if (ok && (calendar.after(data))){
+                register_show_calendar.text = "Errore!Hai inserito una data nel futuro"
+                register_show_calendar.requestFocus()
+                ok=false
+            }
+            if (ok && (calendar.after(limite))){
+                register_show_calendar.text = "Errore!Hai meno di 12 anni"
                 register_show_calendar.requestFocus()
                 ok=false
             }
@@ -120,7 +133,7 @@ class RegisterFragment: Fragment(), OnDateSetListener {
 
     override fun onDateSet(view: DatePicker, year: Int, month: Int, dayOfMonth: Int) {
         this.day = dayOfMonth.toLong()
-        this.month = (month + 1).toLong()
+        this.month = (month).toLong()
         this.year = year.toLong()
         val date = dayOfMonth.toString() + " / " + (month + 1) + " / " + year
         register_show_calendar.text = date
