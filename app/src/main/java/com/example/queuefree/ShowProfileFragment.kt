@@ -7,6 +7,7 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
+import android.os.AsyncTask
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
@@ -16,18 +17,18 @@ import android.view.ViewGroup
 import android.widget.DatePicker
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.facebook.Profile
 import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.ask_how_take_picture.view.*
 import kotlinx.android.synthetic.main.confirm_password.view.*
-import kotlinx.android.synthetic.main.fragment_register.*
-import kotlinx.android.synthetic.main.fragment_register.view.*
 import kotlinx.android.synthetic.main.fragment_show_profile.*
 import kotlinx.android.synthetic.main.fragment_show_profile.view.*
 import kotlinx.android.synthetic.main.update_password.view.*
 import java.io.ByteArrayOutputStream
+import java.net.URL
 import java.util.*
 
 
@@ -44,9 +45,10 @@ class ShowProfileFragment: Fragment(), DatePickerDialog.OnDateSetListener {
     private var day = 0L
     private var month = 0L
     private var year = 0L
+    private var profilePic:Bitmap? = null
 
     private lateinit var imageUri: Uri
-    private var vista:View? = null
+    private lateinit var vista:View
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_show_profile, container, false)
@@ -106,6 +108,15 @@ class ShowProfileFragment: Fragment(), DatePickerDialog.OnDateSetListener {
             view.progress_bar.visibility=View.INVISIBLE
             }
             .addOnFailureListener {
+                val profile = Profile.getCurrentProfile()
+                val urimage = profile.getProfilePictureUri(4096,4096)
+                if (urimage != null){
+                    profilePic = downloadImage().execute(urimage.toString()).get()
+
+                    view.imageProfile.setImageBitmap(profilePic)
+                    view.progress_bar.visibility=View.INVISIBLE
+                }else
+
                 FirebaseStorage.getInstance().reference.child("pics").child("defaultimage.jpg").getBytes(4096*4096)
                     .addOnSuccessListener { bytes ->
                         val bitmap=BitmapFactory.decodeByteArray(bytes,0,bytes.size)
@@ -373,6 +384,13 @@ class ShowProfileFragment: Fragment(), DatePickerDialog.OnDateSetListener {
                 }
         }
 
+    }
+
+    class downloadImage: AsyncTask<String,Void,Bitmap>(){
+        override fun doInBackground(vararg params: String?): Bitmap? {
+            val newURL = URL(params[0])
+            return BitmapFactory.decodeStream(newURL.openConnection().getInputStream())
+        }
     }
 
 }
