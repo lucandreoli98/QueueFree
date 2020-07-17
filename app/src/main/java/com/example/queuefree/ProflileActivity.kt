@@ -8,7 +8,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentActivity
 import com.facebook.AccessToken
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -90,7 +89,7 @@ class ProflileActivity : AppCompatActivity() {
                                 val credential = GoogleAuthProvider.getCredential(acct.idToken, null)
                                 user.reauthenticate(credential)
                                     .addOnSuccessListener{
-                                        Log.d("Google", "Reauthenticated.")
+                                        Log.d("Google", "Reauthenticated")
                                         FirebaseDatabaseHelper().removeUser()
                                         user.delete()
                                             .addOnSuccessListener {
