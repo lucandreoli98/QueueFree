@@ -61,8 +61,7 @@ class ProflileActivity : AppCompatActivity() {
                 var ok = true
                 val password = passDialogView2.confirmPasswordEditText.text.toString().trim()
                 if (password.isEmpty()) {
-                    passDialogView2.confirmPasswordEditText.error =
-                        resources.getString(R.string.passEmpty)
+                    passDialogView2.confirmPasswordEditText.error = resources.getString(R.string.passEmpty)
                     passDialogView2.confirmPasswordEditText.requestFocus()
                     ok = false
                 }
@@ -70,24 +69,17 @@ class ProflileActivity : AppCompatActivity() {
                     val user = Firebase.auth.currentUser!!
                     val credential = EmailAuthProvider.getCredential(user.email!!, password)
 
-
-                    // Get auth credentials from the user for re-authentication. The example below shows
-                    // email and password credentials but there are multiple possible providers,
-                    // such as GoogleAuthProvider or FacebookAuthProvider.
-                    // Prompt the user to re-provide their sign-in credentials
-                    user.reauthenticate(credential)
-                        .addOnSuccessListener {
+                    user.reauthenticate(credential).addOnSuccessListener {
                             Log.d("Reautenticate", "User re-authenticated.")
                             database.removeUser()
-                            user.delete()
-                                .addOnSuccessListener {
+                            user.delete().addOnSuccessListener {
                                     alertDialog2.dismiss()
                                     Log.d("User Eliminato", "User account deleted.")
                                     val i = Intent(this, MainActivity::class.java)
                                     i.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
                                     startActivity(i)
-                                }
-                        }
+                            }
+                    }
                 }
             }
             passDialogView2.cancPasswordButton.setOnClickListener {

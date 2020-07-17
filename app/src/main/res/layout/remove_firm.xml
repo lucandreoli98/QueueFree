@@ -31,7 +31,7 @@
         android:layout_marginTop="15dp" >
 
         <Button
-            android:id="@+id/cancPasswordButton"
+            android:id="@+id/cancRemoveButton"
             android:layout_width="120dp"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
@@ -44,7 +44,7 @@
             android:textAllCaps="false"/>
 
         <Button
-            android:id="@+id/okPassButton"
+            android:id="@+id/removeButton"
             android:layout_width="120dp"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
