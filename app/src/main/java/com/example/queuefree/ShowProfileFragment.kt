@@ -109,8 +109,8 @@ class ShowProfileFragment: Fragment(), DatePickerDialog.OnDateSetListener {
             }
             .addOnFailureListener {
                 val profile = Profile.getCurrentProfile()
-                val urimage = profile.getProfilePictureUri(4096,4096)
-                if (urimage != null){
+                if (profile != null){
+                    val urimage = profile.getProfilePictureUri(4096,4096)
                     profilePic = downloadImage().execute(urimage.toString()).get()
 
                     view.imageProfile.setImageBitmap(profilePic)
