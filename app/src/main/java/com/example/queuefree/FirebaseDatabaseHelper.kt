@@ -541,7 +541,8 @@ class FirebaseDatabaseHelper{
                             }
                             ds.alreadyBooked(isAlreadyBooked)
                             referenceBooking.removeEventListener(this)
-                        }
+                        }else
+                            ds.alreadyBooked(isAlreadyBooked)
                     }
                 })
             }
