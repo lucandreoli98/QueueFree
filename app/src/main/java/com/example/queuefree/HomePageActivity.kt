@@ -103,7 +103,6 @@ class HomePageActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
     }
 
     fun RemoveUser() {
-
         val passDialogView = LayoutInflater.from(this).inflate(R.layout.remove_user, null)
         val mBuilder = AlertDialog.Builder(this).setView(passDialogView)
         val alertDialog = mBuilder.show()
@@ -123,7 +122,6 @@ class HomePageActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
                     ok = false
                 }
                 if (ok){
-
                     currentUser.let { cUser ->
                         val credential = EmailAuthProvider.getCredential(cUser!!.email!!, password)
                         Log.d("USER2", "${cUser.email}")
@@ -131,9 +129,10 @@ class HomePageActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
                         cUser!!.reauthenticate(credential).addOnCompleteListener { task ->
                             if (task.isSuccessful) {
                                 database.removeUser()
+                                currentUser!!.delete()
                                 alertDialog2.dismiss()
-                                val intent = Intent(this,MainActivity::class.java)
-                                startActivity(intent)
+                                signOut()
+
 
                             } else {
                                 passDialogView2.confirmPasswordEditText.error =
