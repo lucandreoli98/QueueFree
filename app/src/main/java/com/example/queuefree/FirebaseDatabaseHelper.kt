@@ -8,7 +8,6 @@ import com.google.firebase.database.*
 class FirebaseDatabaseHelper{
 
     private var database : FirebaseDatabase = FirebaseDatabase.getInstance()
-    private val id = FirebaseAuth.getInstance().currentUser!!.uid.trim { it <= ' ' }
     private var referenceuser: DatabaseReference = database.getReference("users")
     private var referencefirm: DatabaseReference = database.getReference("firm")
     private var referenceBooking: DatabaseReference = database.getReference("bookings")
@@ -43,6 +42,7 @@ class FirebaseDatabaseHelper{
     }
 
     fun readUserFromDB(ds: DataStatus){
+        val id = FirebaseAuth.getInstance().currentUser!!.uid.trim { it <= ' ' }
         referenceuser.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(p0: DataSnapshot) {
                 if (p0.exists())
@@ -153,6 +153,7 @@ class FirebaseDatabaseHelper{
     }
 
     fun readFirmFromDB(ds: DataStatusFirm){
+        val id = FirebaseAuth.getInstance().currentUser!!.uid.trim { it <= ' ' }
         referencefirm.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(p0: DataSnapshot) {
                 if (p0.exists())
@@ -194,6 +195,7 @@ class FirebaseDatabaseHelper{
     }
 
     fun readDailyBooking(dd: Long, mm: Long, yy: Long, firm: Firm, ds: DataStatusBooking){
+        val id = FirebaseAuth.getInstance().currentUser!!.uid.trim { it <= ' ' }
         referenceBooking.addValueEventListener(object: ValueEventListener{
             override fun onCancelled(error: DatabaseError) {
             }
@@ -301,6 +303,7 @@ class FirebaseDatabaseHelper{
             }
 
             override fun onDataChange(snapshot: DataSnapshot) {
+                val id = FirebaseAuth.getInstance().currentUser!!.uid.trim { it <= ' ' }
                 if(snapshot.exists()){
                     for(firmID in snapshot.children){ // in questo punto id azienda
                         val booking = ArrayList<Booking>() // prenotazioni per la singola azienda
@@ -345,6 +348,7 @@ class FirebaseDatabaseHelper{
                 bookingsHour.add(firm.capienza)
 
         referenceBooking.addValueEventListener(object: ValueEventListener{
+            val id = FirebaseAuth.getInstance().currentUser!!.uid.trim { it <= ' ' }
             override fun onCancelled(error: DatabaseError) {
             }
             override fun onDataChange(snapshot: DataSnapshot) {
@@ -389,6 +393,7 @@ class FirebaseDatabaseHelper{
             }
 
             override fun onDataChange(snapshot: DataSnapshot) {
+                val id = FirebaseAuth.getInstance().currentUser!!.uid.trim { it <= ' ' }
                 if (snapshot.exists()){
                     for (azienda in snapshot.children){
                         if (azienda.key==firm.id){
@@ -464,6 +469,7 @@ class FirebaseDatabaseHelper{
             }
 
             override fun onDataChange(snapshot: DataSnapshot) {
+                val id = FirebaseAuth.getInstance().currentUser!!.uid.trim { it <= ' ' }
                 if (snapshot.exists()) {
                     for (azienda in snapshot.children) {
                         if (azienda.key == firm.id) {
@@ -551,6 +557,7 @@ class FirebaseDatabaseHelper{
     }
 
     fun removeFirm(mContext: Context, firm: Firm,ds: DataStatusCancel){
+        val id = FirebaseAuth.getInstance().currentUser!!.uid.trim { it <= ' ' }
         referencefirm.addValueEventListener(object : ValueEventListener {
             override fun onCancelled(error: DatabaseError) {
             }
@@ -592,6 +599,7 @@ class FirebaseDatabaseHelper{
         })
     }
     fun removeUser(){
+        val id = FirebaseAuth.getInstance().currentUser!!.uid.trim { it <= ' ' }
         referenceBooking.addValueEventListener(object:ValueEventListener{
             override fun onCancelled(error: DatabaseError) {
 

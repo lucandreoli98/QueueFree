@@ -31,27 +31,28 @@ import kotlinx.android.synthetic.main.update_password.view.*
 class HomePageActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     private var fireBase: FirebaseAuth? = null
-    private val currentUser = FirebaseAuth.getInstance().currentUser
     lateinit var toolbar: Toolbar
     lateinit var drawerLayout: DrawerLayout
     lateinit var navView: NavigationView
-    val database=FirebaseDatabaseHelper()
     private lateinit var user: User
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
-        val service = Intent(this, ReminderBookings::class.java)
-        startService(service)
-        Log.d("INTENT1", "Intent fatto")
-        val service2 = Intent(this, FinishTurnReminder::class.java)
-        startService(service2)
-        Log.d("INTENT2", "Intent fatto")
-        Log.d("USER", "${currentUser!!.email}")
+        if(FirebaseAuth.getInstance().currentUser!=null) {
+            val currentUser = FirebaseAuth.getInstance().currentUser
+
+            val service = Intent(this, ReminderBookings::class.java)
+            startService(service)
+            Log.d("INTENT1", "Intent fatto")
+            val service2 = Intent(this, FinishTurnReminder::class.java)
+            startService(service2)
+            Log.d("INTENT2", "Intent fatto")
+            Log.d("USER", "${currentUser!!.email}")
 
 
-
+        }
         fireBase = FirebaseAuth.getInstance()
 
         toolbar = findViewById(R.id.toolbar)

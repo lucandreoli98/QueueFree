@@ -13,6 +13,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.confirm_password.view.*
 import kotlinx.android.synthetic.main.remove_user.view.*
 
@@ -65,25 +67,27 @@ class ProflileActivity : AppCompatActivity() {
                     ok = false
                 }
                 if (ok){
-                    currentUser.let { cUser ->
-                        val credential = EmailAuthProvider.getCredential(cUser!!.email!!, password)
-                        Log.d("USER2", "${cUser.email}")
-                        Log.d("PASSWORD","$password")
-
-                        cUser!!.reauthenticate(credential).addOnCompleteListener { task ->
-                            if (task.isSuccessful) {
-                                database.removeUser()
-                                currentUser!!.delete()
-                                alertDialog2.dismiss()
-                                signOut()
+                    val user = Firebase.auth.currentUser!!
+                    val credential = EmailAuthProvider.getCredential(user.email!!, password)
 
 
-                            } else {
-                                passDialogView2.confirmPasswordEditText.error =
-                                    "Password non corretta"
-                            }
+                    // Get auth credentials from the user for re-authentication. The example below shows
+                    // email and password credentials but there are multiple possible providers,
+                    // such as GoogleAuthProvider or FacebookAuthProvider.
+                    // Prompt the user to re-provide their sign-in credentials
+                    user.reauthenticate(credential)
+                        .addOnSuccessListener {
+                            Log.d("Reautenticate", "User re-authenticated.")
+                            database.removeUser()
+                            user.delete()
+                                .addOnSuccessListener {
+                                    alertDialog2.dismiss()
+                                    Log.d("User Eliminato", "User account deleted.")
+                                    val i = Intent(this, MainActivity::class.java)
+                                    i.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
+                                    startActivity(i)
+                                }
                         }
-                    }
                 }
             }
             passDialogView2.cancPasswordButton.setOnClickListener {

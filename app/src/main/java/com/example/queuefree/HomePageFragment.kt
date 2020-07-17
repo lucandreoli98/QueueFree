@@ -29,8 +29,7 @@ class HomePageFragment : Fragment(), DatePickerDialog.OnDateSetListener {// , Na
 
         fireBase = FirebaseAuth.getInstance()
 
-        val fb = FirebaseDatabaseHelper()
-        fb.readUserFromDB(object : FirebaseDatabaseHelper.DataStatus {
+        FirebaseDatabaseHelper().readUserFromDB(object : FirebaseDatabaseHelper.DataStatus {
             override fun DataIsLoaded(user: User) {
                 if ((fireBase != null && fireBase!!.currentUser != null)&&(user.dd==0L)) {
                     passDialogView = LayoutInflater.from(context).inflate(R.layout.askbirthday, null)
