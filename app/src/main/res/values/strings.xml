@@ -114,6 +114,8 @@
     <string name="modifica_profilo">Modifica Profilo</string>
     <string name="remove_firm">La rimozione dell\'account è irreversibile e cancellerà le prenotazioni effettuate dagli utenti.
         \nProseguire con la rimozione dell\'azienda da QueueFree?</string>
+    <string name="remove_user">La rimozione dell\'account è irreversibile e cancellerà le prenotazioni effettuate dall\'utente.
+        \nProseguire con la rimozione dell\'utente da QueueFree?</string>
     <string name="indietro">Indietro</string>
     <string name="elimina">Elimina</string>
     <string name="attenzione">ATTENZIONE</string>

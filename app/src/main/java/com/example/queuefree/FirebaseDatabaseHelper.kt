@@ -591,4 +591,29 @@ class FirebaseDatabaseHelper{
             }
         })
     }
+    fun removeUser(){
+        referenceBooking.addValueEventListener(object:ValueEventListener{
+            override fun onCancelled(error: DatabaseError) {
+
+            }
+
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if (snapshot.exists()){
+                    for (azienda in snapshot.children){
+                        for (bookings in azienda.children){
+                            var str=bookings.key!!.split("-")
+                            if (str[0].trim()==id){
+                                database.getReference("bookings/${azienda.key}/${bookings.key}").removeValue()
+
+                            }
+                        }
+                    }
+                }
+
+
+            }
+
+        })
+        database.getReference("users/$id").removeValue()
+    }
 }
