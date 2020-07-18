@@ -176,6 +176,13 @@ class ShowProfileFragment: Fragment(), DatePickerDialog.OnDateSetListener {
         val surname = surnameEditText.text.toString().trim()
         val email = emailEditText.text.toString().trim()
         var ok: Boolean = true
+        var calendar= Calendar.getInstance()
+        var data = Calendar.getInstance()
+        var limite=Calendar.getInstance()
+        limite.set(2008,1,1)
+        data.set(year.toInt(),month.toInt()-1,day.toInt())
+        Log.d("CALENDAR","data di oggi : ${calendar.time} , data di nascita ${data.time}")
+
 
         // controllo se sono vuoti gli editText
         // TODO: CONTROLLARE I MESSAGGI DI ERRORE
@@ -193,6 +200,16 @@ class ShowProfileFragment: Fragment(), DatePickerDialog.OnDateSetListener {
             emailEditText.error = resources.getString(R.string.emailEmpty)
             emailEditText.requestFocus()
             ok = false
+        }
+        if (ok && data.after(calendar)){
+            dataEditTextView.text="Hai inserito una data nel futuro"
+            dataEditTextView.requestFocus()
+            ok=false
+        }
+        if (ok && data.after(limite)){
+            dataEditTextView.text="Hai meno di 12 anni"
+            dataEditTextView.requestFocus()
+            ok=false
         }
 
         // se non ci sono campi vuoti
