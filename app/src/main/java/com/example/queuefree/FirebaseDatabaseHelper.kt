@@ -41,6 +41,10 @@ class FirebaseDatabaseHelper{
         fun alreadyBooked(isAlreadyBooked: Boolean)
     }
 
+    interface DeleteUser{
+        fun delUser()
+    }
+
     fun readUserFromDB(ds: DataStatus){
         val id = FirebaseAuth.getInstance().currentUser!!.uid.trim { it <= ' ' }
         referenceuser.addValueEventListener(object : ValueEventListener {
@@ -549,7 +553,7 @@ class FirebaseDatabaseHelper{
         })
     }
 
-    fun removeUser(){
+    fun removeUser(du: DeleteUser){
         val id = FirebaseAuth.getInstance().currentUser!!.uid.trim { it <= ' ' }
         referenceBooking.addValueEventListener(object:ValueEventListener{
             override fun onCancelled(error: DatabaseError) {
@@ -569,5 +573,6 @@ class FirebaseDatabaseHelper{
             }
         })
         database.getReference("users/$id").removeValue()
+        du.delUser()
     }
 }

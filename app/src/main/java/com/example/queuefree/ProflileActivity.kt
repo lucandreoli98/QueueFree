@@ -10,9 +10,11 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.fragment.app.FragmentActivity
 import com.facebook.AccessToken
+import com.facebook.login.LoginManager
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FacebookAuthProvider
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -75,7 +77,12 @@ class ProflileActivity : AppCompatActivity() {
                             user.reauthenticate(credential)
                                 .addOnSuccessListener {
                                     Log.d("Reautenticate", "User re-authenticated.")
-                                    FirebaseDatabaseHelper().removeUser()
+                                    FirebaseDatabaseHelper().removeUser(object: FirebaseDatabaseHelper.DeleteUser {
+                                        override fun delUser() {
+                                            Log.d("AAAAAAAAAAAAAAAAAAAAAAAAAAAA","AAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+                                        }
+
+                                    })
                                     user.delete()
                                         .addOnSuccessListener {
                                             alertDialog2.dismiss()
@@ -94,12 +101,18 @@ class ProflileActivity : AppCompatActivity() {
                 }
                 "google.com" -> {
                     val acct = GoogleSignIn.getLastSignedInAccount(this)
+
                     if (acct != null) {
                         val credential = GoogleAuthProvider.getCredential(acct.idToken, null)
                         user.reauthenticate(credential)
                             .addOnSuccessListener{
                                 Log.d("Google", "Reauthenticated")
-                                FirebaseDatabaseHelper().removeUser()
+                                FirebaseDatabaseHelper().removeUser(object: FirebaseDatabaseHelper.DeleteUser {
+                                    override fun delUser() {
+                                        Log.d("AAAAAAAAAAAAAAAAAAAAAAAAAAAA","AAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+                                    }
+
+                                })
                                 user.delete()
                                     .addOnSuccessListener {
                                         Log.d("User Eliminato", "User account deleted.")
@@ -107,9 +120,30 @@ class ProflileActivity : AppCompatActivity() {
                                         i.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
                                         startActivity(i)
                                     }
+                                    .addOnFailureListener {
+                                        Log.d("AAAAAAAAAAAAAaa",it.message)
+                                    }
+                            }
+                            .addOnFailureListener {
+                                Log.d("Fail", it.message)
+
                             }
                     }
                 }
+                "facebook.com" ->{
+                    FirebaseDatabaseHelper().removeUser(object: FirebaseDatabaseHelper.DeleteUser {
+                        override fun delUser() {
+                            Log.d("AAAAAAAAAAAAAAAAAAAAAAAAAAAA","AAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+                        }
+
+                    })
+                    FirebaseAuth.getInstance().signOut()
+                    LoginManager.getInstance().logOut()
+                    val i = Intent(this, MainActivity::class.java)
+                    i.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    startActivity(i)
+                }
+
             }
 
         }
