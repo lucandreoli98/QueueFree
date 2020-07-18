@@ -108,8 +108,7 @@ class ProflileActivity : AppCompatActivity() {
                                             }
                                         }
                                     })
-                                }else
-                                    Toast.makeText(this, "Password errata", Toast.LENGTH_SHORT).show()
+                                }
                             }
                         }
                     }
