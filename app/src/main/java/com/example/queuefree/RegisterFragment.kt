@@ -98,7 +98,7 @@ class RegisterFragment: Fragment(), OnDateSetListener {
                 fireBase!!.createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener { task ->
                         if (task.isSuccessful) {
-                            val u = User(nome, cognome, email, day, month, year)
+                            val u = User(nome, cognome, email, day, (month+1), year)
                             
                             Log.e("task successful", resources.getString(R.string.userRegistrated))
                             

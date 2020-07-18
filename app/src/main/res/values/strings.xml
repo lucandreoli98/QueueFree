@@ -121,5 +121,6 @@
     <string name="attenzione">ATTENZIONE</string>
     <string name="sei_sicuro_di_voler_procedere">Sei sicuro di voler procedere?</string>
     <string name="descrizione_dialog">Descrizione</string>
+    <string name="giorni">Giorni:</string>
 
 </resources>
