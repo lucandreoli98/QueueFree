@@ -33,8 +33,9 @@ class ReminderBookings : Service() {
             notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
             notificationManager!!.createNotificationChannel(mChannel)
 
-            startTimer()
+
         }
+        startTimer()
     }
 
     private fun startTimer() {
@@ -124,7 +125,7 @@ class ReminderBookings : Service() {
         var timer = Timer(false)
         val delay = 1000 * 10 // 10 seconds
 
-        val interval = 1000*60*30// 1 hour
+        val interval = 1000*60*30// 1/2 hour
 
         timer.schedule(task, delay.toLong(), interval.toLong())
     }
@@ -156,6 +157,7 @@ class ReminderBookings : Service() {
 
         // display the notification
         val NOTIFICATION_ID = i
+        notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
         notificationManager!!.notify(NOTIFICATION_ID, notification)
     }
 

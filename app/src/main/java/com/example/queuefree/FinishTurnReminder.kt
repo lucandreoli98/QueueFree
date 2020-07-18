@@ -109,14 +109,13 @@ class FinishTurnReminder : Service() {
                                                 if (totalbucompact[j].yy == year.toLong()) {
                                                     val starthour = totalfirmcompact[j].startHour + totalbucompact[j].nOre
                                                     val finishHour = starthour + durate[j]
-                                                    if (finishHour>=hours){
                                                         val data :Calendar= Calendar.getInstance()
                                                         data.set(year,month,day,finishHour.toInt(),totalfirmcompact[j].startMinute.toInt(),0)
-                                                        Log.d("TIMER","$month IL timer si avvierà alle ${data.time} di ${totalfirmcompact[j].nomeazienza} partendo da ${calendar.time}")
-
-                                                        val difference=data.timeInMillis-calendar.timeInMillis
-                                                        if (difference>0)
-                                                             startTimer1(data.timeInMillis-calendar.timeInMillis,totalbucompact,durate,j,totalfirmcompact)
+                                                        if (data.after(calendar)) {
+                                                            Log.d("TIMER","$month IL timer si avvierà alle ${data.time} di ${totalfirmcompact[j].nomeazienza} partendo da ${calendar.time}")
+                                                            val difference = data.timeInMillis - calendar.timeInMillis
+                                                            startTimer1(difference, totalbucompact, durate, j, totalfirmcompact)
+                                                        }
                                                         else {
                                                             var scompact=ArrayList<Booking>()
                                                             if (durate[j]>1){
@@ -130,8 +129,6 @@ class FinishTurnReminder : Service() {
                                                             }
 
                                                           }
-
-                                                        }
 
                                                     }
 
@@ -209,6 +206,7 @@ class FinishTurnReminder : Service() {
 
         // display the notification
         val NOTIFICATION_ID = 7
+        notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
         notificationManager!!.notify(NOTIFICATION_ID, notification)
     }
 
