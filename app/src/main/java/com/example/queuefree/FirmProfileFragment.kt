@@ -427,6 +427,8 @@ class FirmProfileFragment: Fragment() {
             FasciaEditText.error ="il campo Numero di turni non può essere maggiore dell'orario lavorativo"
             FasciaEditText.requestFocus()
             ok = false
+        }else if(giorni == resources.getString(R.string.noDays)){
+            giorni = ""
         }
 
         // se non ci sono campi vuoti
