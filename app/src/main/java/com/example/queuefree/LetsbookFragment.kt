@@ -246,20 +246,15 @@ class LetsbookFragment: Fragment(), DatePickerDialog.OnDateSetListener {
                                 }
                             }
 
-                            Log.e("PROVA2", isSearch.toString())
-
                             if(isSearch){
-
-                                Log.e("PROVA3", isSearch.toString())
                                 val userID = "$id-$year${isZero(month.toInt())}$month${isZero(day.toInt())}$day"
                                 val oraInizio = v!!.startHour.selectedItemPosition + firm.startHour
                                 val durata = (v!!.durataH.selectedItemPosition+1).toLong()
 
                                 fb.compareBookings(userID,oraInizio,durata,object : FirebaseDatabaseHelper.DataAlreadyBookin{
                                     override fun alreadyBooked(isAlreadyBooked: Boolean) {
-                                        Log.e("PROVA2 already booked)", isAlreadyBooked.toString())
                                         if(!isAlreadyBooked){
-                                            Log.e("PROVA dentro if(!)", isAlreadyBooked.toString())
+
                                             isSearch = false
 
                                             val confirmDialogView = LayoutInflater.from(context!!).inflate(R.layout.biglietto_della_fiumara, null)

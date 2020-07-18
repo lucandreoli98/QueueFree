@@ -79,8 +79,8 @@ class FirmActivity : AppCompatActivity() {
             }
 
             removeFirmDialogView.okRemoveButton.setOnClickListener {
-                val email = removeFirmDialogView.emailRemoveEditText.text.toString()
-                val password = removeFirmDialogView.passwordRemoveEditText.text.toString()
+                val email = removeFirmDialogView.emailRemoveEditText.text.toString().trim()
+                val password = removeFirmDialogView.passwordRemoveEditText.text.toString().trim()
                 var isCorrect = true
 
                 if(email.isEmpty()){
