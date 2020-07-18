@@ -23,7 +23,7 @@ class HomePageActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
     lateinit var toolbar: Toolbar
     lateinit var drawerLayout: DrawerLayout
     lateinit var navView: NavigationView
-    private lateinit var user: User
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
