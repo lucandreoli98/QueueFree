@@ -371,7 +371,10 @@ class FirmProfileFragment: Fragment() {
         totalPeopleTextView.text=firm.capienza.toString()
         FasciaTextView.text=firm.maxTurn.toString()
         maxGruppoTextView.text = firm.maxPartecipants.toString()
-        giornoTextView.text = firm.giorni
+        if(giorni == "")
+            giornoTextView.text = resources.getString(R.string.noDays)
+        else
+            giornoTextView.text = firm.giorni
 
         // parte invisibile
         edit_firm.text = resources.getString(R.string.editProfileButton)
