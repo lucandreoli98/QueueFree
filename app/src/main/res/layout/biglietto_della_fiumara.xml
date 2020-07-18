@@ -10,15 +10,16 @@
     <RelativeLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="270dp"
-        >
+        android:layout_height="270dp">
 
         <TextView
             android:id="@+id/firmNameTicket"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="10dp"
             android:textColor="@color/white"
-            android:textSize="40sp"
+            android:textSize="25sp"
             android:layout_centerHorizontal="true"
             android:textStyle="bold"
             android:text=""/>
@@ -27,31 +28,30 @@
             android:layout_marginTop="60dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_below="@+id/firmNameTicket"
             android:layout_alignParentTop="true"
             android:layout_alignParentBottom="true"
             app:srcCompat="@drawable/ticket_icon"
             android:contentDescription=""
             android:layout_marginBottom="10dp"/>
 
-
-
         <ImageView
             android:id="@+id/imageCalendar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/firmNameTicket"
+            android:layout_alignParentTop="true"
             android:layout_marginStart="50dp"
-            android:layout_marginTop="47dp"
+            android:layout_marginTop="100dp"
             android:src="@drawable/ic_event_black" />
 
         <TextView
             android:id="@+id/dataTicket"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/firmNameTicket"
+            android:layout_alignParentTop="true"
             android:layout_toEndOf="@+id/imageCalendar"
             android:layout_marginStart="5dp"
-            android:layout_marginTop="47dp"
+            android:layout_marginTop="100dp"
             android:textColor="@color/black"
             android:textSize="20sp"
             android:text="" />
