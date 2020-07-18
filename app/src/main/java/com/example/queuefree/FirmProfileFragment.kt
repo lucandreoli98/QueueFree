@@ -74,7 +74,7 @@ class FirmProfileFragment: Fragment() {
                 view.openNumberText.text = completeTimeStamp(firm.startHour, firm.startMinute)
                 view.closeNumberText.text = completeTimeStamp(firm.endHour, firm.endMinute)
                 if(giorni == "")
-                    view.giornoTextView.text = "Seleziona giorni lavorativi"
+                    view.giornoTextView.text = resources.getString(R.string.noDays)
                 else
                     view.giornoTextView.text = firm.giorni
 
