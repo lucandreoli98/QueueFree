@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent" >
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -81,7 +81,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="250dp">
+        android:layout_marginTop="250dp" >
 
         <ImageView
             android:id="@+id/emailImage"
@@ -128,7 +128,8 @@
             android:text=""
             android:hint="@string/emailEditText"
             android:inputType="textEmailAddress"
-            android:visibility="invisible" />
+            android:visibility="invisible"
+            android:theme="@style/EditTextBlack" />
 
         <ImageView
             android:id="@+id/birthImage"

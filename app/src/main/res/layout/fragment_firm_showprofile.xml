@@ -298,7 +298,8 @@
                 android:inputType="number"
                 android:textColor="@color/black"
                 android:textSize="20sp"
-                android:visibility="invisible"/>
+                android:visibility="invisible"
+                android:theme="@style/EditTextBlack"/>
 
             <TextView
                 android:id="@+id/maxGruppo"
@@ -337,7 +338,8 @@
                 android:inputType="number"
                 android:textColor="@color/black"
                 android:textSize="20sp"
-                android:visibility="invisible"/>
+                android:visibility="invisible"
+                android:theme="@style/EditTextBlack"/>
 
             <ImageView
                 android:id="@+id/fasciaView"
@@ -372,7 +374,8 @@
                 android:inputType="number"
                 android:visibility="invisible"
                 android:textColor="@color/black"
-                android:textSize="20sp"/>
+                android:textSize="20sp"
+                android:theme="@style/EditTextBlack" />
 
             <TextView
                 android:id="@+id/FasciaTextView"

@@ -36,7 +36,8 @@
         android:text=""
         android:textColor="@color/black"
         android:textSize="20sp"
-        android:visibility="invisible" />
+        android:visibility="invisible"
+        android:theme="@style/EditTextBlack" />
 
     <Button
         android:id="@+id/cancDescr"

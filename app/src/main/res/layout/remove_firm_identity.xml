@@ -29,7 +29,8 @@
         android:layout_marginTop="20dp"
         android:inputType="textEmailAddress"
         android:gravity="center"
-        android:hint="@string/emailEditText" />
+        android:hint="@string/emailEditText"
+        android:theme="@style/EditTextBlack" />
 
     <EditText
         android:id="@+id/passwordRemoveEditText"
@@ -38,7 +39,8 @@
         android:layout_marginTop="10dp"
         android:inputType="textPassword"
         android:gravity="center"
-        android:hint="@string/passwordEditText" />
+        android:hint="@string/passwordEditText"
+        android:theme="@style/EditTextBlack" />
 
     <RelativeLayout
         android:layout_width="match_parent"
