@@ -73,12 +73,11 @@ class FirmProfileFragment: Fragment() {
                 view.FasciaTextView.text = firm.maxTurn.toString()
                 view.openNumberText.text = completeTimeStamp(firm.startHour, firm.startMinute)
                 view.closeNumberText.text = completeTimeStamp(firm.endHour, firm.endMinute)
+                giorni = firm.giorni
                 if(giorni == "")
                     view.giornoTextView.text = resources.getString(R.string.noDays)
                 else
                     view.giornoTextView.text = firm.giorni
-
-                giorni = firm.giorni
 
                 view.openNumberText.text = completeTimeStamp(firm.startHour, firm.startMinute)
                 view.closeNumberText.text = completeTimeStamp(firm.endHour, firm.endMinute)
