@@ -18,8 +18,14 @@ class BookAdapter(
 
         val inflater= LayoutInflater.from(context)
         val customView= inflater.inflate(resource,parent,false)
+        var nome = ""
 
-        customView.firmNameTicket.text = firm[position].nomeazienza
+        nome = if(firm[position].nomeazienza.length >= 21)
+            firm[position].nomeazienza.substring(0,21)+"..."
+        else
+            firm[position].nomeazienza
+
+        customView.firmNameTicket.text = nome
         customView.dataTicket.text = "${getItem(position)!!.dd}/${getItem(position)!!.mm}/${getItem(position)!!.yy}"
         customView.orarioTicket.text = "${completeTimeStamp(firm[position].startHour+getItem(position)!!.nOre,firm[position].startMinute)} - ${completeTimeStamp(durate[position]+firm[position].startHour+getItem(position)!!.nOre,firm[position].startMinute)}"
         customView.partecipantiTicket.text = getItem(position)!!.nPartecipanti.toString()
