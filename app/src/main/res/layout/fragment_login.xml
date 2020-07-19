@@ -12,7 +12,7 @@
         android:layout_centerHorizontal="true"
         android:layout_height="180dp"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="25dp"
         app:srcCompat="@drawable/queue_free_logo"
         android:contentDescription="@string/immagine" />
 
@@ -73,6 +73,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/passLoginEditText"
         android:layout_alignStart="@+id/passLoginEditText"
+        android:layout_centerInParent="true"
         android:textSize="17sp"
         android:layout_marginTop="10dp"
         android:layout_marginStart="30dp"
@@ -101,7 +102,8 @@
         android:layout_marginTop="5dp"
         android:layout_marginStart="40dp"
         android:text="@string/hai_un_azienda"
-        android:textColor="@color/white" />
+        android:textColor="@color/white"
+        android:layout_centerInParent="true"/>
 
     <TextView
         android:id="@+id/signUpFirmTextView"
@@ -131,27 +133,20 @@
 
     <com.facebook.login.widget.LoginButton
         android:id="@+id/buttonFacebookLogin"
-        android:layout_width="100dp"
-        android:layout_height="130dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/loginButtonlogin"
-        android:layout_alignStart="@+id/passLoginEditText"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
-        android:background="@drawable/btn_rounded"
-        android:backgroundTint="@color/blue"
-        android:textColor="@color/white"
         android:text="@string/facebook" />
 
     <com.google.android.gms.common.SignInButton
         android:id="@+id/googleButton"
-        android:layout_width="100dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/loginButtonlogin"
-        android:layout_alignBaseline="@+id/buttonFacebookLogin"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="40dp"
+        android:layout_below="@id/buttonFacebookLogin"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="60dp"
-        android:layout_toEndOf="@+id/buttonFacebookLogin"
         android:text="@string/google" />
 
 </RelativeLayout>
