@@ -289,7 +289,6 @@ class LoginFragment : Fragment() {
                     startActivity(i)
                 }
             }
-
         })
     }
 }
