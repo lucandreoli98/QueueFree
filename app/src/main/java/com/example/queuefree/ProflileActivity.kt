@@ -41,6 +41,10 @@ class ProflileActivity : AppCompatActivity() {
         return true
     }
 
+    override fun onBackPressed() {
+        startActivity(Intent(this, HomePageActivity::class.java))
+    }
+
     fun RemoveUser() {
         val removeDialogView = LayoutInflater.from(this).inflate(R.layout.remove_user, null)
         val mBuilder = AlertDialog.Builder(this).setView(removeDialogView)
