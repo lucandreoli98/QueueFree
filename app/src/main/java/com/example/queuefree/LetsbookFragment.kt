@@ -217,7 +217,6 @@ class LetsbookFragment: Fragment(), DatePickerDialog.OnDateSetListener {
                             if (datestartbook.before(calendar)){
                                 isSearch=false
                                 Toast.makeText(context!!,"Prenotazione non valida!\nL'Orario di inizio è già passato",Toast.LENGTH_SHORT).show()
-
                             }
                         }
 
@@ -282,7 +281,7 @@ class LetsbookFragment: Fragment(), DatePickerDialog.OnDateSetListener {
                                                 startActivity(i)
                                             }
                                         }else
-                                            Toast.makeText(context!!,"Hai già prenotato",Toast.LENGTH_SHORT).show()
+                                            Toast.makeText(context!!,"Hai già prenotato in un'altra struttura nello stesso orario",Toast.LENGTH_SHORT).show()
                                     }
 
                                 })
