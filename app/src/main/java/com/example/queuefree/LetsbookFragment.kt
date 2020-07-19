@@ -211,7 +211,7 @@ class LetsbookFragment: Fragment(), DatePickerDialog.OnDateSetListener {
                     v!!.book.setOnClickListener {
                         isSearch = true
 
-                       /* if (day==actualday.toLong() && month==actualmonth.toLong()){
+                       if (day==actualday.toLong() && month==actualmonth.toLong()){
                             var datestartbook = Calendar.getInstance()
                             datestartbook.set(year.toInt(),month.toInt(),day.toInt(),(v!!.startHour.selectedItemPosition + firm.startHour).toInt(),firm.startMinute.toInt())
                             if (datestartbook.before(calendar)){
@@ -219,7 +219,7 @@ class LetsbookFragment: Fragment(), DatePickerDialog.OnDateSetListener {
                                 Toast.makeText(context!!,"Prenotazione non valida!\nL'Orario di inizio è già passato",Toast.LENGTH_SHORT).show()
 
                             }
-                        }*/
+                        }
 
                         if((v!!.startHour.selectedItemPosition + firm.startHour + v!!.durataH.selectedItemPosition+1) > firm.endHour){
                             isSearch = false
