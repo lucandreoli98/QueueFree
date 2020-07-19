@@ -38,12 +38,12 @@ class LetsbookFragment: Fragment(), DatePickerDialog.OnDateSetListener {
     private val hoursArray: ArrayList<Long> = ArrayList()
     private var isSearch = false
     private var dayOfWeek: String?=null
-    var calendar=Calendar.getInstance()
+    var calendar = Calendar.getInstance()
     var actualday = calendar.get(Calendar.DAY_OF_MONTH)
     var actualmonth = calendar.get(Calendar.MONTH)+1
     var actualyear = calendar.get(Calendar.YEAR)
-    var actualhours=calendar.get(Calendar.HOUR_OF_DAY)
-    var actualminute=calendar.get(Calendar.MINUTE)
+    var actualhours = calendar.get(Calendar.HOUR_OF_DAY)
+    var actualminute = calendar.get(Calendar.MINUTE)
 
 
 

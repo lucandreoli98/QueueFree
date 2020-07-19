@@ -78,9 +78,6 @@ class FirmProfileFragment: Fragment() {
                     view.giornoTextView.text = resources.getString(R.string.noDays)
                 else
                     view.giornoTextView.text = firm.giorni
-
-                view.openNumberText.text = completeTimeStamp(firm.startHour, firm.startMinute)
-                view.closeNumberText.text = completeTimeStamp(firm.endHour, firm.endMinute)
                 view.totalPeopledEditText.setText(firm.capienza.toString())
                 view.FasciaEditText.setText(firm.maxTurn.toString())
                 view.maxGruppoEditText.setText(firm.maxPartecipants.toString())
@@ -193,6 +190,9 @@ class FirmProfileFragment: Fragment() {
                     val alertOpenDialog = mBuilder.show()
 
                     openHourDialogView.timePicker.setIs24HourView(true)
+                    openHourDialogView.timePicker.hour = firm.startHour.toInt()
+                    openHourDialogView.timePicker.minute = firm.startMinute.toInt()
+
                     openHourDialogView.timePicker.setOnTimeChangedListener { _, hour, minute ->
 
                         houropentime = hour
@@ -217,6 +217,10 @@ class FirmProfileFragment: Fragment() {
                     val alertOpenDialog = mBuilder.show()
 
                     openHourDialogView.timePicker.setIs24HourView(true)
+                    openHourDialogView.timePicker.hour = firm.endHour.toInt()
+                    openHourDialogView.timePicker.minute = firm.endMinute.toInt()
+
+
                     openHourDialogView.timePicker.setOnTimeChangedListener { _, hour, minute ->
 
                         hourclosetime = hour
