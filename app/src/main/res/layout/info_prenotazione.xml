@@ -7,7 +7,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="75dp"
+        android:layout_height="100dp"
         android:background="@color/backgroundRed" >
 
         <TextView
@@ -24,7 +24,8 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="185dp" >
+        android:layout_height="165dp"
+        android:layout_marginTop="10dp">
 
         <ImageView
             android:id="@+id/imageStart"
