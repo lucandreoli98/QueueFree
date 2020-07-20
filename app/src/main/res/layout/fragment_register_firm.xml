@@ -1,171 +1,178 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/backgroundRed">
 
-    <EditText
-        android:id="@+id/firm_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="70dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="70dp"
-        android:ems="10"
-        android:hint="@string/nome_dell_azienda"
-        android:inputType="textPersonName"
-        android:textColor="@color/white"
-        android:textColorHint="@color/white"
-        android:textSize="20sp" />
-
-    <EditText
-        android:id="@+id/emailRegisterEditText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/firm_name"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="70dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="70dp"
-        android:ems="10"
-        android:hint="@string/emailEditText"
-        android:inputType="textEmailAddress"
-        android:textColor="@color/white"
-        android:textColorHint="@color/white"
-        android:textSize="20sp" />
-
-    <EditText
-        android:id="@+id/passRegisterEditText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/emailRegisterEditText"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="70dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="70dp"
-        android:ems="10"
-        android:hint="@string/passwordEditText"
-        android:inputType="textPassword"
-        android:textColor="@color/white"
-        android:textColorHint="@color/white"
-        android:textSize="20sp" />
-
-    <EditText
-        android:id="@+id/confpassRegisterEditText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/passRegisterEditText"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="70dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="70dp"
-        android:ems="10"
-        android:hint="@string/confpasswordEditText"
-        android:inputType="textPassword"
-        android:textColor="@color/white"
-        android:textColorHint="@color/white"
-        android:textSize="20sp" />
-
-    <TextView
-        android:id="@+id/placesSelect"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="70dp"
-        android:layout_marginEnd="70dp"
-        android:ems="10"
-        android:layout_below="@+id/confpassRegisterEditText"
-        android:textColor="@color/white"
-        android:textColorHint="@color/white"
-        android:textSize="20sp"
-        android:padding="10dp"
-        android:hint="@string/dove_si_trova"
-        android:drawableStart="@drawable/ic_add_location_white_24dp"
-        android:drawablePadding="12dp"/>
-
-    <Spinner
-        android:id="@+id/firm_category"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="70dp"
-        android:layout_marginEnd="70dp"
-        android:ems="10"
-        android:layout_below="@+id/placesSelect"
-        android:textColor="@color/white"
-        android:textColorHint="@color/white"
-        android:textSize="20sp"
-        android:gravity="start"
-        android:padding="20dp" />
-
-    <Button
-        android:id="@+id/openButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/firm_category"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="10dp"
-        android:layout_marginStart="70dp"
-        android:layout_marginEnd="70dp"
-        android:textSize="20sp"
-        android:textColor="@color/white"
-        android:background="@drawable/btn_edit"
-        android:textAllCaps="false"
-        android:text="@string/orario_apertura_text"/>
-
-    <Button
-        android:id="@+id/closeButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/openButton"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="10dp"
-        android:layout_marginStart="70dp"
-        android:layout_marginEnd="70dp"
-        android:textSize="20sp"
-        android:textColor="@color/white"
-        android:background="@drawable/btn_edit"
-        android:textAllCaps="false"
-        android:text="@string/orario_di_chiusura_text"/>
-
-    <EditText
-        android:id="@+id/capienzaEditText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="70dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="70dp"
-        android:ems="10"
-        android:hint="@string/capienza_massima_reg"
-        android:inputType="numberDecimal"
-        android:layout_below="@+id/closeButton"
-        android:textColor="@color/white"
-        android:textColorHint="@color/white"
-        android:textSize="20sp" />
-
-    <Button
-        android:id="@+id/submitButton"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/capienzaEditText"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="60dp"
-        android:layout_marginStart="60dp"
-        android:background="@drawable/btn_rounded"
-        android:text="@string/registred"
-        android:textColor="@color/backgroundRed"
-        android:textSize="20sp" />
+        android:paddingBottom="10dp">
 
-</RelativeLayout>
+        <EditText
+            android:id="@+id/firm_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="70dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="70dp"
+            android:ems="10"
+            android:hint="@string/nome_dell_azienda"
+            android:inputType="textPersonName"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"
+            android:textSize="20sp" />
+
+        <EditText
+            android:id="@+id/emailRegisterEditText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/firm_name"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="70dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="70dp"
+            android:ems="10"
+            android:hint="@string/emailEditText"
+            android:inputType="textEmailAddress"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"
+            android:textSize="20sp" />
+
+        <EditText
+            android:id="@+id/passRegisterEditText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/emailRegisterEditText"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="70dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="70dp"
+            android:ems="10"
+            android:hint="@string/passwordEditText"
+            android:inputType="textPassword"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"
+            android:textSize="20sp" />
+
+        <EditText
+            android:id="@+id/confpassRegisterEditText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/passRegisterEditText"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="70dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="70dp"
+            android:ems="10"
+            android:hint="@string/confpasswordEditText"
+            android:inputType="textPassword"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/placesSelect"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="70dp"
+            android:layout_marginEnd="70dp"
+            android:ems="10"
+            android:layout_below="@+id/confpassRegisterEditText"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"
+            android:textSize="20sp"
+            android:padding="10dp"
+            android:hint="@string/dove_si_trova"
+            android:drawableStart="@drawable/ic_add_location_white_24dp"
+            android:drawablePadding="12dp"/>
+
+        <Spinner
+            android:id="@+id/firm_category"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="70dp"
+            android:layout_marginEnd="70dp"
+            android:ems="10"
+            android:layout_below="@+id/placesSelect"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"
+            android:textSize="20sp"
+            android:gravity="start"
+            android:padding="20dp" />
+
+        <Button
+            android:id="@+id/openButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/firm_category"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="70dp"
+            android:layout_marginEnd="70dp"
+            android:textSize="20sp"
+            android:textColor="@color/white"
+            android:background="@drawable/btn_edit"
+            android:textAllCaps="false"
+            android:text="@string/orario_apertura_text"/>
+
+        <Button
+            android:id="@+id/closeButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/openButton"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="70dp"
+            android:layout_marginEnd="70dp"
+            android:textSize="20sp"
+            android:textColor="@color/white"
+            android:background="@drawable/btn_edit"
+            android:textAllCaps="false"
+            android:text="@string/orario_di_chiusura_text"/>
+
+        <EditText
+            android:id="@+id/capienzaEditText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="70dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="70dp"
+            android:ems="10"
+            android:hint="@string/capienza_massima_reg"
+            android:inputType="numberDecimal"
+            android:layout_below="@+id/closeButton"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"
+            android:textSize="20sp" />
+
+        <Button
+            android:id="@+id/submitButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/capienzaEditText"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="60dp"
+            android:layout_marginStart="60dp"
+            android:background="@drawable/btn_rounded"
+            android:text="@string/registred"
+            android:textColor="@color/backgroundRed"
+            android:textSize="20sp" />
+
+    </RelativeLayout>
+</ScrollView>
