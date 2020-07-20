@@ -187,12 +187,12 @@ class ShowProfileFragment: Fragment(), DatePickerDialog.OnDateSetListener {
         // controllo se sono vuoti gli editText
         // TODO: CONTROLLARE I MESSAGGI DI ERRORE
         if (ok && name.isEmpty()) {
-            nameEditText.error = resources.getString(R.string.passEmpty)
+            nameEditText.error = resources.getString(R.string.nameEmpty)
             nameEditText.requestFocus()
             ok = false
         }
         if (ok && surname.isEmpty()) {
-            surnameEditText.error = resources.getString(R.string.passEmpty)
+            surnameEditText.error = resources.getString(R.string.surnameEmpty)
             surnameEditText.requestFocus()
             ok = false
         }
@@ -202,12 +202,12 @@ class ShowProfileFragment: Fragment(), DatePickerDialog.OnDateSetListener {
             ok = false
         }
         if (ok && data.after(calendar)){
-            dataEditTextView.text="Hai inserito una data nel futuro"
+            dataEditTextView.text= resources.getString(R.string.futureDay)
             dataEditTextView.requestFocus()
             ok=false
         }
         if (ok && data.after(limite)){
-            dataEditTextView.text="Hai meno di 12 anni"
+            dataEditTextView.text= resources.getString(R.string.twelveDay)
             dataEditTextView.requestFocus()
             ok=false
         }
@@ -245,7 +245,7 @@ class ShowProfileFragment: Fragment(), DatePickerDialog.OnDateSetListener {
                                         user = newUser
                                         updateLayout(newUser)
                                     } else {
-                                        Toast.makeText(activity, "ERRORE NELL'UPDATE", Toast.LENGTH_LONG).show()
+                                        Toast.makeText(activity, "Mail già esistente", Toast.LENGTH_LONG).show()
                                     }
                                 }
 

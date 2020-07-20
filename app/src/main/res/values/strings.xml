@@ -123,5 +123,7 @@
     <string name="descrizione_dialog">Descrizione</string>
     <string name="giorni">Giorni:</string>
     <string name="noDays">Nessun giorno lavorativo selezionato</string>
+    <string name="futureDay">Hai inserito una data nel futuro</string>
+    <string name="twelveDay">Hai meno di 12 anni</string>
 
 </resources>

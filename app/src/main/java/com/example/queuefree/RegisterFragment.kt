@@ -84,12 +84,12 @@ class RegisterFragment: Fragment(), OnDateSetListener {
                 ok=false
             }
             if (ok && (calendar.after(data))){
-                register_show_calendar.text = "Errore!Hai inserito una data nel futuro"
+                register_show_calendar.text = "Errore!\nHai inserito una data nel futuro"
                 register_show_calendar.requestFocus()
                 ok=false
             }
             if (ok && (calendar.after(limite))){
-                register_show_calendar.text = "Errore!Hai meno di 12 anni"
+                register_show_calendar.text = "Errore!\nHai meno di 12 anni"
                 register_show_calendar.requestFocus()
                 ok=false
             }
