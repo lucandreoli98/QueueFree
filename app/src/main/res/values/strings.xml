@@ -58,7 +58,7 @@
     <string name="canc_modifica">Annulla Modifiche</string>
     <string name="inserisci_password">Inserisci la password</string>
     <string name="conferma_identità">Conferma la tua identità prima di proseguire</string>
-    <string name="cancelPassButton">Cancel</string>
+    <string name="cancelPassButton">Cancella</string>
     <string name="okPassButton">Conferma</string>
     <string name="update_della_password">Update della password</string>
     <string name="conferma_identita_password">Per cambiare la password devi confermare la tua identità</string>
