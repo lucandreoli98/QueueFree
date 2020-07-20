@@ -180,7 +180,7 @@ class FirmRegisterFragment : Fragment() {
                 ok=false
             }
             if(ok && capienza.isEmpty()){
-                capienzaEditText.error = "Inserisci un orario di apertura"
+                capienzaEditText.error = "Inserisci la capienza massima"
                 capienzaEditText.requestFocus()
                 ok=false
             }

@@ -395,39 +395,48 @@ class FirmProfileFragment: Fragment() {
 
         val tot = totalPeopledEditText.text.toString().trim()
         val maxGruppo = maxGruppoEditText.text.toString().trim()
-        val turno = FasciaEditText.text.toString().trim().toLong()
+        val turno = FasciaEditText.text.toString().trim()
 
-        var ok: Boolean = true
+        var ok = true
 
         // controllo se sono vuoti gli editText
-        // TODO: CONTROLLARE I MESSAGGI DI ERRORE
         if (ok && open.isEmpty()) {
-            openNumberText.error = resources.getString(R.string.passEmpty)
+            openNumberText.error = resources.getString(R.string.orario_apertura_text)
             nameEditText.requestFocus()
             ok = false
         }
         if (ok && close.isEmpty()) {
-            closeNumberText.error = resources.getString(R.string.passEmpty)
+            closeNumberText.error = resources.getString(R.string.orario_di_chiusura_text)
             closeNumberText.requestFocus()
             ok = false
         }
         if (ok && tot.isEmpty()) {
-            totalPeopledEditText.error = resources.getString(R.string.emailEmpty)
+            totalPeopledEditText.error = resources.getString(R.string.capienza_massima_reg)
             totalPeopledEditText.requestFocus()
             ok = false
         }
         if (ok && tot.isEmpty()) {
-            FasciaEditText.error = "il campo Numero di turni al giorno è vuoto"
+            FasciaEditText.error = "Il campo Numero di turni al giorno è vuoto"
             FasciaEditText.requestFocus()
             ok = false
         }
         if(ok && maxGruppo.isEmpty()){
-            maxGruppoEditText.error = "Vuoto" //TODO: MESSAGGIO ERRORE CORRETTO
+            maxGruppoEditText.error = "Inserire numero massimo del gruppo"
             maxGruppoEditText.requestFocus()
             ok = false
         }
-        else if(turno>hourclosetime-houropentime){
-            FasciaEditText.error ="il campo Numero di turni non può essere maggiore dell'orario lavorativo"
+        if(tot < maxGruppo){
+            maxGruppoEditText.error = "Il gruppo è maggiore della capienza massima"
+            maxGruppoEditText.requestFocus()
+            ok = false
+        }
+        if(ok && turno.toString().isEmpty()){
+            FasciaEditText.error = "Inserire fascia oraria"
+            FasciaEditText.requestFocus()
+            ok = false
+        }
+        else if(turno.toLong()>hourclosetime-houropentime){
+            FasciaEditText.error ="Il campo Numero di turni non può essere maggiore dell'orario lavorativo"
             FasciaEditText.requestFocus()
             ok = false
         }else if(giorni == resources.getString(R.string.noDays)){
@@ -459,7 +468,7 @@ class FirmProfileFragment: Fragment() {
                                 alertDialog.dismiss()
                                 val email = emailTextViewFirm.text.toString().trim()
 
-                                this.firm = Firm(currentUser!!.uid,firm.nomeazienza, firm.email, firm.categoria,firm.location,startHour,startMinute,endHour,endMinute,tot.toLong(),firm.descrizione,turno,maxGruppo.toLong(),giorni,firm.latitude,firm.longitude)
+                                this.firm = Firm(currentUser!!.uid,firm.nomeazienza, firm.email, firm.categoria,firm.location,startHour,startMinute,endHour,endMinute,tot.toLong(),firm.descrizione,turno.toLong(),maxGruppo.toLong(),giorni,firm.latitude,firm.longitude)
 
                                 cUser.updateEmail(email).addOnCompleteListener { task2 ->
                                     if (task2.isSuccessful) {
